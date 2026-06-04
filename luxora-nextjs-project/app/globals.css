@@ -47,6 +47,17 @@ body {
   }
 }
 
+@keyframes acWave {
+  0%, 100% {
+    transform: scaleY(0.3);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scaleY(1.2);
+    opacity: 0.8;
+  }
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;

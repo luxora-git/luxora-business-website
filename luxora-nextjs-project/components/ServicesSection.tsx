@@ -1,84 +1,122 @@
-export default function ServicesSection() {
-  const services = [
-    {
-      title: 'Full Home Interiors',
-      description: 'Complete end-to-end interior design for your entire home with premium materials and expert craftsmanship.',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80',
-      features: ['Space Planning', 'Furniture Design', 'Lighting', 'Decor'],
-    },
-    {
-      title: 'Modular Kitchen',
-      description: 'Custom modular kitchen designs with smart storage, premium finishes, and modern appliances.',
-      image: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&q=80',
-      features: ['Custom Cabinets', 'Countertops', 'Backsplash', 'Appliances'],
-    },
-    {
-      title: 'Wardrobe Solutions',
-      description: 'Bespoke wardrobe designs maximizing storage with premium laminates and accessories.',
-      image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600&q=80',
-      features: ['Sliding Doors', 'Walk-in Closets', 'Accessories', 'Mirrors'],
-    },
-    {
-      title: 'Commercial Interiors',
-      description: 'Professional office and retail space design that enhances productivity and brand identity.',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80',
-      features: ['Office Design', 'Retail Spaces', 'Restaurants', 'Reception'],
-    },
-  ];
+'use client';
 
+import Image from 'next/image';
+
+const services = [
+  {
+    id: 'residential',
+    title: 'Residential Interiors',
+    description: 'Full-home interior design with premium materials and artisanal craftsmanship.',
+    image: '/services/residential.jpg',
+    cta: 'Explore Living',
+  },
+  {
+    id: 'commercial',
+    title: 'Commercial Interiors',
+    description: 'Brand-driven office and retail spaces that elevate your business identity.',
+    image: '/services/commercial.jpg',
+    cta: 'View Portfolio',
+  },
+  {
+    id: 'kitchen',
+    title: 'Modular Kitchens',
+    description: 'Intelligent kitchen systems with seamless storage and premium finishes.',
+    image: '/services/kitchen.jpg',
+    cta: 'Design Kitchen',
+  },
+  {
+    id: 'wardrobe',
+    title: 'Wardrobes & Storage',
+    description: 'Bespoke storage solutions from walk-in closets to custom cabinetry.',
+    image: '/services/wardrobe.jpg',
+    cta: 'Explore Storage',
+  },
+  {
+    id: 'design-3d',
+    title: '3D Design & Visualization',
+    description: 'Photorealistic renders and immersive walkthroughs before construction begins.',
+    image: '/services/design-3d.jpg',
+    cta: 'See in 3D',
+  },
+  {
+    id: 'turnkey',
+    title: 'Turnkey Execution',
+    description: 'End-to-end project management from concept to handover, stress-free.',
+    image: '/services/turnkey.jpg',
+    cta: 'Learn Process',
+  },
+];
+
+export default function ServicesSection() {
   return (
-    <section id="services" className="py-20 md:py-28 bg-luxora-cream">
+    <section id="services" className="py-20 md:py-24 bg-luxora-cream">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-luxora-gold text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-4 block">
+        <div className="text-center mb-12">
+          <span className="text-luxora-gold text-xs md:text-sm font-semibold tracking-[0.25em] uppercase mb-3 block">
             What We Do
           </span>
-          <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-luxora-navy mb-4">
+          <h2 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-luxora-navy mb-3">
             Our Services
           </h2>
-          <p className="text-luxora-charcoal/60 text-lg max-w-2xl mx-auto leading-relaxed">
-            Comprehensive interior design solutions tailored to your needs
+          <p className="text-luxora-charcoal/60 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+            Comprehensive interior design solutions crafted for modern living and working.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* 3-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {services.map((service) => (
             <div
-              key={service.title}
-              className="premium-card-hover bg-white overflow-hidden group border border-luxora-gray/30"
+              key={service.id}
+              className="group relative bg-white overflow-hidden cursor-pointer"
             >
-              <div className="img-zoom-container relative h-72 md:h-[26rem]">
-                <img
+              {/* Image Container - reduced height */}
+              <div className="relative h-48 sm:h-52 md:h-56 overflow-hidden">
+                <Image
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-luxora-navy/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Gold accent line on hover */}
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-luxora-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </div>
-              <div className="p-7 md:p-9">
-                <h3 className="text-xl md:text-2xl font-bold text-luxora-navy mb-3 font-playfair group-hover:text-luxora-gold transition-colors duration-300">
+
+              {/* Content */}
+              <div className="px-5 py-4 md:px-6 md:py-5">
+                <h3 className="font-playfair text-lg md:text-xl font-bold text-luxora-navy mb-1.5 group-hover:text-luxora-gold transition-colors duration-300">
                   {service.title}
                 </h3>
-                <p className="text-luxora-charcoal/60 mb-6 leading-relaxed text-sm">
+                <p className="text-luxora-charcoal/50 text-xs md:text-sm leading-relaxed mb-4 line-clamp-2">
                   {service.description}
                 </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {service.features.map((feature) => (
-                    <span
-                      key={feature}
-                      className="px-4 py-1.5 bg-luxora-cream text-luxora-navy/70 text-xs font-medium tracking-wider uppercase hover:bg-luxora-navy hover:text-white transition-colors duration-300"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-                <button className="group inline-flex items-center gap-2 text-luxora-navy hover:text-luxora-gold text-sm font-semibold tracking-[0.1em] uppercase transition-colors duration-300">
-                  Learn More
-                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+
+                {/* Learn More CTA */}
+                <div className="flex items-center gap-2 text-luxora-navy/60 group-hover:text-luxora-gold text-[10px] md:text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300">
+                  <span>{service.cta}</span>
+                  <svg
+                    className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M6 3l5 5-5 5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
-                </button>
+                </div>
               </div>
+
+              {/* Border effect on hover */}
+              <div className="absolute inset-0 border border-transparent group-hover:border-luxora-gold/20 transition-colors duration-500 pointer-events-none" />
             </div>
           ))}
         </div>

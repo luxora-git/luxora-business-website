@@ -5,6 +5,8 @@ import PremiumTrustSection from '@/components/PremiumTrustSection';
 import BeforeAfterSection from '@/components/BeforeAfterSection';
 import FeaturedProjectsSection from '@/components/FeaturedProjectsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import SmartLivingSection from '@/components/SmartLivingSection';
+import VirtualWalkthroughSection from '@/components/VirtualWalkthroughSection';
 import CTASection from '@/components/CTASection';
 import FooterSection from '@/components/FooterSection';
 
@@ -15,6 +17,8 @@ export default function Home() {
       <BeforeAfterSection />
       <ExploreByRoom />
       <ServicesSection />
+      <SmartLivingSection />
+      <VirtualWalkthroughSection />
       <PremiumTrustSection />
       <FeaturedProjectsSection />
       <TestimonialsSection />
