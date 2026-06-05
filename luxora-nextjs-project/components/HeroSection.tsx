@@ -8,64 +8,44 @@ interface Slide {
   eyebrow: string;
   heading: string;
   description: string;
-  primaryCta: string;
-  primaryHref: string;
-  secondaryCta: string;
-  secondaryHref: string;
 }
 
 const slides: Slide[] = [
   {
-    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1920&q=90',
-    imageAlt: 'Elegant luxury living room with designer furniture and warm lighting',
-    eyebrow: 'Interior Design Consultancy',
-    heading: 'Your Home, Reimagined By Experts',
-    description: 'Full-service interior design from concept to completion. Every detail curated to reflect your taste.',
-    primaryCta: 'Book Free Consultation',
-    primaryHref: '#contact',
-    secondaryCta: 'View Our Work',
-    secondaryHref: '#gallery',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1920&q=95',
+    imageAlt: 'Minimal luxury living room with floor-to-ceiling windows and natural daylight',
+    eyebrow: 'Full Home Interiors',
+    heading: 'Where Every Detail Tells Your Story',
+    description: 'Full-service interior design from concept to completion. Every detail curated to reflect your taste and elevate your everyday living.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&q=90',
-    imageAlt: 'Modern modular kitchen with premium finishes and island counter',
-    eyebrow: 'Modular Kitchen Design',
-    heading: 'Kitchens Engineered For Perfection',
-    description: 'Custom modular kitchens with German-engineered fittings, premium finishes and intelligent storage.',
-    primaryCta: 'Design Your Kitchen',
-    primaryHref: '#contact',
-    secondaryCta: 'Explore Products',
-    secondaryHref: '#products',
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&q=95',
+    imageAlt: 'Modern modular kitchen with premium finishes and waterfall island',
+    eyebrow: 'Modular Kitchens',
+    heading: 'Kitchens Crafted For Life & Luxury',
+    description: 'Custom modular kitchens with German-engineered fittings, premium quartz countertops, and intelligent storage that makes every square foot count.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1920&q=90',
-    imageAlt: 'Luxurious master bedroom with custom headboard and soft textures',
-    eyebrow: 'Bedroom Design Studio',
-    heading: 'Retreats That Restore & Inspire',
-    description: 'Transform your bedroom into a sanctuary of comfort with bespoke furniture, layered lighting and premium textiles.',
-    primaryCta: 'Start Your Project',
-    primaryHref: '#contact',
-    secondaryCta: 'See Bedroom Designs',
-    secondaryHref: '#gallery',
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1597006335772-25b0e72c1e1a?w=1920&q=90',
-    imageAlt: 'Custom luxury wardrobe with glass doors and ambient lighting',
-    eyebrow: 'Custom Wardrobe Solutions',
-    heading: 'Storage That Makes A Statement',
-    description: 'Bespoke wardrobes designed around your wardrobe — with premium materials, smart organisation and flawless finishes.',
-    primaryCta: 'Book a Consultation',
-    primaryHref: '#contact',
-    secondaryCta: 'View Collections',
-    secondaryHref: '#products',
+    image: '/services/wardrobe.jpg',
+    imageAlt: 'Premium custom wardrobe with glass doors and ambient lighting',
+    eyebrow: 'Wardrobe Solutions',
+    heading: 'Storage That Elevates Your Space',
+    description: 'Bespoke wardrobe solutions designed around your lifestyle — with premium materials, smart organisation and flawless finishes.',
   },
 ];
 
-const trustBarItems = [
+const trustItems = [
+  'Free Site Visit',
+  '3D Design Preview',
+  'Transparent Pricing',
+  '10 Year Warranty',
+];
+
+const statCards = [
   { value: '500+', label: 'Homes Delivered' },
-  { value: '15', label: 'Years Experience' },
-  { value: '50+', label: 'Expert Designers' },
-  { value: '100%', label: 'Transparency Guaranteed' },
+  { value: '4.9', label: 'Client Rating' },
+  { value: '₹0', label: 'Hidden Costs' },
+  { value: '45', label: 'Day Avg. Delivery' },
 ];
 
 export default function HeroSection() {
@@ -93,7 +73,7 @@ export default function HeroSection() {
     if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     autoPlayRef.current = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 6000);
   }, []);
 
   const stopAutoPlay = useCallback(() => {
@@ -104,11 +84,8 @@ export default function HeroSection() {
   }, []);
 
   useEffect(() => {
-    if (!isHovered) {
-      startAutoPlay();
-    } else {
-      stopAutoPlay();
-    }
+    if (!isHovered) startAutoPlay();
+    else stopAutoPlay();
     return () => stopAutoPlay();
   }, [isHovered, startAutoPlay, stopAutoPlay]);
 
@@ -117,11 +94,11 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative h-screen min-h-[700px] overflow-hidden"
+      className="relative h-[90vh] min-h-[680px] overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background Images with Fade Transition */}
+      {/* Background Images with fallback */}
       {slides.map((s, index) => (
         <div
           key={index}
@@ -132,39 +109,64 @@ export default function HeroSection() {
           <img
             src={s.image}
             alt={s.imageAlt}
-            className="w-full h-full object-cover scale-105"
+            className="w-full h-full object-cover"
             loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (!target.dataset.fallback) {
+                target.dataset.fallback = 'true';
+                target.src = 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1920&q=80';
+              }
+            }}
           />
         </div>
       ))}
 
-      {/* Dark Overlay for Readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20" />
+      {/* Strong left-to-right gradient — dark left for text, fades to lighter right */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
+
+      {/* Floating Stat Cards (right side, desktop only) — dark luxury glassmorphism */}
+      <div className="absolute right-8 md:right-12 lg:right-16 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col gap-3">
+        {statCards.map((stat, index) => (
+          <div
+            key={stat.label}
+            className="bg-[rgba(8,15,28,0.75)] backdrop-blur-[18px] border border-white/10 rounded-lg px-5 py-3.5 transition-all duration-300 hover:bg-[rgba(8,15,28,0.85)] hover:border-[#C9A227]/40"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <div className="text-white font-playfair text-xl font-bold leading-none mb-0.5">
+              {stat.value}
+            </div>
+            <div className="text-white/70 text-[10px] tracking-[0.12em] uppercase font-medium">
+              {stat.label}
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">
         <div className="w-full px-8 md:px-12 lg:px-16">
-          <div className="max-w-[600px]">
+          <div className="max-w-[650px]">
             {/* Eyebrow */}
             <div key={`eyebrow-${currentSlide}`} className="animate-fadeIn">
-              <span className="block text-luxora-gold text-[10px] md:text-[11px] tracking-[0.22em] uppercase font-semibold mb-5">
+              <span className="block text-luxora-gold text-[11px] md:text-xs tracking-[0.22em] uppercase font-semibold mb-6 drop-shadow-sm">
                 {slide.eyebrow}
               </span>
             </div>
 
-            {/* Heading - max 2 lines */}
+            {/* Heading — no truncation, max-width 650px */}
             <h1
               key={`heading-${currentSlide}`}
-              className="font-playfair text-[2.5rem] sm:text-[3.5rem] lg:text-[4.5rem] font-bold text-white leading-[1.08] tracking-[-0.01em] mb-5 max-w-[600px] animate-slideUp line-clamp-2"
+              className="font-playfair text-[2.75rem] sm:text-[4rem] lg:text-[5rem] font-bold text-white leading-[1.08] tracking-[-0.015em] mb-6 drop-shadow-lg animate-slideUp max-w-[650px]"
             >
               {slide.heading}
             </h1>
 
-            {/* Description - max 2 lines */}
+            {/* Description — no truncation */}
             <p
               key={`desc-${currentSlide}`}
-              className="text-sm md:text-base text-white/70 leading-relaxed font-light max-w-[460px] mb-8 animate-fadeIn line-clamp-2"
+              className="text-sm md:text-base text-white/80 leading-relaxed font-light max-w-[520px] mb-10 drop-shadow-md animate-fadeIn"
             >
               {slide.description}
             </p>
@@ -172,47 +174,41 @@ export default function HeroSection() {
             {/* CTA Buttons */}
             <div
               key={`cta-${currentSlide}`}
-              className="flex flex-col sm:flex-row gap-3 mb-4 md:mb-6 animate-slideUp"
+              className="flex flex-col sm:flex-row gap-4 animate-slideUp"
             >
               <a
-                href={slide.primaryHref}
-                className="inline-flex items-center justify-center px-10 py-4 bg-luxora-gold hover:bg-white text-luxora-navy font-semibold text-[13px] tracking-[0.08em] uppercase transition-all duration-300 group"
+                href="#contact"
+                className="inline-flex items-center justify-center px-10 py-4 bg-luxora-gold hover:bg-white text-luxora-navy font-semibold text-[13px] tracking-[0.08em] uppercase transition-all duration-300 group shadow-lg shadow-luxora-gold/20"
               >
-                {slide.primaryCta}
+                Book Free Consultation
                 <svg className="w-[13px] h-[13px] ml-2.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
               <a
-                href={slide.secondaryHref}
-                className="inline-flex items-center justify-center px-10 py-4 bg-transparent hover:bg-white/[0.08] text-white font-semibold text-[13px] tracking-[0.08em] uppercase transition-all duration-300 border border-white/25 hover:border-white/50 group"
+                href="#gallery"
+                className="inline-flex items-center justify-center px-10 py-4 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-semibold text-[13px] tracking-[0.08em] uppercase transition-all duration-300 border border-white/30 hover:border-white/60 group shadow-lg"
               >
-                {slide.secondaryCta}
+                Explore Designs
                 <svg className="w-[13px] h-[13px] ml-2.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
             </div>
 
-            {/* Premium Search Bar */}
-            <div key={`search-${currentSlide}`} className="animate-fadeIn max-w-[520px]">
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                  <svg className="w-4 h-4 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            {/* Trust Row */}
+            <div
+              key={`trust-${currentSlide}`}
+              className="flex flex-wrap gap-x-6 gap-y-2 mt-10 animate-fadeIn"
+            >
+              {trustItems.map((item) => (
+                <div key={item} className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-luxora-gold flex-shrink-0 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
+                  <span className="text-white/70 text-xs tracking-wide font-medium drop-shadow-sm">{item}</span>
                 </div>
-                <input
-                  type="text"
-                  placeholder="Search designs, rooms, styles or ideas"
-                  className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/40 pl-12 pr-5 py-4 text-sm tracking-wide transition-all duration-300 focus:outline-none focus:border-luxora-gold/60 focus:bg-white/15 group-hover:border-white/30"
-                />
-                <div className="absolute inset-y-0 right-0 pr-2 flex items-center">
-                  <span className="hidden sm:inline-block px-3 py-1.5 bg-luxora-gold/20 text-luxora-gold text-[10px] tracking-[0.1em] uppercase font-semibold border border-luxora-gold/30">
-                    Search
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -241,7 +237,7 @@ export default function HeroSection() {
       </button>
 
       {/* Pagination Dots */}
-      <div className="absolute bottom-32 md:bottom-36 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
         {slides.map((_, index) => (
           <button
             key={index}
@@ -254,29 +250,6 @@ export default function HeroSection() {
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
-      </div>
-
-      {/* Trust Bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 bg-luxora-navy/85 backdrop-blur-md border-t border-white/[0.06]">
-        <div className="max-w-[90rem] mx-auto px-8 md:px-12 lg:px-16 py-6">
-          <div className="flex items-center justify-center md:justify-start gap-8 md:gap-16">
-            {trustBarItems.map((item, index) => (
-              <div key={item.label} className="flex items-center gap-8 md:gap-16">
-                <div className="flex flex-col items-center md:items-start">
-                  <span className="text-xl md:text-2xl font-bold font-playfair text-luxora-gold leading-none mb-1">
-                    {item.value}
-                  </span>
-                  <span className="text-[10px] md:text-[11px] text-white/50 tracking-[0.08em] uppercase font-medium whitespace-nowrap">
-                    {item.label}
-                  </span>
-                </div>
-                {index < trustBarItems.length - 1 && (
-                  <div className="w-px h-8 bg-white/[0.1]" />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

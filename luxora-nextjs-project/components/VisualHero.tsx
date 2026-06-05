@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function VisualHero() {
   const roomTypes = [
     { name: "Living Rooms", count: "1,200+", color: "bg-gradient-to-br from-luxora-cream/80 to-white/80" },
@@ -28,7 +30,16 @@ export default function VisualHero() {
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Premium Navigation */}
         <div className="flex justify-between items-center px-8 md:px-16 lg:px-24 py-12">
-          <div className="text-2xl font-playfair font-bold text-luxora-navy tracking-wider">LUXORA</div>
+          <div>
+            <Image
+              src="/logo.png"
+              alt="Luxora"
+              width={220}
+              height={60}
+              priority
+              style={{ height: 'auto', width: 'auto', maxWidth: '180px', maxHeight: '48px' }}
+            />
+          </div>
           <div className="hidden md:flex items-center space-x-12">
             <a href="#" className="font-inter text-sm text-luxora-charcoal/70 hover:text-luxora-gold transition-colors tracking-widest">DESIGN GALLERY</a>
             <a href="#" className="font-inter text-sm text-luxora-charcoal/70 hover:text-luxora-gold transition-colors tracking-widest">SERVICES</a>

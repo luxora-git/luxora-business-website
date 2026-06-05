@@ -50,11 +50,24 @@ body {
 @keyframes acWave {
   0%, 100% {
     transform: scaleY(0.3);
-    opacity: 0.3;
+    opacity: 0.4;
   }
   50% {
-    transform: scaleY(1.2);
+    transform: scaleY(1);
     opacity: 0.8;
+  }
+}
+
+@keyframes acFloat {
+  0%, 100% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 0.3;
   }
 }
 

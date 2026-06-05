@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function PremiumFooter() {
   return (
     <footer className="bg-luxora-navy text-white">
@@ -8,7 +10,16 @@ export default function PremiumFooter() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-20">
           {/* Brand Column */}
           <div>
-            <div className="text-3xl font-playfair font-light tracking-wider mb-8">LUXORA</div>
+            <div className="mb-8">
+              <Image
+                src="/logo.png"
+                alt="Luxora"
+                width={220}
+                height={60}
+                className="brightness-0 invert"
+                style={{ height: 'auto', width: 'auto', maxWidth: '180px', maxHeight: '48px' }}
+              />
+            </div>
             <p className="font-inter text-white/70 font-light mb-8 leading-relaxed">
               Premium interior architecture and design studio creating 
               transformative spaces that tell stories and evoke emotions.

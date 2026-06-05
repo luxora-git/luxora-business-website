@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 interface MegaMenuItem {
   label: string;
@@ -277,11 +278,19 @@ export default function PremiumNavbar() {
           {/* Logo */}
           <a
             href="#home"
-            className={`font-playfair text-2xl md:text-[1.75rem] font-bold tracking-[0.08em] transition-colors duration-400 flex-shrink-0 ${
-              isScrolled ? 'text-luxora-navy' : 'text-white'
-            }`}
+            className="flex-shrink-0"
           >
-            <span className="text-luxora-gold">LUX</span>ORA
+            <Image
+              src="/logo.png"
+              alt="Luxora"
+              width={220}
+              height={60}
+              priority
+              className={`transition-all duration-400 ${
+                isScrolled ? 'brightness-100' : 'brightness-0 invert'
+              }`}
+              style={{ height: 'auto', width: 'auto', maxWidth: '180px', maxHeight: '48px' }}
+            />
           </a>
 
           {/* Desktop Navigation */}
@@ -583,11 +592,11 @@ export default function PremiumNavbar() {
                 Book Consultation
               </a>
               <div className="mt-8 flex justify-center gap-8">
-                <a href="tel:+919876543210" className="text-sm text-white/50 hover:text-luxora-gold transition-colors">
-                  +91 98765 43210
+                <a href="tel:+917339993930" className="text-sm text-white/50 hover:text-luxora-gold transition-colors">
+                  +91 7339993930
                 </a>
                 <a href="mailto:hello@luxora.com" className="text-sm text-white/50 hover:text-luxora-gold transition-colors">
-                  hello@luxora.com
+                  hello@luxora.in
                 </a>
               </div>
             </div>

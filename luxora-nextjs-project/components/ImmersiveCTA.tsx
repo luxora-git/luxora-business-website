@@ -55,7 +55,7 @@ export default function ImmersiveCTA() {
             </div>
             <div className="text-center">
               <div className="font-inter text-sm tracking-widest mb-2">PHONE</div>
-              <div className="font-inter text-lg">+91 98765 43210</div>
+              <div className="font-inter text-lg">+91 73399 93930</div>
             </div>
             <div className="text-center">
               <div className="font-inter text-sm tracking-widest mb-2">LOCATIONS</div>
