@@ -6,6 +6,7 @@ import BeforeAfterSection from '@/components/BeforeAfterSection';
 import FeaturedProjectsSection from '@/components/FeaturedProjectsSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import SmartLivingSection from '@/components/SmartLivingSection';
+import LuxoraLifestyles from '@/components/LuxoraLifestyles';
 import VirtualWalkthroughSection from '@/components/VirtualWalkthroughSection';
 import CTASection from '@/components/CTASection';
 import FooterSection from '@/components/FooterSection';
@@ -18,6 +19,7 @@ export default function Home() {
       <ExploreByRoom />
       <ServicesSection />
       <SmartLivingSection />
+      <LuxoraLifestyles />
       <VirtualWalkthroughSection />
       <PremiumTrustSection />
       <FeaturedProjectsSection />

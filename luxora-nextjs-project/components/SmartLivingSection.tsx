@@ -52,42 +52,12 @@ const scenePresets: Record<SceneKey, Partial<State>> = {
   sleep:   { light: false, curtain: false, tv: false, ac: true, security: false },
 };
 
-const deviceConfig = [
-  {
-    key: 'light' as keyof State,
-    label: 'Light',
-    icon: 'light',
-    onLabel: 'ON',
-    offLabel: 'OFF',
-  },
-  {
-    key: 'curtain' as keyof State,
-    label: 'Curtain',
-    icon: 'curtain',
-    onLabel: 'CLOSED',
-    offLabel: 'OPEN',
-  },
-  {
-    key: 'tv' as keyof State,
-    label: 'TV',
-    icon: 'tv',
-    onLabel: 'ON',
-    offLabel: 'OFF',
-  },
-  {
-    key: 'ac' as keyof State,
-    label: 'AC',
-    icon: 'ac',
-    onLabel: 'ON',
-    offLabel: 'OFF',
-  },
-  {
-    key: 'security' as keyof State,
-    label: 'Security',
-    icon: 'security',
-    onLabel: 'ARMED',
-    offLabel: 'DISARMED',
-  },
+const deviceGridConfig = [
+  { key: 'light' as keyof State, label: 'Light', icon: 'light', onLabel: 'ON', offLabel: 'OFF' },
+  { key: 'curtain' as keyof State, label: 'Curtain', icon: 'curtain', onLabel: 'CLOSED', offLabel: 'OPEN' },
+  { key: 'tv' as keyof State, label: 'TV', icon: 'tv', onLabel: 'ON', offLabel: 'OFF' },
+  { key: 'ac' as keyof State, label: 'AC', icon: 'ac', onLabel: 'ON', offLabel: 'OFF' },
+  { key: 'security' as keyof State, label: 'Security', icon: 'security', onLabel: 'ARMED', offLabel: 'DISARMED' },
 ];
 
 export default function SmartLivingSection() {
@@ -110,6 +80,7 @@ export default function SmartLivingSection() {
   const [osStatus, setOsStatus] = useState<'connected' | 'updating'>('connected');
   const [coolingTextVisible, setCoolingTextVisible] = useState(false);
   const [hoveredDevice, setHoveredDevice] = useState<keyof State | null>(null);
+  const [hoveredScene, setHoveredScene] = useState<SceneKey | null>(null);
   const preloadRef = useRef<HTMLImageElement | null>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const osTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -253,20 +224,20 @@ export default function SmartLivingSection() {
     switch (key) {
       case 'light':
         return (
-          <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 md:w-7 md:h-7" style={{ color: c }}>
+          <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
             <path d="M12 2C7.03 2 3 6.03 3 11c0 3.17 1.59 5.96 4 7.66V20c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-1.34c2.41-1.7 4-4.49 4-7.66 0-4.97-4.03-9-9-9z" fill="currentColor"/>
           </svg>
         );
       case 'curtain':
         return (
-          <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 md:w-7 md:h-7" style={{ color: c }}>
+          <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
             <rect x="2" y="4" width="20" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
             <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" strokeWidth="1.5"/>
           </svg>
         );
       case 'tv':
         return (
-          <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 md:w-7 md:h-7" style={{ color: c }}>
+          <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
             <rect x="2" y="5" width="20" height="13" rx="2" stroke="currentColor" strokeWidth="1.5"/>
             <line x1="8" y1="22" x2="16" y2="22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             <line x1="12" y1="18" x2="12" y2="22" stroke="currentColor" strokeWidth="1.5"/>
@@ -274,7 +245,7 @@ export default function SmartLivingSection() {
         );
       case 'ac':
         return (
-          <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 md:w-7 md:h-7" style={{ color: c }}>
+          <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
             <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
             <line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" strokeWidth="1.2"/>
             <path d="M7 12C7 12 8.5 10 12 10C15.5 10 17 12 17 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
@@ -283,7 +254,7 @@ export default function SmartLivingSection() {
         );
       case 'security':
         return (
-          <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 md:w-7 md:h-7" style={{ color: c }}>
+          <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
             <path d="M12 2L4 8v7c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-9-4z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
             {active && <path d="M9 13l2.5 2.5L16 11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>}
           </svg>
@@ -302,25 +273,25 @@ export default function SmartLivingSection() {
     switch (icon) {
       case 'morning':
         return (
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4" style={{ color: c }}>
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 md:w-4 md:h-4" style={{ color: c }}>
             <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-4-4a4 4 0 00-4 4h8a4 4 0 00-4-4z" />
           </svg>
         );
       case 'work':
         return (
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4" style={{ color: c }}>
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 md:w-4 md:h-4" style={{ color: c }}>
             <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0h8v2H6V4zm0 4h8v2H6V8zm0 4h8v2H6v-2z" clipRule="evenodd" />
           </svg>
         );
       case 'movie':
         return (
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4" style={{ color: c }}>
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 md:w-4 md:h-4" style={{ color: c }}>
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
           </svg>
         );
       case 'sleep':
         return (
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4" style={{ color: c }}>
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5 md:w-4 md:h-4" style={{ color: c }}>
             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
           </svg>
         );
@@ -330,7 +301,7 @@ export default function SmartLivingSection() {
   }
 
   return (
-    <section id="smart-living" className="py-16 md:py-24 bg-[#0A1F44] overflow-hidden relative">
+    <section id="smart-living" className="py-8 md:py-10 lg:py-12 bg-[#0A1F44] overflow-hidden relative">
       {/* ── Background ambient glow ── */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-luxora-gold/3 rounded-full blur-[120px]" />
@@ -363,13 +334,13 @@ export default function SmartLivingSection() {
         </div>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12">
+      <div className="max-w-[95vw] mx-auto px-1 md:px-2 lg:px-3">
         {/* ── Section Header ── */}
-        <div className="text-center mb-8 md:mb-10">
+        <div className="text-center mb-5 md:mb-7 lg:mb-10">
           <span className="text-luxora-gold text-[10px] md:text-xs font-semibold tracking-[0.25em] uppercase mb-2 block">
-            Smart Living Experience 2.0
+            SMART HOME AUTOMATION
           </span>
-          <h2 className="font-playfair text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 tracking-tight leading-[1.1]">
+          <h2 className="font-playfair text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 md:mb-3 tracking-tight leading-[1.1]">
             Control Your Home With A Single Touch
           </h2>
           <p className="text-white/50 text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-light">
@@ -378,10 +349,10 @@ export default function SmartLivingSection() {
           </p>
         </div>
 
-        {/* ── HERO IMAGE WITH OVERLAYED DOCK ── */}
+        {/* ── HERO IMAGE WITH OVERLAY LUXURY DOCK ── */}
         <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden">
           {/* ── IMAGE CONTAINER ── */}
-          <div className="relative w-full aspect-[16/9] md:aspect-[21/9] lg:aspect-[24/9] min-h-[320px] md:min-h-[420px] lg:min-h-[500px] overflow-hidden">
+          <div className="relative w-full aspect-[16/9] md:aspect-[21/9] lg:aspect-[24/9] min-h-[380px] md:min-h-[480px] lg:min-h-[620px] xl:min-h-[660px] overflow-hidden">
             {/* Bottom layer */}
             <div
               className="absolute inset-0 transition-opacity duration-[450ms] ease-in-out"
@@ -413,10 +384,7 @@ export default function SmartLivingSection() {
 
             {/* Cinematic gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F44]/70 via-transparent to-[#0A1F44]/10 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0A1F44]/20 via-transparent to-[#0A1F44]/20 pointer-events-none" />
-
-            {/* ── TV state is communicated by the room images loaded above ── */}
-            {/* No artificial overlay divs. The base images naturally show TV ON/OFF. */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0A1F44]/20 via-transparent to-[#0A1F44]/40 pointer-events-none" />
 
             {/* Security perimeter glow when ARMED */}
             {state.security && (
@@ -492,8 +460,8 @@ export default function SmartLivingSection() {
             )}
 
             {/* ── TOP-LEFT: LUXORA SMART OS BADGE ── */}
-            <div className="absolute top-4 left-4 z-20">
-              <div className="flex items-center gap-2.5 px-3.5 py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+            <div className="absolute top-3 left-3 md:top-4 md:left-4 z-20">
+              <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
                 <div className="relative flex items-center justify-center w-2 h-2">
                   <div
                     className={`absolute inset-0 rounded-full ${
@@ -519,79 +487,110 @@ export default function SmartLivingSection() {
               </div>
             </div>
 
-            {/* ── TOP-RIGHT: SECURITY / AC BADGES ── */}
-            <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
-              {/* Security ARMED badge */}
-              {state.security && (
-                <div style={{ animation: 'lockPulse 2.5s ease-in-out infinite' }}>
-                  <div className="flex items-center gap-2 px-3.5 py-2 bg-black/50 backdrop-blur-[16px] border border-red-500/30 rounded-xl">
-                    <svg className="w-3.5 h-3.5 text-red-400" viewBox="0 0 24 24" fill="currentColor">
+            {/* ── TOP-RIGHT: IMAGE CORNER BADGES ── */}
+            {/* Security Status Badge - attached to room image */}
+              <div className="absolute top-3 right-3 md:top-4 md:right-4 z-20 flex flex-col gap-2 items-end">
+                {/* Security ARMED badge */}
+                {state.security && (
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-red-400" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
                     </svg>
                     <span className="text-red-300 text-[9px] tracking-[0.12em] uppercase font-semibold whitespace-nowrap">Armed</span>
                   </div>
-                </div>
-              )}
-              {/* Security DISARMED badge */}
-              {!state.security && (
-                <div className="flex items-center gap-2 px-3.5 py-2 bg-black/30 backdrop-blur-[16px] border border-white/8 rounded-xl">
-                  <svg className="w-3.5 h-3.5 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-                  </svg>
-                  <span className="text-white/30 text-[9px] tracking-[0.12em] uppercase font-medium">Disarmed</span>
-                </div>
-              )}
-              {/* AC badge */}
-              {state.ac && (
-                <div className="flex items-center gap-2 px-3.5 py-2 bg-black/40 backdrop-blur-[16px] border border-blue-400/30 rounded-xl">
-                  <svg className="w-3.5 h-3.5 text-blue-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <rect x="4" y="6" width="16" height="12" rx="2" />
-                    <line x1="12" y1="6" x2="12" y2="18" />
-                    <path d="M8 12C8 12 9 10 12 10C15 10 16 12 16 12" strokeLinecap="round" />
-                    <path d="M8 14C8 14 9 16 12 16C15 16 16 14 16 14" strokeLinecap="round" />
-                  </svg>
-                  <span className="text-blue-200 text-[9px] font-medium">24°C</span>
-                </div>
-              )}
-              {/* Cooling text */}
-              {coolingTextVisible && (
-                <div
-                  className="px-3 py-1.5 bg-blue-500/20 backdrop-blur-[8px] border border-blue-400/30 rounded-lg"
-                  style={{ animation: 'coolingText 3s ease-out forwards' }}
-                >
-                  <span className="text-blue-200 text-[9px] font-medium whitespace-nowrap">❄ Cooling to 24°C</span>
-                </div>
-              )}
-            </div>
+                )}
+                {/* Security DISARMED badge */}
+                {!state.security && (
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                    </svg>
+                    <span className="text-white/40 text-[9px] tracking-[0.12em] uppercase font-medium">Disarmed</span>
+                  </div>
+                )}
+                {/* Temperature badge - always visible when AC is on */}
+                {state.ac ? (
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-blue-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <rect x="4" y="6" width="16" height="12" rx="2" />
+                      <line x1="12" y1="6" x2="12" y2="18" />
+                      <path d="M8 12C8 12 9 10 12 10C15 10 16 12 16 12" strokeLinecap="round" />
+                      <path d="M8 14C8 14 9 16 12 16C15 16 16 14 16 14" strokeLinecap="round" />
+                    </svg>
+                    <span className="text-blue-200 text-[9px] font-semibold">24°C</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <rect x="4" y="6" width="16" height="12" rx="2" />
+                      <line x1="12" y1="6" x2="12" y2="18" />
+                    </svg>
+                    <span className="text-white/35 text-[9px] font-medium">22°C</span>
+                  </div>
+                )}
+                {/* Cooling text overlay */}
+                {coolingTextVisible && (
+                  <div
+                    className="px-3 py-1.5 bg-black/40 backdrop-blur-[16px] border border-blue-400/30 rounded-xl"
+                    style={{ animation: 'coolingText 3s ease-out forwards, badgeSlideIn 0.3s ease-out forwards' }}
+                  >
+                    <span className="text-blue-200 text-[9px] font-medium whitespace-nowrap">❄ Cooling to 24°C</span>
+                  </div>
+                )}
+              </div>
 
             {/* ── BOTTOM-LEFT: ROOM STATE ── */}
-            <div className="absolute bottom-4 left-4 z-20">
-              <div className="px-3.5 py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+            <div className="absolute bottom-3 left-3 md:bottom-4 md:left-4 z-20">
+              <div className="px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
                 <span className="text-white/60 text-[9px] tracking-[0.15em] uppercase font-medium">
                   {state.light ? 'LIT' : 'DIM'} · {state.tv ? 'SHOWING' : 'STANDBY'} · {state.curtain ? 'PRIVACY' : 'OPEN'}
                 </span>
               </div>
             </div>
 
-            {/* ── BOTTOM-RIGHT: ACTIVE COUNT ── */}
-            <div className="absolute bottom-4 right-4 z-20">
-              <div className="px-3.5 py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
-                <span className="text-white/40 text-[9px] font-medium tracking-wide">{activeCount}/5 Active</span>
+            {/* ── BOTTOM-RIGHT: ACTIVE DEVICE COUNT BADGE ON IMAGE ── */}
+            <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20">
+              <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                <div className="flex items-center gap-1.5">
+                  <div className="flex -space-x-1">
+                    {state.light && <div className="w-2 h-2 rounded-full bg-luxora-gold gold-active-dot" />}
+                    {state.curtain && <div className="w-2 h-2 rounded-full bg-luxora-gold gold-active-dot" />}
+                    {state.tv && <div className="w-2 h-2 rounded-full bg-luxora-gold gold-active-dot" />}
+                    {state.ac && <div className="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]" />}
+                    {state.security && <div className="w-2 h-2 rounded-full bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]" />}
+                  </div>
+                  <span className="text-white/70 text-[9px] font-medium tracking-wide">
+                    <span className="text-luxora-gold font-semibold">{activeCount}</span>/5 Active
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* ── FLOATING GLASS CONTROL DOCK ── */}
-            <div className="absolute bottom-0 left-0 right-0 z-30 flex justify-center pb-4 md:pb-6">
-              <div
-                className="glass-dock rounded-2xl md:rounded-3xl px-3 md:px-6 py-3 md:py-4 mx-3 md:mx-6 w-auto max-w-[95vw] md:max-w-none"
-                style={{ animation: 'dockFloat 4s ease-in-out infinite' }}
-              >
-                {/* Gold accent top line */}
-                <div className="absolute top-0 left-[10%] right-[10%] h-[1px] dock-divider rounded-full" />
+            {/* ── LUXURY FLOATING DOCK - OVERLAYS THE IMAGE ON RIGHT SIDE ── */}
+            <div
+              className="absolute right-3 md:right-4 lg:right-5 top-1/2 -translate-y-1/2 z-30"
+              style={{ width: 'clamp(310px, 28vw, 360px)' }}
+            >
+              {/* Ambient glow behind dock */}
+              <div className="absolute -inset-10 dock-ambient-glow pointer-events-none" />
 
-                {/* ── DEVICE CONTROLS ROW ── */}
-                <div className="flex items-center justify-center gap-1 md:gap-3">
-                  {deviceConfig.map((cfg) => {
+              {/* Dock Container */}
+              <div
+                className="glass-dock-luxury rounded-2xl md:rounded-2xl py-3 md:py-4 px-3 md:px-4 flex flex-col gap-2 md:gap-3"
+                style={{ animation: 'dockFloat 6s ease-in-out infinite' }}
+              >
+                {/* ── SECTION LABEL ── */}
+                <div className="flex items-center gap-2 px-1">
+                  <div className="w-3 h-[1.5px] bg-luxora-gold/40 rounded-full" />
+                  <span className="text-white/30 text-[8px] md:text-[9px] font-semibold tracking-[0.2em] uppercase">Devices</span>
+                  <div className="flex-1 h-[1px] bg-gradient-to-r from-luxora-gold/10 to-transparent" />
+                  <span className="text-white/20 text-[7px] font-medium">{activeCount}/5</span>
+                </div>
+
+                {/* ── DEVICE CONTROLS - 2-Column Grid ── */}
+                <div className="grid grid-cols-2 gap-1.5 md:gap-2">
+                  {/* First 4 devices in 2x2 grid: Light, Curtain, TV, AC */}
+                  {deviceGridConfig.slice(0, 4).map((cfg) => {
                     const on = state[cfg.key];
                     const isHovered = hoveredDevice === cfg.key;
 
@@ -601,30 +600,161 @@ export default function SmartLivingSection() {
                         onClick={() => handleToggle(cfg.key)}
                         onMouseEnter={() => setHoveredDevice(cfg.key)}
                         onMouseLeave={() => setHoveredDevice(null)}
-                        className={`device-icon-btn relative flex flex-col items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 md:py-3 rounded-xl md:rounded-2xl transition-all duration-[300ms] ${
+                        className={`device-grid-card relative flex flex-col items-center justify-center gap-1 px-2 py-2.5 md:py-3 rounded-xl ${
                           on
-                            ? 'device-active-glow bg-white/8 border border-white/10'
-                            : 'bg-white/3 border border-transparent hover:bg-white/6'
-                        } ${isHovered ? 'scale-[1.05]' : ''}`}
+                            ? 'device-grid-card-active'
+                            : 'device-grid-card-inactive'
+                        } ${isHovered ? 'device-grid-card-hover' : ''}`}
                       >
                         {/* Active indicator dot */}
                         {on && (
-                          <div className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-luxora-gold shadow-[0_0_4px_rgba(212,175,55,0.5)]" />
+                          <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-luxora-gold gold-active-dot" />
                         )}
 
-                        {/* Icon */}
-                        <div className={`relative transition-all duration-[300ms] ${
-                          on ? 'scale-110' : 'opacity-80 group-hover:opacity-100'
+                        {/* Icon container */}
+                        <div className={`relative flex items-center justify-center transition-all duration-[300ms] ${
+                          on ? 'scale-110' : 'opacity-60'
                         }`}>
                           {renderDeviceIcon(cfg.icon, on)}
                           {on && (
                             <div
                               className="absolute inset-0 rounded-full"
                               style={{
-                                background: 'radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%)',
+                                background: 'radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%)',
                                 animation: 'devicePulse 2.5s ease-in-out infinite',
-                                filter: 'blur(4px)',
-                                transform: 'scale(1.5)',
+                                filter: 'blur(3px)',
+                                transform: 'scale(1.8)',
+                              }}
+                            />
+                          )}
+                        </div>
+
+                        {/* Label */}
+                        <span className={`text-[9px] md:text-[10px] font-semibold tracking-tight leading-tight transition-colors duration-[300ms] ${
+                          on ? 'text-white' : 'text-white/40'
+                        }`}>
+                          {cfg.label}
+                        </span>
+
+                        {/* State */}
+                        <span className={`text-[6px] md:text-[7px] font-bold tracking-[0.08em] uppercase transition-all duration-[300ms] ${
+                          on ? 'text-luxora-gold' : 'text-white/15'
+                        }`}>
+                          {on ? cfg.onLabel : cfg.offLabel}
+                        </span>
+
+                        {/* Hover shine overlay */}
+                        {isHovered && (
+                          <div className="absolute inset-0 rounded-xl pointer-events-none icon-shine opacity-30" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* ── SECURITY - Full Width ── */}
+                <button
+                  onClick={() => handleToggle('security')}
+                  onMouseEnter={() => setHoveredDevice('security')}
+                  onMouseLeave={() => setHoveredDevice(null)}
+                  className={`device-grid-card relative flex items-center gap-2.5 px-3 py-2 md:py-2.5 rounded-xl transition-all duration-[300ms] ${
+                    state.security
+                      ? 'security-full-card-active'
+                      : 'security-full-card'
+                  } ${hoveredDevice === 'security' ? 'device-grid-card-hover' : ''}`}
+                >
+                  {/* Active indicator */}
+                  {state.security && (
+                    <div className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]" />
+                  )}
+
+                  {/* Icon */}
+                  <div className={`flex-shrink-0 transition-all duration-[300ms] ${
+                    state.security ? 'scale-110' : 'opacity-60'
+                  }`}>
+                    {renderDeviceIcon('security', state.security)}
+                    {state.security && (
+                      <div
+                        className="absolute inset-0 rounded-full pointer-events-none"
+                        style={{
+                          background: 'radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 70%)',
+                          animation: 'devicePulse 2.5s ease-in-out infinite',
+                          filter: 'blur(3px)',
+                          transform: 'scale(1.8)',
+                        }}
+                      />
+                    )}
+                  </div>
+
+                  {/* Label + State */}
+                  <div className="flex items-center justify-between flex-1 min-w-0">
+                    <div className="flex flex-col">
+                      <span className={`text-[9px] md:text-[10px] font-semibold tracking-tight leading-tight ${
+                        state.security ? 'text-white' : 'text-white/40'
+                      }`}>
+                        Security
+                      </span>
+                      <span className={`text-[6px] md:text-[7px] font-bold tracking-[0.08em] uppercase ${
+                        state.security ? 'text-red-400' : 'text-white/15'
+                      }`}>
+                        {state.security ? 'ARMED' : 'DISARMED'}
+                      </span>
+                    </div>
+                    {/* Status dot */}
+                    <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-all duration-[300ms] ${
+                      state.security
+                        ? 'bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]'
+                        : 'bg-white/15'
+                    }`} />
+                  </div>
+
+                  {/* Hover shine */}
+                  {hoveredDevice === 'security' && (
+                    <div className="absolute inset-0 rounded-xl pointer-events-none icon-shine opacity-30" />
+                  )}
+                </button>
+
+                {/* ── DIVIDER ── */}
+                <div className="dock-divider-luxury mx-1" />
+
+                {/* ── SECTION LABEL - Scenes ── */}
+                <div className="flex items-center gap-2 px-1">
+                  <div className="w-3 h-[1.5px] bg-luxora-gold/40 rounded-full" />
+                  <span className="text-white/30 text-[8px] md:text-[9px] font-semibold tracking-[0.2em] uppercase">Scenes</span>
+                  <div className="flex-1 h-[1px] bg-gradient-to-r from-luxora-gold/10 to-transparent" />
+                  {activeScene && (
+                    <span className="text-luxora-gold/50 text-[7px] font-medium capitalize">{activeScene}</span>
+                  )}
+                </div>
+
+                {/* ── SCENE CONTROLS - 2x2 Grid ── */}
+                <div className="grid grid-cols-2 gap-1.5 md:gap-2">
+                  {scenes.map((scene) => {
+                    const isActive = activeScene === scene.key;
+                    const isHovered = hoveredScene === scene.key;
+
+                    return (
+                      <button
+                        key={scene.key}
+                        onClick={() => applyScene(scene.key)}
+                        onMouseEnter={() => setHoveredScene(scene.key)}
+                        onMouseLeave={() => setHoveredScene(null)}
+                        className={`scene-grid-card relative flex flex-col items-center justify-center gap-1 px-2 py-2 md:py-2.5 rounded-xl ${
+                          isActive
+                            ? 'scene-grid-card-active'
+                            : 'scene-grid-card-inactive'
+                        } ${isHovered ? 'scale-[1.03]' : ''}`}
+                      >
+                        {/* Icon */}
+                        <div className="relative flex items-center justify-center">
+                          {renderSceneIcon(scene.icon, isActive)}
+                          {isActive && (
+                            <div
+                              className="absolute inset-0 rounded-full pointer-events-none"
+                              style={{
+                                background: 'radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)',
+                                filter: 'blur(2px)',
+                                transform: 'scale(2)',
                               }}
                             />
                           )}
@@ -632,100 +762,62 @@ export default function SmartLivingSection() {
 
                         {/* Label */}
                         <span className={`text-[9px] md:text-[10px] font-semibold tracking-tight transition-colors duration-[300ms] ${
-                          on ? 'text-white' : 'text-white/50'
-                        }`}>
-                          {cfg.label}
-                        </span>
-
-                        {/* State indicator */}
-                        <span className={`text-[7px] md:text-[8px] font-bold tracking-[0.1em] uppercase transition-all duration-[300ms] ${
-                          on
-                            ? 'text-luxora-gold'
-                            : 'text-white/20'
-                        }`}>
-                          {on ? cfg.onLabel : cfg.offLabel}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* ── DIVIDER ── */}
-                <div className="my-2 md:my-3 h-[1px] dock-divider rounded-full mx-2" />
-
-                {/* ── SCENE PILLS ROW ── */}
-                <div className="flex items-center justify-center gap-1.5 md:gap-2.5">
-                  {scenes.map((scene) => {
-                    const isActive = activeScene === scene.key;
-                    return (
-                      <button
-                        key={scene.key}
-                        onClick={() => applyScene(scene.key)}
-                        className={`scene-pill-premium relative flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 rounded-full transition-all duration-[300ms] ${
-                          isActive
-                            ? 'bg-white/12 border border-luxora-gold/30 shadow-[0_0_20px_rgba(212,175,55,0.15)]'
-                            : 'bg-white/5 border border-white/5 hover:bg-white/8'
-                        }`}
-                      >
-                        {renderSceneIcon(scene.icon, isActive)}
-                        <span className={`text-[10px] md:text-xs font-semibold tracking-tight transition-colors duration-[300ms] ${
-                          isActive ? 'text-white' : 'text-white/50'
+                          isActive ? 'text-white' : 'text-white/40'
                         }`}>
                           {scene.label}
                         </span>
+
+                        {/* Description */}
+                        <span className={`text-[6px] md:text-[7px] font-medium tracking-tight leading-tight text-center transition-colors duration-[300ms] ${
+                          isActive ? 'text-luxora-gold/60' : 'text-white/15'
+                        }`}>
+                          {scene.description}
+                        </span>
+
+                        {/* Active indicator line */}
                         {isActive && (
-                          <div
-                            className="absolute inset-0 rounded-full pointer-events-none"
-                            style={{ animation: 'scenePillGlow 2.5s ease-in-out infinite' }}
-                          />
+                          <div className="absolute bottom-0 left-[20%] right-[20%] h-[2px] bg-gradient-to-r from-transparent via-luxora-gold/40 to-transparent rounded-full" />
                         )}
                       </button>
                     );
                   })}
                 </div>
 
-                {/* ── STATUS CHIPS ── */}
-                <div className="mt-2.5 md:mt-3 flex items-center justify-center gap-2 md:gap-3 flex-wrap">
-                  <div className="status-chip px-2.5 py-1 rounded-md" style={{ animationDelay: '0ms' }}>
-                    <span className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.light ? 'bg-luxora-gold shadow-[0_0_4px_rgba(212,175,55,0.5)]' : 'bg-white/15'}`} />
-                      <span className={`text-[8px] md:text-[9px] font-medium ${state.light ? 'text-white/80' : 'text-white/30'}`}>
-                        Light {state.light ? 'ON' : 'OFF'}
-                      </span>
-                    </span>
+                {/* ── DIVIDER ── */}
+                <div className="dock-divider-luxury mx-1" />
+
+                {/* ── STATUS ROW ── */}
+                <div className="dock-status-row flex items-center justify-between px-2.5 py-1.5 md:py-2">
+                  {/* Device status dots */}
+                  <div className="flex items-center gap-2 md:gap-3">
+                    <div className="flex items-center gap-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${state.light ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
+                      <span className={`text-[7px] md:text-[8px] font-medium ${state.light ? 'text-luxora-gold/70' : 'text-white/30'}`}>LT</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${state.curtain ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
+                      <span className={`text-[7px] md:text-[8px] font-medium ${state.curtain ? 'text-luxora-gold/70' : 'text-white/30'}`}>CR</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${state.tv ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
+                      <span className={`text-[7px] md:text-[8px] font-medium ${state.tv ? 'text-luxora-gold/70' : 'text-white/30'}`}>TV</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${state.ac ? 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]' : 'bg-white/15'}`} />
+                      <span className={`text-[7px] md:text-[8px] font-medium ${state.ac ? 'text-blue-300/70' : 'text-white/30'}`}>AC</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${state.security ? 'bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]' : 'bg-white/15'}`} />
+                      <span className={`text-[7px] md:text-[8px] font-medium ${state.security ? 'text-red-300/70' : 'text-white/30'}`}>SEC</span>
+                    </div>
                   </div>
-                  <div className="status-chip px-2.5 py-1 rounded-md" style={{ animationDelay: '50ms' }}>
-                    <span className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.curtain ? 'bg-luxora-gold shadow-[0_0_4px_rgba(212,175,55,0.5)]' : 'bg-white/15'}`} />
-                      <span className={`text-[8px] md:text-[9px] font-medium ${state.curtain ? 'text-white/80' : 'text-white/30'}`}>
-                        Curtain {state.curtain ? 'CLOSED' : 'OPEN'}
-                      </span>
-                    </span>
-                  </div>
-                  <div className="status-chip px-2.5 py-1 rounded-md" style={{ animationDelay: '100ms' }}>
-                    <span className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.tv ? 'bg-luxora-gold shadow-[0_0_4px_rgba(212,175,55,0.5)]' : 'bg-white/15'}`} />
-                      <span className={`text-[8px] md:text-[9px] font-medium ${state.tv ? 'text-white/80' : 'text-white/30'}`}>
-                        TV {state.tv ? 'ON' : 'OFF'}
-                      </span>
-                    </span>
-                  </div>
-                  <div className="status-chip px-2.5 py-1 rounded-md" style={{ animationDelay: '150ms' }}>
-                    <span className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.ac ? 'bg-blue-400 shadow-[0_0_4px_rgba(96,165,250,0.5)]' : 'bg-white/15'}`} />
-                      <span className={`text-[8px] md:text-[9px] font-medium ${state.ac ? 'text-white/80' : 'text-white/30'}`}>
-                        AC {state.ac ? 'ON' : 'OFF'}
-                      </span>
-                    </span>
-                  </div>
-                  <div className="status-chip px-2.5 py-1 rounded-md" style={{ animationDelay: '200ms' }}>
-                    <span className="flex items-center gap-1.5">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.security ? 'bg-red-400 shadow-[0_0_4px_rgba(248,113,113,0.5)]' : 'bg-white/15'}`} />
-                      <span className={`text-[8px] md:text-[9px] font-medium ${state.security ? 'text-white/80' : 'text-white/30'}`}>
-                        Security {state.security ? 'ARMED' : 'DISARMED'}
-                      </span>
-                    </span>
-                  </div>
+
+                  {/* System status */}
+                  <span className={`text-[7px] font-medium tracking-wide transition-colors duration-[350ms] ${
+                    osStatus === 'connected' ? 'text-green-400/60' : 'text-amber-400/60'
+                  }`}>
+                    {osStatus === 'connected' ? '● Online' : '⟳ Sync'}
+                  </span>
                 </div>
               </div>
             </div>

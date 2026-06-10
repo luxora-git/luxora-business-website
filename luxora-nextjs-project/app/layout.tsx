@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import './globals.css';
+import LuxuryUtilityBar from '@/components/LuxuryUtilityBar';
 import PremiumNavbar from '@/components/PremiumNavbar';
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="font-inter bg-luxora-cream text-luxora-charcoal">
+        <LuxuryUtilityBar />
         <PremiumNavbar />
         <main className="min-h-screen">
           {children}
