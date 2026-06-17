@@ -47,9 +47,9 @@ const scenes: { key: SceneKey; label: string; description: string; icon: string 
 
 const scenePresets: Record<SceneKey, Partial<State>> = {
   morning: { light: true, curtain: false, tv: false, ac: false, security: false },
-  work:    { light: false, curtain: true, tv: false, ac: false, security: true },
-  movie:   { light: false, curtain: true, tv: true, ac: true, security: false },
-  sleep:   { light: false, curtain: false, tv: false, ac: true, security: false },
+  work: { light: false, curtain: true, tv: false, ac: false, security: true },
+  movie: { light: false, curtain: true, tv: true, ac: true, security: false },
+  sleep: { light: false, curtain: false, tv: false, ac: true, security: false },
 };
 
 const deviceGridConfig = [
@@ -68,6 +68,7 @@ export default function SmartLivingSection() {
     ac: false,
     security: false,
   });
+
   const [activeScene, setActiveScene] = useState<SceneKey | null>(null);
   const [topImage, setTopImage] = useState('');
   const [bottomImage, setBottomImage] = useState('');
@@ -81,6 +82,7 @@ export default function SmartLivingSection() {
   const [coolingTextVisible, setCoolingTextVisible] = useState(false);
   const [hoveredDevice, setHoveredDevice] = useState<keyof State | null>(null);
   const [hoveredScene, setHoveredScene] = useState<SceneKey | null>(null);
+
   const preloadRef = useRef<HTMLImageElement | null>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const osTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -104,18 +106,20 @@ export default function SmartLivingSection() {
   function showToast(msg: string) {
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     if (toastProgressRef.current) clearInterval(toastProgressRef.current);
+
     setToastMessage(msg);
     setToastProgress(100);
     setToastVisible(true);
 
     let elapsed = 0;
     const totalDuration = 2500;
+
     toastProgressRef.current = setInterval(() => {
       elapsed += 30;
       const remaining = Math.max(0, 100 - (elapsed / totalDuration) * 100);
       setToastProgress(remaining);
-      if (remaining <= 0) {
-        if (toastProgressRef.current) clearInterval(toastProgressRef.current);
+      if (remaining <= 0 && toastProgressRef.current) {
+        clearInterval(toastProgressRef.current);
       }
     }, 30);
 
@@ -131,8 +135,9 @@ export default function SmartLivingSection() {
     osTimerRef.current = setTimeout(() => setOsStatus('connected'), 1200);
   }
 
-  function triggerCoolingText() {
-    if (state.ac) {
+  function triggerCoolingText(nextAcState?: boolean) {
+    const shouldShow = typeof nextAcState === 'boolean' ? nextAcState : state.ac;
+    if (shouldShow) {
       setCoolingTextVisible(true);
       if (coolingTimerRef.current) clearTimeout(coolingTimerRef.current);
       coolingTimerRef.current = setTimeout(() => setCoolingTextVisible(false), 3000);
@@ -145,26 +150,25 @@ export default function SmartLivingSection() {
 
     const img = new Image();
     preloadRef.current = img;
+
     img.onload = () => {
       setImageScale(1.05);
-      setBottomImage(topImage);
+      setBottomImage(topImage || toURL);
       setTopImage(toURL);
       setTopOpacity(0);
+
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setTopOpacity(1);
           setImageScale(1);
-          setTimeout(() => { setIsTransitioning(false); }, 450);
+          setTimeout(() => {
+            setIsTransitioning(false);
+          }, 450);
         });
       });
     };
-    img.src = toURL;
-  }
 
-  function updateState(next: State) {
-    setState(next);
-    setActiveScene(null);
-    crossfade(targetImage(next));
+    img.src = toURL;
   }
 
   function handleToggle(key: keyof State) {
@@ -172,13 +176,14 @@ export default function SmartLivingSection() {
     const next = { ...state, [key]: nextVal };
     setState(next);
     setActiveScene(null);
+
     const toast = deviceToastMap[key];
     showToast(nextVal ? toast.on : toast.off);
     triggerOsUpdate();
     crossfade(targetImage(next));
 
     if (key === 'ac' && nextVal) {
-      triggerCoolingText();
+      triggerCoolingText(true);
     }
   }
 
@@ -192,9 +197,7 @@ export default function SmartLivingSection() {
     crossfade(targetImage(next));
 
     if (next.ac) {
-      setCoolingTextVisible(true);
-      if (coolingTimerRef.current) clearTimeout(coolingTimerRef.current);
-      coolingTimerRef.current = setTimeout(() => setCoolingTextVisible(false), 3000);
+      triggerCoolingText(true);
     }
   }
 
@@ -215,7 +218,6 @@ export default function SmartLivingSection() {
 
   const activeCount = [state.light, state.curtain, state.tv, state.ac, state.security].filter(Boolean).length;
 
-  // ── Device Icon Renderer ──
   function renderDeviceIcon(key: string, active: boolean) {
     const gold = '#D4AF37';
     const inactive = 'rgba(255,255,255,0.35)';
@@ -225,38 +227,38 @@ export default function SmartLivingSection() {
       case 'light':
         return (
           <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
-            <path d="M12 2C7.03 2 3 6.03 3 11c0 3.17 1.59 5.96 4 7.66V20c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-1.34c2.41-1.7 4-4.49 4-7.66 0-4.97-4.03-9-9-9z" fill="currentColor"/>
+            <path d="M12 2C7.03 2 3 6.03 3 11c0 3.17 1.59 5.96 4 7.66V20c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-1.34c2.41-1.7 4-4.49 4-7.66 0-4.97-4.03-9-9-9z" fill="currentColor" />
           </svg>
         );
       case 'curtain':
         return (
           <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
-            <rect x="2" y="4" width="20" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-            <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" strokeWidth="1.5"/>
+            <rect x="2" y="4" width="20" height="16" rx="1.5" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         );
       case 'tv':
         return (
           <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
-            <rect x="2" y="5" width="20" height="13" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-            <line x1="8" y1="22" x2="16" y2="22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="12" y1="18" x2="12" y2="22" stroke="currentColor" strokeWidth="1.5"/>
+            <rect x="2" y="5" width="20" height="13" rx="2" stroke="currentColor" strokeWidth="1.5" />
+            <line x1="8" y1="22" x2="16" y2="22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="12" y1="18" x2="12" y2="22" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         );
       case 'ac':
         return (
           <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
-            <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-            <line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" strokeWidth="1.2"/>
-            <path d="M7 12C7 12 8.5 10 12 10C15.5 10 17 12 17 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-            <path d="M7 15C7 15 8.5 17 12 17C15.5 17 17 15 17 15" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+            <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
+            <line x1="12" y1="6" x2="12" y2="18" stroke="currentColor" strokeWidth="1.2" />
+            <path d="M7 12C7 12 8.5 10 12 10C15.5 10 17 12 17 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+            <path d="M7 15C7 15 8.5 17 12 17C15.5 17 17 15 17 15" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
           </svg>
         );
       case 'security':
         return (
           <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5" style={{ color: c }}>
-            <path d="M12 2L4 8v7c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-9-4z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-            {active && <path d="M9 13l2.5 2.5L16 11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>}
+            <path d="M12 2L4 8v7c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V8l-9-4z" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            {active && <path d="M9 13l2.5 2.5L16 11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />}
           </svg>
         );
       default:
@@ -264,7 +266,6 @@ export default function SmartLivingSection() {
     }
   }
 
-  // ── Scene Icon Renderer ──
   function renderSceneIcon(icon: string, active: boolean) {
     const activeColor = '#D4AF37';
     const inactiveColor = 'rgba(255,255,255,0.4)';
@@ -300,24 +301,231 @@ export default function SmartLivingSection() {
     }
   }
 
+  const dockContent = (
+    <>
+      <div className="flex items-center gap-2 px-1">
+        <div className="w-3 h-[1.5px] bg-luxora-gold/40 rounded-full" />
+        <span className="text-white/30 text-[8px] md:text-[9px] font-semibold tracking-[0.2em] uppercase">Devices</span>
+        <div className="flex-1 h-[1px] bg-gradient-to-r from-luxora-gold/10 to-transparent" />
+        <span className="text-white/20 text-[7px] font-medium">{activeCount}/5</span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 md:gap-2">
+        {deviceGridConfig.slice(0, 4).map((cfg) => {
+          const on = state[cfg.key];
+          const isHovered = hoveredDevice === cfg.key;
+
+          return (
+            <button
+              key={cfg.key}
+              onClick={() => handleToggle(cfg.key)}
+              onMouseEnter={() => setHoveredDevice(cfg.key)}
+              onMouseLeave={() => setHoveredDevice(null)}
+              className={`device-grid-card relative flex flex-col items-center justify-center gap-1 px-2 py-3 md:py-3 rounded-xl ${
+                on ? 'device-grid-card-active' : 'device-grid-card-inactive'
+              } ${isHovered ? 'device-grid-card-hover' : ''}`}
+            >
+              {on && (
+                <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-luxora-gold gold-active-dot" />
+              )}
+
+              <div
+                className={`relative flex items-center justify-center transition-all duration-[300ms] ${
+                  on ? 'scale-110' : 'opacity-60'
+                }`}
+              >
+                {renderDeviceIcon(cfg.icon, on)}
+                {on && (
+                  <div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      background: 'radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%)',
+                      animation: 'devicePulse 2.5s ease-in-out infinite',
+                      filter: 'blur(3px)',
+                      transform: 'scale(1.8)',
+                    }}
+                  />
+                )}
+              </div>
+
+              <span
+                className={`text-[10px] md:text-[10px] font-semibold tracking-tight leading-tight transition-colors duration-[300ms] ${
+                  on ? 'text-white' : 'text-white/40'
+                }`}
+              >
+                {cfg.label}
+              </span>
+
+              <span
+                className={`text-[7px] md:text-[7px] font-bold tracking-[0.08em] uppercase transition-all duration-[300ms] ${
+                  on ? 'text-luxora-gold' : 'text-white/15'
+                }`}
+              >
+                {on ? cfg.onLabel : cfg.offLabel}
+              </span>
+
+              {isHovered && <div className="absolute inset-0 rounded-xl pointer-events-none icon-shine opacity-30" />}
+            </button>
+          );
+        })}
+      </div>
+
+      <button
+        onClick={() => handleToggle('security')}
+        onMouseEnter={() => setHoveredDevice('security')}
+        onMouseLeave={() => setHoveredDevice(null)}
+        className={`device-grid-card relative flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-xl transition-all duration-[300ms] ${
+          state.security ? 'security-full-card-active' : 'security-full-card'
+        } ${hoveredDevice === 'security' ? 'device-grid-card-hover' : ''}`}
+      >
+        {state.security && (
+          <div className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]" />
+        )}
+
+        <div className={`flex-shrink-0 transition-all duration-[300ms] ${state.security ? 'scale-110' : 'opacity-60'}`}>
+          {renderDeviceIcon('security', state.security)}
+          {state.security && (
+            <div
+              className="absolute inset-0 rounded-full pointer-events-none"
+              style={{
+                background: 'radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 70%)',
+                animation: 'devicePulse 2.5s ease-in-out infinite',
+                filter: 'blur(3px)',
+                transform: 'scale(1.8)',
+              }}
+            />
+          )}
+        </div>
+
+        <div className="flex items-center justify-between flex-1 min-w-0">
+          <div className="flex flex-col">
+            <span className={`text-[10px] md:text-[10px] font-semibold tracking-tight leading-tight ${state.security ? 'text-white' : 'text-white/40'}`}>
+              Security
+            </span>
+            <span className={`text-[7px] md:text-[7px] font-bold tracking-[0.08em] uppercase ${state.security ? 'text-red-400' : 'text-white/15'}`}>
+              {state.security ? 'ARMED' : 'DISARMED'}
+            </span>
+          </div>
+
+          <div
+            className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-all duration-[300ms] ${
+              state.security ? 'bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]' : 'bg-white/15'
+            }`}
+          />
+        </div>
+
+        {hoveredDevice === 'security' && <div className="absolute inset-0 rounded-xl pointer-events-none icon-shine opacity-30" />}
+      </button>
+
+      <div className="dock-divider-luxury mx-1" />
+
+      <div className="flex items-center gap-2 px-1">
+        <div className="w-3 h-[1.5px] bg-luxora-gold/40 rounded-full" />
+        <span className="text-white/30 text-[8px] md:text-[9px] font-semibold tracking-[0.2em] uppercase">Scenes</span>
+        <div className="flex-1 h-[1px] bg-gradient-to-r from-luxora-gold/10 to-transparent" />
+        {activeScene && <span className="text-luxora-gold/50 text-[7px] font-medium capitalize">{activeScene}</span>}
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 md:gap-2">
+        {scenes.map((scene) => {
+          const isActive = activeScene === scene.key;
+          const isHovered = hoveredScene === scene.key;
+
+          return (
+            <button
+              key={scene.key}
+              onClick={() => applyScene(scene.key)}
+              onMouseEnter={() => setHoveredScene(scene.key)}
+              onMouseLeave={() => setHoveredScene(null)}
+              className={`scene-grid-card relative flex flex-col items-center justify-center gap-1 px-2 py-3 md:py-2.5 rounded-xl ${
+                isActive ? 'scene-grid-card-active' : 'scene-grid-card-inactive'
+              } ${isHovered ? 'scale-[1.03]' : ''}`}
+            >
+              <div className="relative flex items-center justify-center">
+                {renderSceneIcon(scene.icon, isActive)}
+                {isActive && (
+                  <div
+                    className="absolute inset-0 rounded-full pointer-events-none"
+                    style={{
+                      background: 'radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)',
+                      filter: 'blur(2px)',
+                      transform: 'scale(2)',
+                    }}
+                  />
+                )}
+              </div>
+
+              <span className={`text-[10px] md:text-[10px] font-semibold tracking-tight transition-colors duration-[300ms] ${isActive ? 'text-white' : 'text-white/40'}`}>
+                {scene.label}
+              </span>
+
+              <span
+                className={`text-[7px] md:text-[7px] font-medium tracking-tight leading-tight text-center transition-colors duration-[300ms] ${
+                  isActive ? 'text-luxora-gold/60' : 'text-white/15'
+                }`}
+              >
+                {scene.description}
+              </span>
+
+              {isActive && (
+                <div className="absolute bottom-0 left-[20%] right-[20%] h-[2px] bg-gradient-to-r from-transparent via-luxora-gold/40 to-transparent rounded-full" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="dock-divider-luxury mx-1" />
+
+      <div className="dock-status-row flex items-center justify-between px-2.5 py-2 md:py-2">
+        <div className="flex items-center gap-2 md:gap-3 flex-wrap">
+          <div className="flex items-center gap-1">
+            <span className={`w-1.5 h-1.5 rounded-full ${state.light ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
+            <span className={`text-[8px] md:text-[8px] font-medium ${state.light ? 'text-luxora-gold/70' : 'text-white/30'}`}>LT</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className={`w-1.5 h-1.5 rounded-full ${state.curtain ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
+            <span className={`text-[8px] md:text-[8px] font-medium ${state.curtain ? 'text-luxora-gold/70' : 'text-white/30'}`}>CR</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className={`w-1.5 h-1.5 rounded-full ${state.tv ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
+            <span className={`text-[8px] md:text-[8px] font-medium ${state.tv ? 'text-luxora-gold/70' : 'text-white/30'}`}>TV</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className={`w-1.5 h-1.5 rounded-full ${state.ac ? 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]' : 'bg-white/15'}`} />
+            <span className={`text-[8px] md:text-[8px] font-medium ${state.ac ? 'text-blue-300/70' : 'text-white/30'}`}>AC</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className={`w-1.5 h-1.5 rounded-full ${state.security ? 'bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]' : 'bg-white/15'}`} />
+            <span className={`text-[8px] md:text-[8px] font-medium ${state.security ? 'text-red-300/70' : 'text-white/30'}`}>SEC</span>
+          </div>
+        </div>
+
+        <span
+          className={`text-[8px] font-medium tracking-wide transition-colors duration-[350ms] ${
+            osStatus === 'connected' ? 'text-green-400/60' : 'text-amber-400/60'
+          }`}
+        >
+          {osStatus === 'connected' ? '● Online' : '⟳ Sync'}
+        </span>
+      </div>
+    </>
+  );
+
   return (
     <section id="smart-living" className="py-8 md:py-10 lg:py-12 bg-[#0A1F44] overflow-hidden relative">
-      {/* ── Background ambient glow ── */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-luxora-gold/3 rounded-full blur-[120px]" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/3 rounded-full blur-[100px]" />
       </div>
 
-      {/* ── PREMIUM TOAST NOTIFICATION ── */}
       <div
-        className={`fixed top-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-[400ms] ease-out pointer-events-none ${
-          toastVisible
-            ? 'opacity-100 translate-y-0'
-            : 'opacity-0 -translate-y-3'
+        className={`fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] transition-all duration-[400ms] ease-out pointer-events-none w-[calc(100vw-24px)] max-w-[520px] ${
+          toastVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'
         }`}
       >
         <div className="glass-dark rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.3)] overflow-hidden">
-          <div className="flex items-center gap-3 px-6 py-4">
+          <div className="flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4">
             <span className="inline-block text-lg" style={{ animation: toastVisible ? 'glideInLeft 0.35s ease-out' : 'none' }}>
               {toastMessage?.charAt(0) || ''}
             </span>
@@ -335,7 +543,6 @@ export default function SmartLivingSection() {
       </div>
 
       <div className="max-w-[95vw] mx-auto px-1 md:px-2 lg:px-3">
-        {/* ── Section Header ── */}
         <div className="text-center mb-5 md:mb-7 lg:mb-10">
           <span className="text-luxora-gold text-[10px] md:text-xs font-semibold tracking-[0.25em] uppercase mb-2 block">
             SMART HOME AUTOMATION
@@ -344,49 +551,37 @@ export default function SmartLivingSection() {
             Control Your Home With A Single Touch
           </h2>
           <p className="text-white/50 text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-light">
-            Experience intelligent lighting, climate control, entertainment and security integrated
-            into one seamless luxury ecosystem.
+            Experience intelligent lighting, climate control, entertainment and security integrated into one seamless luxury ecosystem.
           </p>
         </div>
 
-        {/* ── HERO IMAGE WITH OVERLAY LUXURY DOCK ── */}
         <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden">
-          {/* ── IMAGE CONTAINER ── */}
-          <div className="relative w-full aspect-[16/9] md:aspect-[21/9] lg:aspect-[24/9] min-h-[380px] md:min-h-[480px] lg:min-h-[620px] xl:min-h-[660px] overflow-hidden">
-            {/* Bottom layer */}
-            <div
-              className="absolute inset-0 transition-opacity duration-[450ms] ease-in-out"
-              style={{ opacity: 1 - topOpacity }}
-            >
+          <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] lg:aspect-[24/9] min-h-0 sm:min-h-[520px] md:min-h-[520px] lg:min-h-[620px] xl:min-h-[660px] overflow-hidden bg-[#081a38]">
+            <div className="absolute inset-0 transition-opacity duration-[450ms] ease-in-out" style={{ opacity: 1 - topOpacity }}>
               {bottomImage && (
                 <img
                   src={bottomImage}
                   alt=""
-                  className="w-full h-full object-cover transition-transform duration-[450ms] ease-in-out"
+                  className="w-full h-full object-cover object-center sm:object-cover sm:object-center transition-transform duration-[450ms] ease-in-out"
                   style={{ pointerEvents: 'none', transform: `scale(${imageScale})` }}
                 />
               )}
             </div>
-            {/* Top layer */}
-            <div
-              className="absolute inset-0 transition-opacity duration-[450ms] ease-in-out"
-              style={{ opacity: topOpacity }}
-            >
+
+            <div className="absolute inset-0 transition-opacity duration-[450ms] ease-in-out" style={{ opacity: topOpacity }}>
               {topImage && (
                 <img
                   src={topImage}
                   alt="Smart Living Room"
-                  className="w-full h-full object-cover transition-transform duration-[450ms] ease-in-out"
+                  className="w-full h-full object-cover object-center sm:object-cover sm:object-center transition-transform duration-[450ms] ease-in-out"
                   style={{ pointerEvents: 'none', transform: `scale(${imageScale})` }}
                 />
               )}
             </div>
 
-            {/* Cinematic gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A1F44]/70 via-transparent to-[#0A1F44]/10 pointer-events-none" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0A1F44]/20 via-transparent to-[#0A1F44]/40 pointer-events-none" />
 
-            {/* Security perimeter glow when ARMED */}
             {state.security && (
               <>
                 <div
@@ -394,7 +589,10 @@ export default function SmartLivingSection() {
                   style={{ animation: 'securityGlow 2.5s ease-in-out infinite' }}
                 />
                 <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl md:rounded-3xl">
-                  <div className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-red-400/50 to-transparent shadow-[0_0_6px_rgba(239,68,68,0.3)]" style={{ animation: 'scanLine 2.8s ease-in-out infinite' }} />
+                  <div
+                    className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-red-400/50 to-transparent shadow-[0_0_6px_rgba(239,68,68,0.3)]"
+                    style={{ animation: 'scanLine 2.8s ease-in-out infinite' }}
+                  />
                 </div>
                 <div className="absolute top-3 left-3 w-5 h-5 border-t-[2px] border-l-[2px] border-red-400/40 rounded-tl-sm" />
                 <div className="absolute top-3 right-3 w-5 h-5 border-t-[2px] border-r-[2px] border-red-400/40 rounded-tr-sm" />
@@ -403,144 +601,129 @@ export default function SmartLivingSection() {
               </>
             )}
 
-            {/* AC cool-air effects */}
             {state.ac && (
-              <>
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                  <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-4/5 h-24 opacity-30">
-                    <div className="flex items-center justify-center gap-2">
-                      {[...Array(9)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-1.5 bg-gradient-to-t from-blue-400/70 to-blue-300/20 rounded-full"
-                          style={{
-                            height: `${14 + Math.sin(i * 0.7) * 16}px`,
-                            animation: `acWave 1.8s ease-in-out ${i * 0.2}s infinite`,
-                            transformOrigin: 'center bottom',
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <div className="absolute inset-0">
-                    {[...Array(12)].map((_, i) => (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-4/5 h-24 opacity-30">
+                  <div className="flex items-center justify-center gap-2">
+                    {[...Array(9)].map((_, i) => (
                       <div
                         key={i}
-                        className="absolute w-1.5 h-1.5 rounded-full"
+                        className="w-1.5 bg-gradient-to-t from-blue-400/70 to-blue-300/20 rounded-full"
                         style={{
-                          left: `${10 + (i * 8) % 80}%`,
-                          top: `${5 + (i * 7) % 85}%`,
-                          background: i % 2 === 0
-                            ? 'rgba(147, 197, 253, 0.4)'
-                            : 'rgba(191, 219, 254, 0.5)',
-                          boxShadow: i % 3 === 0
-                            ? '0 0 4px rgba(147, 197, 253, 0.3)'
-                            : 'none',
-                          animation: `coolFloat ${2.5 + (i % 5) * 0.4}s ease-in-out ${i * 0.25}s infinite`,
+                          height: `${14 + Math.sin(i * 0.7) * 16}px`,
+                          animation: `acWave 1.8s ease-in-out ${i * 0.2}s infinite`,
+                          transformOrigin: 'center bottom',
                         }}
                       />
                     ))}
-                    {[...Array(4)].map((_, i) => (
-                      <div
-                        key={`snow-${i}`}
-                        className="absolute text-blue-200/30"
-                        style={{
-                          left: `${15 + i * 22}%`,
-                          top: `${8 + (i % 3) * 12}%`,
-                          fontSize: '7px',
-                          animation: `snowflakeFloat ${3 + i * 0.3}s ease-in-out ${i * 0.5}s infinite`,
-                        }}
-                      >
-                        ❄
-                      </div>
-                    ))}
                   </div>
                 </div>
-              </>
+
+                <div className="absolute inset-0">
+                  {[...Array(12)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute w-1.5 h-1.5 rounded-full"
+                      style={{
+                        left: `${10 + (i * 8) % 80}%`,
+                        top: `${5 + (i * 7) % 85}%`,
+                        background: i % 2 === 0 ? 'rgba(147, 197, 253, 0.4)' : 'rgba(191, 219, 254, 0.5)',
+                        boxShadow: i % 3 === 0 ? '0 0 4px rgba(147, 197, 253, 0.3)' : 'none',
+                        animation: `coolFloat ${2.5 + (i % 5) * 0.4}s ease-in-out ${i * 0.25}s infinite`,
+                      }}
+                    />
+                  ))}
+
+                  {[...Array(4)].map((_, i) => (
+                    <div
+                      key={`snow-${i}`}
+                      className="absolute text-blue-200/30"
+                      style={{
+                        left: `${15 + i * 22}%`,
+                        top: `${8 + (i % 3) * 12}%`,
+                        fontSize: '7px',
+                        animation: `snowflakeFloat ${3 + i * 0.3}s ease-in-out ${i * 0.5}s infinite`,
+                      }}
+                    >
+                      ❄
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
 
-            {/* ── TOP-LEFT: LUXORA SMART OS BADGE ── */}
             <div className="absolute top-3 left-3 md:top-4 md:left-4 z-20">
               <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
                 <div className="relative flex items-center justify-center w-2 h-2">
                   <div
-                    className={`absolute inset-0 rounded-full ${
-                      osStatus === 'connected' ? 'bg-luxora-gold/30' : 'bg-amber-400/30'
-                    }`}
-                    style={{ animation: osStatus === 'connected' ? 'statusPulse 2s ease-in-out infinite' : 'none', transform: 'scale(2.2)' }}
+                    className={`absolute inset-0 rounded-full ${osStatus === 'connected' ? 'bg-luxora-gold/30' : 'bg-amber-400/30'}`}
+                    style={{
+                      animation: osStatus === 'connected' ? 'statusPulse 2s ease-in-out infinite' : 'none',
+                      transform: 'scale(2.2)',
+                    }}
                   />
                   <div
-                    className={`w-2 h-2 rounded-full relative z-10 ${
-                      osStatus === 'connected' ? 'bg-luxora-gold' : 'bg-amber-400'
-                    }`}
+                    className={`w-2 h-2 rounded-full relative z-10 ${osStatus === 'connected' ? 'bg-luxora-gold' : 'bg-amber-400'}`}
                     style={{ animation: osStatus === 'connected' ? 'statusPulse 2s ease-in-out infinite' : 'none' }}
                   />
                 </div>
                 <span className="text-white/60 text-[9px] tracking-[0.15em] uppercase font-semibold hidden sm:inline">
                   Luxora OS
                 </span>
-                <span className={`text-[8px] font-medium tracking-wide transition-colors duration-[350ms] ${
-                  osStatus === 'connected' ? 'text-green-400' : 'text-amber-400'
-                }`}>
+                <span className={`text-[8px] font-medium tracking-wide transition-colors duration-[350ms] ${osStatus === 'connected' ? 'text-green-400' : 'text-amber-400'}`}>
                   {osStatus === 'connected' ? '● Connected' : '⟳ Updating...'}
                 </span>
               </div>
             </div>
 
-            {/* ── TOP-RIGHT: IMAGE CORNER BADGES ── */}
-            {/* Security Status Badge - attached to room image */}
-              <div className="absolute top-3 right-3 md:top-4 md:right-4 z-20 flex flex-col gap-2 items-end">
-                {/* Security ARMED badge */}
-                {state.security && (
-                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
-                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-red-400" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-                    </svg>
-                    <span className="text-red-300 text-[9px] tracking-[0.12em] uppercase font-semibold whitespace-nowrap">Armed</span>
-                  </div>
-                )}
-                {/* Security DISARMED badge */}
-                {!state.security && (
-                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
-                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
-                    </svg>
-                    <span className="text-white/40 text-[9px] tracking-[0.12em] uppercase font-medium">Disarmed</span>
-                  </div>
-                )}
-                {/* Temperature badge - always visible when AC is on */}
-                {state.ac ? (
-                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
-                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-blue-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="4" y="6" width="16" height="12" rx="2" />
-                      <line x1="12" y1="6" x2="12" y2="18" />
-                      <path d="M8 12C8 12 9 10 12 10C15 10 16 12 16 12" strokeLinecap="round" />
-                      <path d="M8 14C8 14 9 16 12 16C15 16 16 14 16 14" strokeLinecap="round" />
-                    </svg>
-                    <span className="text-blue-200 text-[9px] font-semibold">24°C</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
-                    <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="4" y="6" width="16" height="12" rx="2" />
-                      <line x1="12" y1="6" x2="12" y2="18" />
-                    </svg>
-                    <span className="text-white/35 text-[9px] font-medium">22°C</span>
-                  </div>
-                )}
-                {/* Cooling text overlay */}
-                {coolingTextVisible && (
-                  <div
-                    className="px-3 py-1.5 bg-black/40 backdrop-blur-[16px] border border-blue-400/30 rounded-xl"
-                    style={{ animation: 'coolingText 3s ease-out forwards, badgeSlideIn 0.3s ease-out forwards' }}
-                  >
-                    <span className="text-blue-200 text-[9px] font-medium whitespace-nowrap">❄ Cooling to 24°C</span>
-                  </div>
-                )}
-              </div>
+            <div className="absolute top-3 right-3 md:top-4 md:right-4 z-20 hidden sm:flex flex-col gap-2 items-end">
+              {state.security ? (
+                <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                  <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-red-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                  </svg>
+                  <span className="text-red-300 text-[9px] tracking-[0.12em] uppercase font-semibold whitespace-nowrap">Armed</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                  <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                  </svg>
+                  <span className="text-white/40 text-[9px] tracking-[0.12em] uppercase font-medium">Disarmed</span>
+                </div>
+              )}
 
-            {/* ── BOTTOM-LEFT: ROOM STATE ── */}
-            <div className="absolute bottom-3 left-3 md:bottom-4 md:left-4 z-20">
+              {state.ac ? (
+                <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                  <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-blue-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="4" y="6" width="16" height="12" rx="2" />
+                    <line x1="12" y1="6" x2="12" y2="18" />
+                    <path d="M8 12C8 12 9 10 12 10C15 10 16 12 16 12" strokeLinecap="round" />
+                    <path d="M8 14C8 14 9 16 12 16C15 16 16 14 16 14" strokeLinecap="round" />
+                  </svg>
+                  <span className="text-blue-200 text-[9px] font-semibold">24°C</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
+                  <svg className="w-3 h-3 md:w-3.5 md:h-3.5 text-white/35" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="4" y="6" width="16" height="12" rx="2" />
+                    <line x1="12" y1="6" x2="12" y2="18" />
+                  </svg>
+                  <span className="text-white/35 text-[9px] font-medium">22°C</span>
+                </div>
+              )}
+
+              {coolingTextVisible && (
+                <div
+                  className="px-3 py-1.5 bg-black/40 backdrop-blur-[16px] border border-blue-400/30 rounded-xl"
+                  style={{ animation: 'coolingText 3s ease-out forwards, badgeSlideIn 0.3s ease-out forwards' }}
+                >
+                  <span className="text-blue-200 text-[9px] font-medium whitespace-nowrap">❄ Cooling to 24°C</span>
+                </div>
+              )}
+            </div>
+
+            <div className="absolute bottom-3 left-3 md:bottom-4 md:left-4 z-20 hidden sm:block">
               <div className="px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
                 <span className="text-white/60 text-[9px] tracking-[0.15em] uppercase font-medium">
                   {state.light ? 'LIT' : 'DIM'} · {state.tv ? 'SHOWING' : 'STANDBY'} · {state.curtain ? 'PRIVACY' : 'OPEN'}
@@ -548,8 +731,7 @@ export default function SmartLivingSection() {
               </div>
             </div>
 
-            {/* ── BOTTOM-RIGHT: ACTIVE DEVICE COUNT BADGE ON IMAGE ── */}
-            <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20">
+            <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20 hidden sm:block">
               <div className="flex items-center gap-2.5 px-3 py-1.5 md:px-3.5 md:py-2 bg-black/40 backdrop-blur-[16px] border border-white/8 rounded-xl">
                 <div className="flex items-center gap-1.5">
                   <div className="flex -space-x-1">
@@ -566,260 +748,23 @@ export default function SmartLivingSection() {
               </div>
             </div>
 
-            {/* ── LUXURY FLOATING DOCK - OVERLAYS THE IMAGE ON RIGHT SIDE ── */}
             <div
-              className="absolute right-3 md:right-4 lg:right-5 top-1/2 -translate-y-1/2 z-30"
+              className="absolute right-4 lg:right-5 top-1/2 -translate-y-1/2 z-30 hidden lg:block"
               style={{ width: 'clamp(310px, 28vw, 360px)' }}
             >
-              {/* Ambient glow behind dock */}
               <div className="absolute -inset-10 dock-ambient-glow pointer-events-none" />
-
-              {/* Dock Container */}
               <div
                 className="glass-dock-luxury rounded-2xl md:rounded-2xl py-3 md:py-4 px-3 md:px-4 flex flex-col gap-2 md:gap-3"
                 style={{ animation: 'dockFloat 6s ease-in-out infinite' }}
               >
-                {/* ── SECTION LABEL ── */}
-                <div className="flex items-center gap-2 px-1">
-                  <div className="w-3 h-[1.5px] bg-luxora-gold/40 rounded-full" />
-                  <span className="text-white/30 text-[8px] md:text-[9px] font-semibold tracking-[0.2em] uppercase">Devices</span>
-                  <div className="flex-1 h-[1px] bg-gradient-to-r from-luxora-gold/10 to-transparent" />
-                  <span className="text-white/20 text-[7px] font-medium">{activeCount}/5</span>
-                </div>
-
-                {/* ── DEVICE CONTROLS - 2-Column Grid ── */}
-                <div className="grid grid-cols-2 gap-1.5 md:gap-2">
-                  {/* First 4 devices in 2x2 grid: Light, Curtain, TV, AC */}
-                  {deviceGridConfig.slice(0, 4).map((cfg) => {
-                    const on = state[cfg.key];
-                    const isHovered = hoveredDevice === cfg.key;
-
-                    return (
-                      <button
-                        key={cfg.key}
-                        onClick={() => handleToggle(cfg.key)}
-                        onMouseEnter={() => setHoveredDevice(cfg.key)}
-                        onMouseLeave={() => setHoveredDevice(null)}
-                        className={`device-grid-card relative flex flex-col items-center justify-center gap-1 px-2 py-2.5 md:py-3 rounded-xl ${
-                          on
-                            ? 'device-grid-card-active'
-                            : 'device-grid-card-inactive'
-                        } ${isHovered ? 'device-grid-card-hover' : ''}`}
-                      >
-                        {/* Active indicator dot */}
-                        {on && (
-                          <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-luxora-gold gold-active-dot" />
-                        )}
-
-                        {/* Icon container */}
-                        <div className={`relative flex items-center justify-center transition-all duration-[300ms] ${
-                          on ? 'scale-110' : 'opacity-60'
-                        }`}>
-                          {renderDeviceIcon(cfg.icon, on)}
-                          {on && (
-                            <div
-                              className="absolute inset-0 rounded-full"
-                              style={{
-                                background: 'radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%)',
-                                animation: 'devicePulse 2.5s ease-in-out infinite',
-                                filter: 'blur(3px)',
-                                transform: 'scale(1.8)',
-                              }}
-                            />
-                          )}
-                        </div>
-
-                        {/* Label */}
-                        <span className={`text-[9px] md:text-[10px] font-semibold tracking-tight leading-tight transition-colors duration-[300ms] ${
-                          on ? 'text-white' : 'text-white/40'
-                        }`}>
-                          {cfg.label}
-                        </span>
-
-                        {/* State */}
-                        <span className={`text-[6px] md:text-[7px] font-bold tracking-[0.08em] uppercase transition-all duration-[300ms] ${
-                          on ? 'text-luxora-gold' : 'text-white/15'
-                        }`}>
-                          {on ? cfg.onLabel : cfg.offLabel}
-                        </span>
-
-                        {/* Hover shine overlay */}
-                        {isHovered && (
-                          <div className="absolute inset-0 rounded-xl pointer-events-none icon-shine opacity-30" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* ── SECURITY - Full Width ── */}
-                <button
-                  onClick={() => handleToggle('security')}
-                  onMouseEnter={() => setHoveredDevice('security')}
-                  onMouseLeave={() => setHoveredDevice(null)}
-                  className={`device-grid-card relative flex items-center gap-2.5 px-3 py-2 md:py-2.5 rounded-xl transition-all duration-[300ms] ${
-                    state.security
-                      ? 'security-full-card-active'
-                      : 'security-full-card'
-                  } ${hoveredDevice === 'security' ? 'device-grid-card-hover' : ''}`}
-                >
-                  {/* Active indicator */}
-                  {state.security && (
-                    <div className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]" />
-                  )}
-
-                  {/* Icon */}
-                  <div className={`flex-shrink-0 transition-all duration-[300ms] ${
-                    state.security ? 'scale-110' : 'opacity-60'
-                  }`}>
-                    {renderDeviceIcon('security', state.security)}
-                    {state.security && (
-                      <div
-                        className="absolute inset-0 rounded-full pointer-events-none"
-                        style={{
-                          background: 'radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 70%)',
-                          animation: 'devicePulse 2.5s ease-in-out infinite',
-                          filter: 'blur(3px)',
-                          transform: 'scale(1.8)',
-                        }}
-                      />
-                    )}
-                  </div>
-
-                  {/* Label + State */}
-                  <div className="flex items-center justify-between flex-1 min-w-0">
-                    <div className="flex flex-col">
-                      <span className={`text-[9px] md:text-[10px] font-semibold tracking-tight leading-tight ${
-                        state.security ? 'text-white' : 'text-white/40'
-                      }`}>
-                        Security
-                      </span>
-                      <span className={`text-[6px] md:text-[7px] font-bold tracking-[0.08em] uppercase ${
-                        state.security ? 'text-red-400' : 'text-white/15'
-                      }`}>
-                        {state.security ? 'ARMED' : 'DISARMED'}
-                      </span>
-                    </div>
-                    {/* Status dot */}
-                    <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-all duration-[300ms] ${
-                      state.security
-                        ? 'bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]'
-                        : 'bg-white/15'
-                    }`} />
-                  </div>
-
-                  {/* Hover shine */}
-                  {hoveredDevice === 'security' && (
-                    <div className="absolute inset-0 rounded-xl pointer-events-none icon-shine opacity-30" />
-                  )}
-                </button>
-
-                {/* ── DIVIDER ── */}
-                <div className="dock-divider-luxury mx-1" />
-
-                {/* ── SECTION LABEL - Scenes ── */}
-                <div className="flex items-center gap-2 px-1">
-                  <div className="w-3 h-[1.5px] bg-luxora-gold/40 rounded-full" />
-                  <span className="text-white/30 text-[8px] md:text-[9px] font-semibold tracking-[0.2em] uppercase">Scenes</span>
-                  <div className="flex-1 h-[1px] bg-gradient-to-r from-luxora-gold/10 to-transparent" />
-                  {activeScene && (
-                    <span className="text-luxora-gold/50 text-[7px] font-medium capitalize">{activeScene}</span>
-                  )}
-                </div>
-
-                {/* ── SCENE CONTROLS - 2x2 Grid ── */}
-                <div className="grid grid-cols-2 gap-1.5 md:gap-2">
-                  {scenes.map((scene) => {
-                    const isActive = activeScene === scene.key;
-                    const isHovered = hoveredScene === scene.key;
-
-                    return (
-                      <button
-                        key={scene.key}
-                        onClick={() => applyScene(scene.key)}
-                        onMouseEnter={() => setHoveredScene(scene.key)}
-                        onMouseLeave={() => setHoveredScene(null)}
-                        className={`scene-grid-card relative flex flex-col items-center justify-center gap-1 px-2 py-2 md:py-2.5 rounded-xl ${
-                          isActive
-                            ? 'scene-grid-card-active'
-                            : 'scene-grid-card-inactive'
-                        } ${isHovered ? 'scale-[1.03]' : ''}`}
-                      >
-                        {/* Icon */}
-                        <div className="relative flex items-center justify-center">
-                          {renderSceneIcon(scene.icon, isActive)}
-                          {isActive && (
-                            <div
-                              className="absolute inset-0 rounded-full pointer-events-none"
-                              style={{
-                                background: 'radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)',
-                                filter: 'blur(2px)',
-                                transform: 'scale(2)',
-                              }}
-                            />
-                          )}
-                        </div>
-
-                        {/* Label */}
-                        <span className={`text-[9px] md:text-[10px] font-semibold tracking-tight transition-colors duration-[300ms] ${
-                          isActive ? 'text-white' : 'text-white/40'
-                        }`}>
-                          {scene.label}
-                        </span>
-
-                        {/* Description */}
-                        <span className={`text-[6px] md:text-[7px] font-medium tracking-tight leading-tight text-center transition-colors duration-[300ms] ${
-                          isActive ? 'text-luxora-gold/60' : 'text-white/15'
-                        }`}>
-                          {scene.description}
-                        </span>
-
-                        {/* Active indicator line */}
-                        {isActive && (
-                          <div className="absolute bottom-0 left-[20%] right-[20%] h-[2px] bg-gradient-to-r from-transparent via-luxora-gold/40 to-transparent rounded-full" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* ── DIVIDER ── */}
-                <div className="dock-divider-luxury mx-1" />
-
-                {/* ── STATUS ROW ── */}
-                <div className="dock-status-row flex items-center justify-between px-2.5 py-1.5 md:py-2">
-                  {/* Device status dots */}
-                  <div className="flex items-center gap-2 md:gap-3">
-                    <div className="flex items-center gap-1">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.light ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
-                      <span className={`text-[7px] md:text-[8px] font-medium ${state.light ? 'text-luxora-gold/70' : 'text-white/30'}`}>LT</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.curtain ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
-                      <span className={`text-[7px] md:text-[8px] font-medium ${state.curtain ? 'text-luxora-gold/70' : 'text-white/30'}`}>CR</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.tv ? 'bg-luxora-gold gold-active-dot' : 'bg-white/15'}`} />
-                      <span className={`text-[7px] md:text-[8px] font-medium ${state.tv ? 'text-luxora-gold/70' : 'text-white/30'}`}>TV</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.ac ? 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]' : 'bg-white/15'}`} />
-                      <span className={`text-[7px] md:text-[8px] font-medium ${state.ac ? 'text-blue-300/70' : 'text-white/30'}`}>AC</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className={`w-1.5 h-1.5 rounded-full ${state.security ? 'bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]' : 'bg-white/15'}`} />
-                      <span className={`text-[7px] md:text-[8px] font-medium ${state.security ? 'text-red-300/70' : 'text-white/30'}`}>SEC</span>
-                    </div>
-                  </div>
-
-                  {/* System status */}
-                  <span className={`text-[7px] font-medium tracking-wide transition-colors duration-[350ms] ${
-                    osStatus === 'connected' ? 'text-green-400/60' : 'text-amber-400/60'
-                  }`}>
-                    {osStatus === 'connected' ? '● Online' : '⟳ Sync'}
-                  </span>
-                </div>
+                {dockContent}
               </div>
+            </div>
+          </div>
+
+          <div className="lg:hidden mt-4 sm:mt-5">
+            <div className="glass-dock-luxury rounded-2xl py-3 sm:py-4 px-3 sm:px-4 flex flex-col gap-2 sm:gap-3">
+              {dockContent}
             </div>
           </div>
         </div>

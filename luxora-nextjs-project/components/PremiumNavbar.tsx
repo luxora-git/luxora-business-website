@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
 interface MegaMenuItem {
@@ -18,7 +19,15 @@ interface MegaMenuItem {
   };
 }
 
-const FALLBACK_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"%3E%3Crect fill="%23f0ede8" width="600" height="400"/%3E%3Ctext fill="%23a0988c" font-family="serif" font-size="16" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ELuxora Design%3C/text%3E%3C/svg%3E';
+const FALLBACK_IMAGE =
+  'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"%3E%3Crect fill="%23f3efe8" width="600" height="400"/%3E%3Ctext fill="%239a9183" font-family="serif" font-size="18" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ELuxora Design%3C/text%3E%3C/svg%3E';
+
+const trustItems = [
+  'Free Site Visit',
+  '3D Design Preview',
+  'Transparent Pricing',
+  '10 Year Warranty',
+];
 
 const megaMenuData: MegaMenuItem[] = [
   {
@@ -56,7 +65,8 @@ const megaMenuData: MegaMenuItem[] = [
     featured: {
       title: 'The Artisan Residence',
       description: 'A 3,200 sq ft Mumbai home where contemporary design meets timeless Indian craftsmanship.',
-      image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=85',
+      image:
+        'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85',
       href: '#gallery',
     },
   },
@@ -89,7 +99,8 @@ const megaMenuData: MegaMenuItem[] = [
     featured: {
       title: 'End-to-End Service',
       description: 'From concept to completion — every detail, every finish, every moment.',
-      image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=600&q=85',
+      image:
+        'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=85',
       href: '#services',
     },
   },
@@ -123,7 +134,8 @@ const megaMenuData: MegaMenuItem[] = [
     featured: {
       title: 'Smart Living Collection',
       description: 'Discover our latest range of home automation — where design meets intelligence.',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=85',
+      image:
+        'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&w=1200&q=85',
       href: '#products',
     },
   },
@@ -158,509 +170,904 @@ const megaMenuData: MegaMenuItem[] = [
     featured: {
       title: 'Portfolio Overview',
       description: '500+ spaces delivered across India, each one a story waiting to be told.',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=85',
+      image:
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
       href: '#projects',
     },
   },
   {
     label: 'Resources',
-    href: '#',
+    href: '#resources',
     columns: [
       {
         title: 'Learn',
         links: [
-          { label: 'Design Ideas', href: '#', description: 'Inspiration for every room' },
-          { label: 'Blogs', href: '#', description: 'Design tips & trends' },
+          { label: 'Design Ideas', href: '#resources', description: 'Inspiration for every room' },
+          { label: 'Blogs', href: '#resources', description: 'Design tips & trends' },
         ],
       },
       {
         title: 'Tools',
         links: [
-          { label: 'Material Guides', href: '#', description: 'Quality materials explained' },
-          { label: 'Cost Calculator', href: '#', description: 'Estimate your project' },
+          { label: 'Material Guides', href: '#resources', description: 'Quality materials explained' },
+          { label: 'Cost Calculator', href: '#resources', description: 'Estimate your project' },
         ],
       },
       {
         title: 'Explore',
         links: [
-          { label: 'E-books', href: '#', description: 'Downloadable design guides' },
-          { label: 'Webinars', href: '#', description: 'Expert-led sessions' },
+          { label: 'E-books', href: '#resources', description: 'Downloadable design guides' },
+          { label: 'Webinars', href: '#resources', description: 'Expert-led sessions' },
         ],
       },
     ],
     featured: {
       title: 'Design Inspiration Hub',
       description: 'Curated ideas, trends, and expert resources — your creative companion.',
-      image: 'https://images.unsplash.com/photo-1616046229478-2b3d0f6a5b5a?w=600&q=85',
-      href: '#',
+      image:
+        'https://images.unsplash.com/photo-1616046229478-2b3d0f6a5b5a?auto=format&fit=crop&w=1200&q=85',
+      href: '#resources',
     },
   },
   {
     label: 'About',
-    href: '#',
+    href: '#about',
     columns: [
       {
         title: 'Company',
         links: [
-          { label: 'Our Story', href: '#', description: 'Who we are' },
-          { label: 'Our Process', href: '#', description: 'How we work' },
-          { label: 'Careers', href: '#', description: 'Join our team' },
+          { label: 'Our Story', href: '#about', description: 'Who we are' },
+          { label: 'Our Process', href: '#about', description: 'How we work' },
+          { label: 'Careers', href: '#about', description: 'Join our team' },
         ],
       },
       {
         title: 'Connect',
         links: [
           { label: 'Contact', href: '#contact', description: 'Get in touch' },
-          { label: 'Visit Our Studio', href: '#', description: 'Book an appointment' },
+          { label: 'Visit Our Studio', href: '#contact', description: 'Book an appointment' },
         ],
       },
       {
         title: 'Community',
         links: [
-          { label: 'Press', href: '#', description: 'Media & coverage' },
-          { label: 'Awards', href: '#', description: 'Recognition & milestones' },
+          { label: 'Press', href: '#about', description: 'Media & coverage' },
+          { label: 'Awards', href: '#about', description: 'Recognition & milestones' },
         ],
       },
     ],
     featured: {
       title: 'Our Design Philosophy',
       description: 'Discover the passion and expertise behind every Luxora project.',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=85',
-      href: '#',
+      image:
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
+      href: '#about',
     },
   },
 ];
 
-/** Shared fallback handler for broken images */
 function handleImageError(e: React.SyntheticEvent<HTMLImageElement>) {
   const img = e.currentTarget;
   if (img.src !== FALLBACK_IMAGE) {
     img.src = FALLBACK_IMAGE;
-    img.classList.add('opacity-60');
+    img.classList.add('opacity-70');
   }
 }
 
 export default function PremiumNavbar() {
+  const pathname = usePathname();
+  const isV2 = pathname.startsWith('/luxury-v2');
+  const isV3 = pathname.startsWith('/luxury-v3');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [expandedMobileItem, setExpandedMobileItem] = useState<string | null>(null);
-  const hideMenuTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [mobileNoticeIndex, setMobileNoticeIndex] = useState(0);
+
+  const navRef = useRef<HTMLElement | null>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  const activeItem = useMemo(
+    () => megaMenuData.find((item) => item.label === activeMegaMenu) || null,
+    [activeMegaMenu]
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 80);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleMouseEnter = (label: string) => {
-    if (hideMenuTimeout.current) clearTimeout(hideMenuTimeout.current);
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveMegaMenu(null);
+        setIsMobileOpen(false);
+        setExpandedMobileItem(null);
+      }
+    };
+
+    const onPointerDown = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (navRef.current && !navRef.current.contains(target)) {
+        setActiveMegaMenu(null);
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('mousedown', onPointerDown);
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('mousedown', onPointerDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileOpen]);
+
+  useEffect(() => {
+    if (!isMobileOpen) setExpandedMobileItem(null);
+  }, [isMobileOpen]);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setMobileNoticeIndex((prev) => (prev + 1) % trustItems.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, []);
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+  };
+
+  const scheduleClose = () => {
+    clearCloseTimer();
+    closeTimerRef.current = setTimeout(() => setActiveMegaMenu(null), 120);
+  };
+
+  const openMenu = (label: string) => {
+    clearCloseTimer();
     setActiveMegaMenu(label);
   };
 
-  const handleMouseLeave = () => {
-    hideMenuTimeout.current = setTimeout(() => {
-      setActiveMegaMenu(null);
-    }, 250);
-  };
-
-  const handleLinkClick = () => {
+  const closeAll = () => {
+    clearCloseTimer();
+    setActiveMegaMenu(null);
     setIsMobileOpen(false);
     setExpandedMobileItem(null);
   };
 
-  const activeItem = activeMegaMenu
-    ? megaMenuData.find((item) => item.label === activeMegaMenu)
-    : null;
+  const toggleMobileItem = (label: string) => {
+    setExpandedMobileItem((prev) => (prev === label ? null : label));
+  };
+
+  const nextNotice = () => setMobileNoticeIndex((prev) => (prev + 1) % trustItems.length);
+  const V2_ANCHOR_MAP: Record<string, string> = {
+    home: 'home',
+    gallery: 'home',
+    services: 'services',
+    projects: 'projects',
+    products: 'services',
+    resources: 'home',
+    about: 'home',
+    contact: 'contact',
+  };
+
+  const V3_ANCHOR_MAP: Record<string, string> = {
+    home: 'home',
+    gallery: 'gallery',
+    services: 'services',
+    projects: 'projects',
+    products: 'services',
+    resources: 'home',
+    about: 'home',
+    contact: 'contact',
+  };
+
+  const prefixHref = (href: string) => {
+    if (!isV2 && !isV3) return href;
+    if (href.startsWith('#')) {
+      const anchor = href.slice(1);
+      if (isV2) {
+        const v2Target = V2_ANCHOR_MAP[anchor];
+        return v2Target ? `/luxury-v2#luxury-v2-${v2Target}` : href;
+      }
+      if (isV3) {
+        const v3Target = V3_ANCHOR_MAP[anchor];
+        return v3Target ? `/luxury-v3#v3-${v3Target}` : href;
+      }
+    }
+    return href;
+  };
+
+  const prevNotice = () => setMobileNoticeIndex((prev) => (prev - 1 + trustItems.length) % trustItems.length);
 
   return (
     <>
-      {/* Page overlay backdrop */}
-      <div
-        className={`fixed inset-0 z-40 transition-all duration-500 ${
-          activeMegaMenu
-            ? 'opacity-100 visible bg-black/25'
-            : 'opacity-0 invisible pointer-events-none'
-        }`}
-        onMouseEnter={() => {
-          if (hideMenuTimeout.current) clearTimeout(hideMenuTimeout.current);
-        }}
-        onMouseLeave={handleMouseLeave}
-      />
+      <style jsx global>{`
+        .luxora-navbar-shell {
+          --luxora-navy: #0a1f44;
+          --luxora-gold: #d4af37;
+          --luxora-ivory: #f8f5ef;
+          --luxora-ivory-2: #f2eee7;
+          --luxora-border: rgba(12, 23, 42, 0.08);
+          --luxora-shadow: 0 22px 70px -28px rgba(10, 31, 68, 0.28);
+          --luxora-shadow-soft: 0 14px 34px -20px rgba(10, 31, 68, 0.18);
+          --luxora-blur: blur(18px);
+        }
 
-      {/* Sticky Navigation */}
-      <nav
-        className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? 'top-0 bg-white/95 backdrop-blur-lg shadow-[0_4px_24px_-2px_rgba(10,31,68,0.08)] py-3 md:py-4'
-            : 'top-[38px] md:top-[40px] bg-transparent py-5 md:py-6'
-        }`}
-      >
-        <div className="max-w-[90rem] mx-auto px-8 md:px-12 lg:px-16 flex items-center justify-between">
-          {/* Logo */}
-          <a href="#home" className="flex-shrink-0">
-            <Image
-              src="/logo.png"
-              alt="Luxora"
-              width={220}
-              height={60}
-              priority
-              className={`transition-all duration-500 ${
-                isScrolled ? 'brightness-100' : 'brightness-0 invert'
-              }`}
-              style={{ height: 'auto', width: 'auto', maxWidth: '180px', maxHeight: '48px' }}
-            />
-          </a>
+        .luxora-top-strip {
+          background: linear-gradient(180deg, rgba(11, 35, 75, 0.97) 0%, rgba(10, 31, 68, 0.94) 100%);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+        }
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-0">
-            {megaMenuData.map((item) => (
-              <div
-                key={item.label}
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(item.label)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <a
-                  href={item.href}
-                  className={`px-4 py-3 text-[12px] tracking-[0.1em] uppercase font-medium transition-all duration-300 relative flex items-center gap-1.5 ${
-                    isScrolled
-                      ? 'text-luxora-navy/75 hover:text-luxora-navy'
-                      : 'text-white/85 hover:text-white'
-                  } ${
-                    activeMegaMenu === item.label
-                      ? isScrolled
-                        ? 'text-luxora-navy'
-                        : 'text-white'
-                      : ''
-                  }`}
-                >
-                  {item.label}
-                  {/* Active gold underline */}
-                  <span
-                    className={`absolute -bottom-px left-4 right-4 h-[2px] bg-luxora-gold transition-all duration-300 ${
-                      activeMegaMenu === item.label ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
-                    }`}
-                  />
-                  <svg
-                    className={`w-2.5 h-2.5 transition-all duration-300 ${
-                      activeMegaMenu === item.label ? 'rotate-180 text-luxora-gold' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </a>
+        .luxora-top-strip-text {
+          font-size: 10px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.76);
+        }
+
+        .luxora-mobile-strip {
+          display: grid;
+          grid-template-columns: 32px 1fr 32px;
+          align-items: center;
+          gap: 8px;
+          width: 100%;
+        }
+
+        .luxora-mobile-strip-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          color: rgba(255, 255, 255, 0.55);
+        }
+
+        .luxora-mobile-strip-center {
+          overflow: hidden;
+          text-align: center;
+        }
+
+        .luxora-mobile-strip-slide {
+          white-space: nowrap;
+          animation: luxoraSlideFade 0.32s ease;
+        }
+
+        @keyframes luxoraSlideFade {
+          0% {
+            opacity: 0;
+            transform: translateY(8px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .luxora-nav-solid,
+        .luxora-nav-transparent {
+          will-change: transform, background-color, box-shadow;
+          transform: translateZ(0);
+        }
+
+        .luxora-nav-solid {
+          background: rgba(248, 245, 239, 0.95);
+          backdrop-filter: var(--luxora-blur);
+          -webkit-backdrop-filter: var(--luxora-blur);
+          border-bottom: 1px solid rgba(12, 23, 42, 0.06);
+          box-shadow: 0 10px 36px -14px rgba(10, 31, 68, 0.18);
+        }
+
+        .luxora-nav-transparent {
+          background: linear-gradient(
+            180deg,
+            rgba(7, 18, 38, 0.22) 0%,
+            rgba(7, 18, 38, 0.08) 50%,
+            rgba(7, 18, 38, 0) 100%
+          );
+        }
+
+        .luxora-nav-link {
+          position: relative;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          transition: color 0.22s ease, transform 0.22s ease;
+        }
+
+        .luxora-nav-link::after {
+          content: '';
+          position: absolute;
+          left: 16px;
+          right: 16px;
+          bottom: 8px;
+          height: 1px;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            var(--luxora-gold) 24%,
+            var(--luxora-gold) 76%,
+            transparent 100%
+          );
+          transform: scaleX(0);
+          opacity: 0;
+          transition: transform 240ms ease, opacity 240ms ease;
+        }
+
+        .luxora-nav-link:hover::after,
+        .luxora-nav-link[data-active='true']::after {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+
+        .luxora-cta,
+        .luxora-mobile-cta {
+          background: linear-gradient(180deg, #dfbf57 0%, #d4af37 100%);
+          color: var(--luxora-navy);
+          box-shadow: 0 14px 28px -18px rgba(212, 175, 55, 0.9);
+          transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .luxora-cta:hover,
+        .luxora-mobile-cta:hover {
+          transform: translateY(-1px);
+        }
+
+        .luxora-mega-backdrop {
+          background: rgba(8, 18, 38, 0.18);
+          backdrop-filter: blur(2px);
+        }
+
+        .luxora-mega-panel {
+          background: linear-gradient(180deg, #f7f3ed 0%, #f4efe7 100%);
+          border: 1px solid rgba(12, 23, 42, 0.06);
+          box-shadow: 0 30px 80px -20px rgba(10, 31, 68, 0.28), 0 8px 20px -10px rgba(10, 31, 68, 0.1);
+        }
+
+        .luxora-mega-topline {
+          height: 2px;
+          background: linear-gradient(
+            90deg,
+            rgba(212, 175, 55, 0.2) 0%,
+            rgba(212, 175, 55, 1) 18%,
+            rgba(212, 175, 55, 0.75) 82%,
+            rgba(212, 175, 55, 0.2) 100%
+          );
+        }
+
+        .luxora-mega-column {
+          background: rgba(255, 255, 255, 0.34);
+          border-right: 1px solid rgba(12, 23, 42, 0.05);
+        }
+
+        .luxora-mega-label {
+          font-size: 10px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          font-weight: 700;
+          color: var(--luxora-gold);
+        }
+
+        .luxora-feature-card {
+          background: rgba(255, 255, 255, 0.96);
+        }
+
+        .luxora-feature-image {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .luxora-feature-image::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(8, 18, 38, 0.04) 0%, rgba(8, 18, 38, 0.12) 40%, rgba(8, 18, 38, 0.5) 100%);
+          pointer-events: none;
+        }
+
+        .luxora-feature-chip {
+          background: var(--luxora-gold);
+          color: var(--luxora-navy);
+          font-size: 9px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+
+        .luxora-mobile-overlay {
+          background: linear-gradient(180deg, #fbf8f3 0%, #f2eee7 100%);
+          will-change: transform, opacity;
+          transform: translateZ(0);
+        }
+
+        .luxora-mobile-panel-header {
+          position: sticky;
+          top: 0;
+          z-index: 8;
+          background: rgba(251, 248, 243, 0.98);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-bottom: 1px solid rgba(12, 23, 42, 0.06);
+        }
+
+        .luxora-mobile-section {
+          border-bottom: 1px solid rgba(12, 23, 42, 0.06);
+        }
+
+        .luxora-mobile-title {
+          color: var(--luxora-navy);
+          font-size: 22px;
+          line-height: 1;
+        }
+
+        .luxora-mobile-feature {
+          background: rgba(255, 255, 255, 0.78);
+          border: 1px solid rgba(12, 23, 42, 0.06);
+          box-shadow: var(--luxora-shadow-soft);
+        }
+
+        .luxora-hamburger-line {
+          transition: transform 260ms ease, opacity 200ms ease, background-color 220ms ease;
+        }
+
+        .luxora-focus:focus-visible {
+          outline: 2px solid rgba(212, 175, 55, 0.9);
+          outline-offset: 3px;
+        }
+
+        .luxora-accordion {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 0.28s ease, opacity 0.22s ease;
+          opacity: 0;
+        }
+
+        .luxora-accordion > div {
+          overflow: hidden;
+        }
+
+        .luxora-accordion[data-open='true'] {
+          grid-template-rows: 1fr;
+          opacity: 1;
+        }
+
+        @media (max-width: 767px) {
+          .luxora-top-strip-text {
+            font-size: 9px;
+            letter-spacing: 0.14em;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .luxora-navbar-shell *,
+          .luxora-navbar-shell *::before,
+          .luxora-navbar-shell *::after {
+            animation: none !important;
+            transition: none !important;
+            scroll-behavior: auto !important;
+          }
+        }
+      `}</style>
+
+      <div className="luxora-navbar-shell">
+        <div className="fixed top-0 left-0 right-0 z-[70] hidden md:block">
+          <div className="luxora-top-strip h-10">
+            <div className="max-w-[90rem] mx-auto h-full px-8 md:px-12 lg:px-16 flex items-center justify-center">
+              <div className="flex items-center gap-4 lg:gap-6 luxora-top-strip-text font-medium">
+                {trustItems.map((item, index) => (
+                  <div key={item} className="flex items-center gap-4 lg:gap-6">
+                    <span>{item}</span>
+                    {index !== trustItems.length - 1 && <span className="text-white/20">|</span>}
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-
-          {/* CTA Button */}
-          <div className="hidden lg:flex items-center flex-shrink-0">
-            <a
-              href="#contact"
-              className={`px-8 py-3 text-[12px] tracking-[0.12em] uppercase font-semibold transition-all duration-300 ${
-                isScrolled
-                  ? 'bg-luxora-gold text-luxora-navy hover:bg-luxora-navy hover:text-luxora-gold shadow-[0_4px_12px_-4px_rgba(212,175,55,0.4)] hover:shadow-[0_6px_20px_-4px_rgba(212,175,55,0.3)]'
-                  : 'bg-luxora-gold text-luxora-navy hover:bg-white shadow-[0_4px_12px_-4px_rgba(212,175,55,0.4)]'
-              }`}
-            >
-              Book Consultation
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="lg:hidden flex flex-col gap-[5px] p-2 z-50 relative"
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block w-6 h-[1.5px] transition-all duration-300 ${
-                isScrolled && !isMobileOpen ? 'bg-luxora-navy' : 'bg-white'
-              } ${isMobileOpen ? 'rotate-45 translate-y-[6.5px]' : ''}`}
-            />
-            <span
-              className={`block w-6 h-[1.5px] transition-all duration-300 ${
-                isScrolled && !isMobileOpen ? 'bg-luxora-navy' : 'bg-white'
-              } ${isMobileOpen ? 'opacity-0' : ''}`}
-            />
-            <span
-              className={`block w-6 h-[1.5px] transition-all duration-300 ${
-                isScrolled && !isMobileOpen ? 'bg-luxora-navy' : 'bg-white'
-              } ${isMobileOpen ? '-rotate-45 -translate-y-[6.5px]' : ''}`}
-            />
-          </button>
         </div>
 
-        {/* Mega Menu Dropdown */}
-        <div
-          onMouseEnter={() => activeMegaMenu && handleMouseEnter(activeMegaMenu)}
-          onMouseLeave={handleMouseLeave}
-          className={`absolute top-full left-1/2 -translate-x-1/2 mt-0 bg-[#faf8f5] shadow-[0_24px_80px_-16px_rgba(10,31,68,0.3),0_8px_24px_-8px_rgba(10,31,68,0.12)] border border-black/[0.06] transition-all duration-400 ${
-            activeItem
-              ? 'opacity-100 visible translate-y-0'
-              : 'opacity-0 invisible translate-y-3 pointer-events-none'
-          }`}
-          style={{ maxWidth: '1280px', width: 'calc(100vw - 80px)', minHeight: '400px' }}
-        >
-          {/* Gold accent top border */}
-          <div className="h-[3px] w-full bg-gradient-to-r from-luxora-gold via-luxora-gold/80 to-luxora-gold" />
+        <div className="fixed top-0 left-0 right-0 z-[70] md:hidden">
+          <div className="luxora-top-strip h-9">
+            <div
+              className="h-full px-3 flex items-center justify-center"
+              onTouchStart={(e) => {
+                touchStartX.current = e.touches[0]?.clientX ?? null;
+              }}
+              onTouchEnd={(e) => {
+                if (touchStartX.current === null) return;
+                const delta = e.changedTouches[0]?.clientX - touchStartX.current;
+                if (delta > 40) prevNotice();
+                if (delta < -40) nextNotice();
+                touchStartX.current = null;
+              }}
+            >
+              <div className="luxora-mobile-strip">
+                <button
+                  type="button"
+                  onClick={prevNotice}
+                  className="luxora-mobile-strip-btn luxora-focus"
+                  aria-label="Previous notification"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
 
-          {activeItem && (
-            <div className="grid grid-cols-[1fr_1fr_1fr_400px] min-h-[400px] max-h-[calc(100vh-120px)] overflow-y-auto">
-              {/* Navigation Columns */}
-              {[0, 1, 2].map((colIndex) => {
-                const column = activeItem.columns[colIndex];
-                if (!column) {
-                  const sourceCol = activeItem.columns[0];
+                <div className="luxora-mobile-strip-center">
+                  <div key={mobileNoticeIndex} className="luxora-top-strip-text font-medium luxora-mobile-strip-slide">
+                    {trustItems[mobileNoticeIndex]}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={nextNotice}
+                  className="luxora-mobile-strip-btn luxora-focus"
+                  aria-label="Next notification"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 6l6 6-6 6" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`luxora-mega-backdrop fixed inset-0 z-40 hidden lg:block transition-all duration-300 ${
+            activeMegaMenu ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          }`}
+        />
+
+        <nav
+          ref={navRef}
+          className={`fixed left-0 right-0 z-[65] transition-[background-color,box-shadow,height,transform] duration-300 ${
+            isMobileOpen
+              ? 'top-9 md:top-10 luxora-nav-solid'
+              : `top-9 md:top-10 ${isScrolled ? 'luxora-nav-solid' : 'luxora-nav-transparent'}`
+          }`}
+        >
+          <div className="max-w-[90rem] mx-auto px-5 sm:px-6 md:px-12 lg:px-16">
+            <div
+              className={`flex items-center justify-between transition-[height,padding,opacity] duration-300 ${
+                isMobileOpen
+                  ? 'h-[64px] md:h-[80px]'
+                  : isScrolled
+                    ? 'h-[64px] md:h-[80px]'
+                    : 'h-[72px] md:h-[92px]'
+              }`}
+            >
+              <a
+                href={prefixHref('#home')}
+                className={`flex-shrink-0 luxora-focus transition-opacity duration-300 ${
+                  isMobileOpen ? 'opacity-100' : 'opacity-100'
+                }`}
+                onClick={closeAll}
+              >
+                <Image
+                  src="/logo.png"
+                  alt="Luxora"
+                  width={220}
+                  height={60}
+                  priority
+                  className={`transition-all duration-500 ${
+                    isScrolled || isMobileOpen ? 'brightness-100' : 'brightness-0 invert'
+                  }`}
+                  style={{ height: 'auto', width: 'auto', maxWidth: '176px', maxHeight: '46px' }}
+                />
+              </a>
+
+              <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+                {megaMenuData.map((item) => {
+                  const isActive = activeMegaMenu === item.label;
                   return (
                     <div
-                      key={`placeholder-${colIndex}`}
-                      className="px-10 py-10 border-r border-black/[0.04]"
+                      key={item.label}
+                      className="relative"
+                      onMouseEnter={() => openMenu(item.label)}
+                      onMouseLeave={scheduleClose}
                     >
-                      <div className="text-[10px] tracking-[0.2em] uppercase text-luxora-gold font-semibold mb-6">
-                        <span className="inline-block w-5 h-px bg-luxora-gold/50 align-middle mr-2" />
-                        Quick Links
+                      <button
+                        type="button"
+                        aria-expanded={isActive}
+                        aria-controls={`mega-menu-${item.label}`}
+                        onClick={() => setActiveMegaMenu((prev) => (prev === item.label ? null : item.label))}
+                        data-active={isActive ? 'true' : 'false'}
+                        className={`luxora-nav-link luxora-focus flex items-center gap-1.5 px-4 xl:px-5 py-3 ${
+                          isScrolled ? 'text-luxora-navy/75 hover:text-luxora-navy' : 'text-white/85 hover:text-white'
+                        } ${isActive ? (isScrolled ? 'text-luxora-navy' : 'text-white') : ''}`}
+                      >
+                        <span>{item.label}</span>
+                        <svg
+                          className={`w-3 h-3 transition-all duration-300 ${isActive ? 'rotate-180 text-luxora-gold' : ''}`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="hidden lg:flex items-center">
+                <a
+                  href={prefixHref('#contact')}
+                  onClick={closeAll}
+                  className="luxora-cta luxora-focus inline-flex items-center justify-center px-7 xl:px-8 h-11 text-[11px] xl:text-[12px] tracking-[0.14em] uppercase font-semibold"
+                >
+                  Book Consultation
+                </a>
+              </div>
+
+              <button
+                type="button"
+                aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMobileOpen}
+                onClick={() => {
+                  if (isMobileOpen) closeAll();
+                  else {
+                    setIsMobileOpen(true);
+                    setActiveMegaMenu(null);
+                  }
+                }}
+                className="lg:hidden relative z-[80] w-11 h-11 flex items-center justify-center luxora-focus"
+              >
+                <span className="sr-only">{isMobileOpen ? 'Close menu' : 'Open menu'}</span>
+                <div className="relative w-6 h-5">
+                  <span
+                    className={`luxora-hamburger-line absolute left-0 top-0 block h-[1.5px] w-6 ${
+                      isScrolled || isMobileOpen ? 'bg-luxora-navy' : 'bg-white'
+                    } ${isMobileOpen ? 'translate-y-[9px] rotate-45' : ''}`}
+                  />
+                  <span
+                    className={`luxora-hamburger-line absolute left-0 top-[9px] block h-[1.5px] w-6 ${
+                      isScrolled || isMobileOpen ? 'bg-luxora-navy' : 'bg-white'
+                    } ${isMobileOpen ? 'opacity-0' : ''}`}
+                  />
+                  <span
+                    className={`luxora-hamburger-line absolute left-0 top-[18px] block h-[1.5px] w-6 ${
+                      isScrolled || isMobileOpen ? 'bg-luxora-navy' : 'bg-white'
+                    } ${isMobileOpen ? '-translate-y-[9px] -rotate-45' : ''}`}
+                  />
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div
+            id={activeItem ? `mega-menu-${activeItem.label}` : undefined}
+            onMouseEnter={clearCloseTimer}
+            onMouseLeave={scheduleClose}
+            className={`absolute top-full left-1/2 -translate-x-1/2 hidden lg:block transition-all duration-300 ${
+              activeItem ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2 pointer-events-none'
+            }`}
+            style={{ width: 'min(1280px, calc(100vw - 64px))' }}
+          >
+            <div className="luxora-mega-panel overflow-hidden">
+              <div className="luxora-mega-topline" />
+              {activeItem && (
+                <div className="grid grid-cols-[1fr_1fr_1fr_360px] min-h-[390px]">
+                  {activeItem.columns.map((column) => (
+                    <div key={column.title} className="luxora-mega-column px-9 py-9">
+                      <div className="luxora-mega-label mb-6 flex items-center gap-3">
+                        <span className="w-5 h-px bg-luxora-gold/60" />
+                        {column.title}
                       </div>
                       <ul className="space-y-1">
-                        {sourceCol && sourceCol.links.slice(0, 4).map((link) => (
+                        {column.links.map((link) => (
                           <li key={link.label}>
                             <a
-                              href={link.href}
-                              className="group flex items-center gap-3 py-2.5 px-3 -mx-3 rounded-sm transition-all duration-250 hover:bg-white/80"
+                              href={prefixHref(link.href)}
+                              onClick={closeAll}
+                              className="group block px-3 py-3 -mx-3 luxora-focus rounded-sm transition-colors duration-150 hover:bg-white/70"
                             >
-                              <span className="w-0 h-[2px] bg-luxora-gold transition-all duration-250 group-hover:w-3" />
-                              <span className="text-[13px] text-luxora-navy/70 group-hover:text-luxora-navy transition-all duration-250 group-hover:translate-x-1 leading-tight">
-                                {link.label}
-                              </span>
+                              <div className="flex items-center gap-3">
+                                <span className="w-0 group-hover:w-3 h-px bg-luxora-gold transition-all duration-200" />
+                                <span className="text-[13px] font-medium text-luxora-navy/80 group-hover:text-luxora-navy transition-colors duration-150">
+                                  {link.label}
+                                </span>
+                              </div>
+                              {link.description && (
+                                <p className="mt-1 ml-6 text-[11px] leading-relaxed text-luxora-navy/45">
+                                  {link.description}
+                                </p>
+                              )}
                             </a>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  );
-                }
-                return (
-                  <div
-                    key={column.title}
-                    className="px-10 py-10 border-r border-black/[0.04] bg-white/40"
-                  >
-                    {/* Gold overline + category title */}
-                    <div className="text-[10px] tracking-[0.2em] uppercase text-luxora-gold font-semibold mb-6">
-                      <span className="inline-block w-5 h-px bg-luxora-gold/50 align-middle mr-2" />
-                      {column.title}
-                    </div>
-                    <ul className="space-y-1">
-                      {column.links.map((link) => (
-                        <li key={link.label}>
-                          <a
-                            href={link.href}
-                            className="group flex flex-col py-2.5 px-3 -mx-3 rounded-sm transition-all duration-250 hover:bg-white/80"
-                          >
-                            <span className="flex items-center gap-3">
-                              <span className="w-0 h-[2px] bg-luxora-gold transition-all duration-250 group-hover:w-3" />
-                              <span className="text-[13px] text-luxora-navy/70 group-hover:text-luxora-navy group-hover:translate-x-1 transition-all duration-250 font-medium leading-tight">
-                                {link.label}
-                              </span>
-                            </span>
-                            {link.description && (
-                              <span className="text-[11px] text-luxora-navy/35 mt-0.5 ml-6 font-light leading-relaxed">
-                                {link.description}
-                              </span>
-                            )}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })}
+                  ))}
 
-              {/* Featured Project Card (4th column) — luxury showcase */}
-              {activeItem.featured && (
-                <div className="bg-white border-l border-black/[0.06] p-0 relative overflow-hidden group/card">
-                  <a href={activeItem.featured.href} className="block h-full flex flex-col">
-                    {/* Image — larger, more prominent */}
-                    <div className="relative overflow-hidden h-[280px] flex-shrink-0">
-                      <img
-                        src={activeItem.featured.image}
-                        alt={activeItem.featured.title}
-                        loading="lazy"
-                        onError={handleImageError}
-                        className="w-full h-full object-cover transition-all duration-700 ease-out group-hover/card:scale-105"
-                      />
-                      {/* Gradient overlay — deeper for better text contrast */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                      {/* Featured badge */}
-                      <div className="absolute top-4 left-4 bg-luxora-gold text-luxora-navy text-[9px] tracking-[0.15em] uppercase font-semibold px-3 py-1.5">
-                        Featured
-                      </div>
-                    </div>
-
-                    {/* Content — more breathing room */}
-                    <div className="px-7 pt-6 pb-8 flex flex-col flex-1">
-                      {/* Gold accent line */}
-                      <div className="w-12 h-[2px] bg-luxora-gold mb-5" />
-
-                      <h3 className="font-playfair text-[17px] leading-snug text-luxora-navy group-hover/card:text-luxora-gold transition-colors duration-300 mb-3">
-                        {activeItem.featured.title}
-                      </h3>
-
-                      <p className="text-[12px] text-luxora-navy/50 leading-relaxed font-light mb-auto">
-                        {activeItem.featured.description}
-                      </p>
-
-                      <div className="flex items-center gap-2 text-[10px] tracking-[0.15em] uppercase text-luxora-gold font-semibold transition-all duration-300 group-hover/card:gap-4 mt-5">
-                        <span>Explore Project</span>
-                        <svg
-                          className="w-3 h-3 transition-all duration-300 group-hover/card:translate-x-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </nav>
-
-      {/* Mobile Full-Screen Menu */}
-      <div
-        className={`fixed inset-0 z-40 bg-gradient-to-b from-luxora-navy via-luxora-navy to-[#0e2852] transition-all duration-500 lg:hidden ${
-          isMobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-        }`}
-      >
-        <div className="h-full overflow-y-auto pt-28 pb-12 px-8">
-          <div className="max-w-lg mx-auto space-y-2">
-            {megaMenuData.map((item) => (
-              <div key={item.label} className="border-b border-white/[0.06] last:border-b-0">
-                <button
-                  onClick={() =>
-                    setExpandedMobileItem(
-                      expandedMobileItem === item.label ? null : item.label
-                    )
-                  }
-                  className="w-full flex items-center justify-between py-5 text-left group"
-                >
-                  <span className="text-lg font-playfair text-white/90 tracking-wider group-hover:text-luxora-gold transition-colors duration-300">
-                    {item.label}
-                  </span>
-                  <svg
-                    className={`w-4 h-4 text-luxora-gold/70 transition-all duration-300 ${
-                      expandedMobileItem === item.label ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-
-                <div
-                  className={`overflow-hidden transition-all duration-400 ${
-                    expandedMobileItem === item.label
-                      ? 'max-h-[800px] opacity-100 pb-6'
-                      : 'max-h-0 opacity-0'
-                  }`}
-                >
-                  <div className="space-y-6">
-                    {item.columns.map((column) => (
-                      <div key={column.title} className="pl-3 border-l border-luxora-gold/20">
-                        <div className="text-[10px] tracking-[0.2em] uppercase text-luxora-gold/80 font-semibold mb-3 flex items-center gap-2">
-                          <span className="w-3 h-px bg-luxora-gold/40" />
-                          {column.title}
+                  {activeItem.featured && (
+                    <div className="luxora-feature-card flex flex-col">
+                      <a href={prefixHref(activeItem.featured.href)} onClick={closeAll} className="group block h-full luxora-focus">
+                        <div className="luxora-feature-image relative h-[235px]">
+                          <img
+                            src={activeItem.featured.image}
+                            alt={activeItem.featured.title}
+                            loading="lazy"
+                            onError={handleImageError}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute top-5 left-5 px-3 py-1.5 luxora-feature-chip">Featured</div>
                         </div>
-                        <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
-                          {column.links.map((link) => (
-                            <li key={link.label}>
-                              <a
-                                href={link.href}
-                                onClick={handleLinkClick}
-                                className="block py-1.5 group"
-                              >
-                                <span className="text-sm text-white/70 group-hover:text-luxora-gold transition-colors duration-200">
-                                  {link.label}
-                                </span>
-                                {link.description && (
-                                  <span className="block text-xs text-white/30 mt-0.5 font-light">
-                                    {link.description}
-                                  </span>
-                                )}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-
-                    {item.featured && (
-                      <a
-                        href={item.featured.href}
-                        onClick={handleLinkClick}
-                        className="block bg-white/[0.04] border border-white/[0.08] rounded-sm overflow-hidden mt-4 group hover:bg-white/[0.07] transition-all duration-300"
-                      >
-                        <div className="flex items-center gap-4 p-4">
-                          <div className="w-20 h-20 overflow-hidden flex-shrink-0 rounded-sm">
-                            <img
-                              src={item.featured.image}
-                              alt={item.featured.title}
-                              loading="lazy"
-                              onError={handleImageError}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-xs font-semibold text-white/90 group-hover:text-luxora-gold transition-colors leading-tight mb-1 font-playfair">
-                              {item.featured.title}
-                            </div>
-                            <div className="text-[10px] text-white/40 leading-relaxed mb-2">
-                              {item.featured.description}
-                            </div>
-                            <div className="text-[9px] tracking-[0.15em] uppercase text-luxora-gold/70 font-semibold">
-                              Explore →
-                            </div>
+                        <div className="p-7 flex flex-col h-[calc(100%-235px)]">
+                          <div className="w-12 h-px bg-luxora-gold mb-5" />
+                          <h3 className="font-playfair text-[18px] leading-snug text-luxora-navy mb-3">
+                            {activeItem.featured.title}
+                          </h3>
+                          <p className="text-[12px] leading-relaxed text-luxora-navy/48 font-light mb-auto">
+                            {activeItem.featured.description}
+                          </p>
+                          <div className="mt-6 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-luxora-gold font-semibold">
+                            <span>Explore Project</span>
+                            <svg
+                              className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 5l7 7-7 7" />
+                            </svg>
                           </div>
                         </div>
                       </a>
-                    )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
+
+        <div
+          className={`fixed inset-0 z-[75] lg:hidden transition-opacity duration-300 ${
+            isMobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          }`}
+          style={{ top: '36px' }}
+        >
+          <div className="absolute inset-0 bg-[rgba(8,18,38,0.18)]" onClick={closeAll} />
+
+          <div
+            className={`luxora-mobile-overlay absolute inset-x-0 top-[64px] bottom-0 transition-[transform,opacity] duration-300 ${
+              isMobileOpen ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
+            }`}
+          >
+            <div className="h-full overflow-y-auto">
+              <div className="luxora-mobile-panel-header px-5 sm:px-6 py-4">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-luxora-gold font-semibold">
+                  Menu
+                </p>
+              </div>
+
+              <div className="px-5 sm:px-6 pb-10">
+                <div className="space-y-1">
+                  {megaMenuData.map((item) => {
+                    const expanded = expandedMobileItem === item.label;
+                    return (
+                      <div key={item.label} className="luxora-mobile-section">
+                        <button
+                          type="button"
+                          aria-expanded={expanded}
+                          onClick={() => toggleMobileItem(item.label)}
+                          className={`w-full flex items-center justify-between gap-4 py-5 text-left luxora-focus transition-all duration-300 ${
+                            expanded
+                              ? 'bg-white/55 border-b border-luxora-gold/60'
+                              : 'bg-transparent border-b border-transparent'
+                          }`}
+                        >
+                          <span className="luxora-mobile-title font-playfair">{item.label}</span>
+                          <svg
+                            className={`w-4 h-4 text-luxora-gold transition-transform duration-300 ${
+                              expanded ? 'rotate-180' : ''
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+
+                        <div className="luxora-accordion" data-open={expanded ? 'true' : 'false'}>
+                          <div>
+                            <div className="pt-2 pb-6 space-y-6">
+                              {item.columns.map((column) => (
+                                <div key={column.title} className="pl-4 ml-1 border-l border-luxora-gold/15">
+                                  <div className="luxora-mega-label mb-3 flex items-center gap-2">
+                                    <span className="w-3 h-px bg-luxora-gold/50" />
+                                    {column.title}
+                                  </div>
+                                  <ul className="grid grid-cols-1 gap-y-2">
+                                    {column.links.map((link) => (
+                                      <li key={link.label}>
+                                        <a href={prefixHref(link.href)} onClick={closeAll} className="block py-2 luxora-focus group">
+                                          <span className="block text-[14px] text-luxora-navy/78 group-hover:text-luxora-navy transition-colors">
+                                            {link.label}
+                                          </span>
+                                          {link.description && (
+                                            <span className="block mt-0.5 text-[11px] text-luxora-navy/38 leading-relaxed">
+                                              {link.description}
+                                            </span>
+                                          )}
+                                        </a>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              ))}
+
+                              {item.featured && (
+                                <a
+                                  href={prefixHref(item.featured.href)}
+                                  onClick={closeAll}
+                                  className="luxora-mobile-feature block overflow-hidden luxora-focus rounded-[2px]"
+                                >
+                                  <div className="grid grid-cols-[92px_1fr]">
+                                    <div className="h-24 overflow-hidden">
+                                      <img
+                                        src={item.featured.image}
+                                        alt={item.featured.title}
+                                        loading="lazy"
+                                        onError={handleImageError}
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </div>
+                                    <div className="p-4">
+                                      <div className="text-[10px] uppercase tracking-[0.18em] text-luxora-gold font-semibold mb-2">
+                                        Featured
+                                      </div>
+                                      <div className="font-playfair text-[16px] text-luxora-navy mb-1 leading-snug">
+                                        {item.featured.title}
+                                      </div>
+                                      <div className="text-[11px] text-luxora-navy/45 leading-relaxed line-clamp-2">
+                                        {item.featured.description}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="pt-8 mt-8 border-t border-black/[0.06] space-y-4">
+                  <a
+                    href={prefixHref('#contact')}
+                    onClick={closeAll}
+                    className="luxora-mobile-cta luxora-focus inline-flex w-full items-center justify-center h-12 text-[12px] uppercase tracking-[0.14em] font-semibold"
+                  >
+                    Book Consultation
+                  </a>
+
+                  <div className="grid grid-cols-1 gap-3 text-[13px] text-luxora-navy/48">
+                    <a href="tel:+917339993930" className="hover:text-luxora-gold transition-colors luxora-focus">
+                      +91 7339993930
+                    </a>
+                    <a href="mailto:hello@luxora.in" className="hover:text-luxora-gold transition-colors luxora-focus">
+                      hello@luxora.in
+                    </a>
                   </div>
                 </div>
-              </div>
-            ))}
-
-            {/* Mobile CTA */}
-            <div className="pt-8">
-              <a
-                href="#contact"
-                onClick={handleLinkClick}
-                className="block w-full text-center px-8 py-4 bg-luxora-gold text-luxora-navy font-semibold text-sm tracking-[0.12em] uppercase hover:bg-white transition-all duration-300"
-              >
-                Book Consultation
-              </a>
-              <div className="mt-8 flex justify-center gap-8">
-                <a href="tel:+917339993930" className="text-sm text-white/40 hover:text-luxora-gold transition-colors duration-200">
-                  +91 7339993930
-                </a>
-                <a href="mailto:hello@luxora.com" className="text-sm text-white/40 hover:text-luxora-gold transition-colors duration-200">
-                  hello@luxora.in
-                </a>
               </div>
             </div>
           </div>
