@@ -47,7 +47,7 @@ export default function MinimalTestimonials() {
           {testimonials.map((testimonial, index) => (
             <div key={index} className="bg-white p-12 group hover:shadow-xl transition-all duration-500">
               {/* Quote Icon */}
-              <div className="text-4xl text-luxora-gold font-playfair font-light mb-8">"</div>
+              <div className="text-4xl text-luxora-gold font-playfair font-light mb-8">&quot;</div>
               
               {/* Quote */}
               <p className="text-xl text-luxora-charcoal font-inter font-light mb-10 leading-relaxed">

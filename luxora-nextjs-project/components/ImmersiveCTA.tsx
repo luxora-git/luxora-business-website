@@ -27,7 +27,7 @@ export default function ImmersiveCTA() {
       <div className="relative z-10 h-full flex flex-col justify-center items-center px-8 md:px-16 lg:px-24">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-playfair font-light text-white mb-8">
-            Let's Create
+            Let&apos;s Create
             <br />
             <span className="text-luxora-gold">Something</span> Extraordinary
           </h2>

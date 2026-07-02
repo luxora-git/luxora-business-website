@@ -1,0 +1,16 @@
+{
+  "name": "Luxora Interiors",
+  "short_name": "Luxora",
+  "description": "Premium interior design consultancy and architectural solutions tailored to your vision.",
+  "start_url": "/luxury-v4",
+  "display": "standalone",
+  "background_color": "#F5F0E6",
+  "theme_color": "#0A1F44",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

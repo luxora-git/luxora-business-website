@@ -53,8 +53,18 @@ const config: Config = {
         'scale-in': 'scaleIn 0.6s ease-in-out',
         'hover-grow': 'hoverGrow 0.3s ease-in-out',
         'hover-gold': 'hoverGold 0.3s ease-in-out',
+        'gallery-shimmer': 'galleryShimmer 1.8s ease-in-out infinite',
+        'gallery-ken-burns': 'galleryKenBurns 26s ease-in-out infinite alternate',
       },
       keyframes: {
+        galleryShimmer: {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
+        galleryKenBurns: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.08)' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

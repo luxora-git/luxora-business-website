@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { luxoraStats } from '@/lib/content/global/stats';
 
 interface Slide {
   image: string;
@@ -37,13 +38,13 @@ const slides: Slide[] = [
   },
 ];
 
-const trustItems = ['Free Site Visit', '3D Design Preview', 'Transparent Pricing', '10 Year Warranty'];
+const trustItems = [luxoraStats.freeSiteVisitLabel, '3D Design Preview', 'Transparent Pricing', `${luxoraStats.warrantyYears} Year Warranty`];
 
 const statCards = [
-  { value: '500+', label: 'Homes Delivered' },
-  { value: '4.9', label: 'Client Rating' },
+  { value: luxoraStats.homesDelivered, label: 'Homes Delivered' },
+  { value: `${luxoraStats.clientRating}`, label: 'Client Rating' },
   { value: 'ZERO', label: 'Hidden Costs' },
-  { value: '45', label: 'Day Avg. Delivery' },
+  { value: luxoraStats.avgDeliveryDays, label: 'Day Avg. Delivery' },
 ];
 
 export default function HeroSection() {

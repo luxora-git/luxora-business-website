@@ -1,35 +1,37 @@
 'use client';
 
+import { luxoraDesignCountsByRoom } from '@/lib/content/global/stats';
+
 const rooms = [
   {
     name: 'Living Room',
     image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=800&q=85',
-    count: '1,200+ Designs',
+    count: `${luxoraDesignCountsByRoom.livingRooms} Designs`,
   },
   {
     name: 'Bedroom',
     image: 'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=800&q=85',
-    count: '900+ Designs',
+    count: `${luxoraDesignCountsByRoom.bedrooms} Designs`,
   },
   {
     name: 'Kitchen',
     image: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&q=85',
-    count: '800+ Designs',
+    count: `${luxoraDesignCountsByRoom.kitchens} Designs`,
   },
   {
     name: 'Bathroom',
     image: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&q=85',
-    count: '700+ Designs',
+    count: `${luxoraDesignCountsByRoom.bathrooms} Designs`,
   },
   {
     name: 'Wardrobe',
     image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800&q=85',
-    count: '600+ Designs',
+    count: `${luxoraDesignCountsByRoom.wardrobes} Designs`,
   },
   {
     name: 'Home Office',
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85',
-    count: '400+ Designs',
+    count: `${luxoraDesignCountsByRoom.homeOffices} Designs`,
   },
 ];
 

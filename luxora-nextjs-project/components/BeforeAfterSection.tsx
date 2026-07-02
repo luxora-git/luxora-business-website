@@ -214,6 +214,7 @@ export default function BeforeAfterSection() {
                 {/* After image */}
                 <div className="absolute inset-0">
                   <Image
+                    key={`after-${currentTransform.id}`}
                     src={currentTransform.after}
                     alt={`${currentTransform.title} after renovation`}
                     fill
@@ -239,6 +240,7 @@ export default function BeforeAfterSection() {
                   style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
                 >
                   <Image
+                    key={`before-${currentTransform.id}`}
                     src={currentTransform.before}
                     alt={`${currentTransform.title} before renovation`}
                     fill

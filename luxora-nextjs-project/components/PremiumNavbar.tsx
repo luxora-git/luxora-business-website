@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { luxoraStats } from '@/lib/content/global/stats';
 
 interface MegaMenuItem {
   label: string;
@@ -23,10 +24,10 @@ const FALLBACK_IMAGE =
   'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"%3E%3Crect fill="%23f3efe8" width="600" height="400"/%3E%3Ctext fill="%239a9183" font-family="serif" font-size="18" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ELuxora Design%3C/text%3E%3C/svg%3E';
 
 const trustItems = [
-  'Free Site Visit',
+  luxoraStats.freeSiteVisitLabel,
   '3D Design Preview',
   'Transparent Pricing',
-  '10 Year Warranty',
+  `${luxoraStats.warrantyYears} Year Warranty`,
 ];
 
 const megaMenuData: MegaMenuItem[] = [
@@ -169,7 +170,7 @@ const megaMenuData: MegaMenuItem[] = [
     ],
     featured: {
       title: 'Portfolio Overview',
-      description: '500+ spaces delivered across India, each one a story waiting to be told.',
+      description: `${luxoraStats.homesDelivered} spaces delivered across India, each one a story waiting to be told.`,
       image:
         'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
       href: '#projects',
@@ -258,6 +259,7 @@ export default function PremiumNavbar() {
   const pathname = usePathname();
   const isV2 = pathname.startsWith('/luxury-v2');
   const isV3 = pathname.startsWith('/luxury-v3');
+  const isV4 = pathname.startsWith('/luxury-v4');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
@@ -388,6 +390,8 @@ export default function PremiumNavbar() {
   };
 
   const prevNotice = () => setMobileNoticeIndex((prev) => (prev - 1 + trustItems.length) % trustItems.length);
+
+  if (isV4) return null;
 
   return (
     <>
