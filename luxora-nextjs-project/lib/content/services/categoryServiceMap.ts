@@ -16,5 +16,5 @@ export const categoryToServiceSlug: Record<string, string> = {
 
 export function getServiceHrefForCategory(categorySlug: string): string | null {
   const slug = categoryToServiceSlug[categorySlug];
-  return slug ? `/luxury-v4/services/${slug}` : null;
+  return slug ? `/services/${slug}` : null;
 }

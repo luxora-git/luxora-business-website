@@ -44,7 +44,7 @@ export default function ServiceLitePage({ data }: { data: ServiceLiteData }) {
         relatedTitle: 'Related Services',
         relatedLinks: relatedServices.slice(0, 4).map((s) => ({
           label: s.title,
-          href: `/luxury-v4/services/${s.slug}`,
+          href: `/services/${s.slug}`,
         })),
       },
     });
@@ -59,7 +59,7 @@ export default function ServiceLitePage({ data }: { data: ServiceLiteData }) {
         description={data.overview}
         image={data.heroImage.url}
         imageAlt={data.heroImage.alt}
-        breadcrumbItems={[{ label: 'Home', href: '/luxury-v4' }, { label: 'Services', href: '/luxury-v4/services/full-home-interior-design' }, { label: data.title }]}
+        breadcrumbItems={[{ label: 'Home', href: '/' }, { label: 'Services', href: '/services/full-home-interior-design' }, { label: data.title }]}
       />
 
       {/* Overview */}
@@ -99,7 +99,7 @@ export default function ServiceLitePage({ data }: { data: ServiceLiteData }) {
         <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
           <GallerySectionHeader eyebrow="Real Work" title="Recent" titleItalic="Designs" />
           {category && (
-            <Link href={`/luxury-v4/gallery/${category.slug}`} className="text-[11px] font-bold tracking-[0.1em] uppercase flex-shrink-0" style={{ color: luxoraColors.gold }}>
+            <Link href={`/gallery/${category.slug}`} className="text-[11px] font-bold tracking-[0.1em] uppercase flex-shrink-0" style={{ color: luxoraColors.gold }}>
               View All in Gallery →
             </Link>
           )}
@@ -125,7 +125,7 @@ export default function ServiceLitePage({ data }: { data: ServiceLiteData }) {
           <GallerySectionHeader eyebrow="Proof of Execution" title="See It" titleItalic="Completed" description="Real Luxora clients who chose this exact service." className="mb-10" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedPortfolio.map((project) => (
-              <Link key={project.slug} href={`/luxury-v4/portfolio/${project.slug}`} className="group relative rounded-2xl overflow-hidden aspect-[4/5] block border" style={{ borderColor: 'rgba(160,120,80,0.16)' }}>
+              <Link key={project.slug} href={`/portfolio/${project.slug}`} className="group relative rounded-2xl overflow-hidden aspect-[4/5] block border" style={{ borderColor: 'rgba(160,120,80,0.16)' }}>
                 <Image src={project.heroImage.url} alt={project.heroImage.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(44,31,20,0.85) 0%, transparent 55%)' }} />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -160,7 +160,7 @@ export default function ServiceLitePage({ data }: { data: ServiceLiteData }) {
             number: String(i + 1).padStart(2, '0'),
             title: s.title,
             description: s.description,
-            href: `/luxury-v4/services/${s.slug}`,
+            href: `/services/${s.slug}`,
           })),
         }}
       />

@@ -3,7 +3,7 @@ import { BUDGET_BUCKETS } from '@/lib/content/gallery/facets';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 
 export interface GalleryBudgetChipRowProps {
-  /** Base URL of the gallery page (e.g. `/luxury-v4/gallery`). */
+  /** Base URL of the gallery page (e.g. `/gallery`). */
   baseUrl: string;
   className?: string;
 }

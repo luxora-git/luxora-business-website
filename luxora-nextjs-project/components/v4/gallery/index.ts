@@ -40,7 +40,7 @@ export { default as GalleryMetaDot } from './GalleryMetaDot';
  * Everything above this line is the legacy, flat Phase-1 component set
  * (`GalleryHero`, `GalleryCard`, `GalleryGrid`, `GallerySearchBar`,
  * `GalleryFilterBar`, `GalleryEmptyState`, …) — it powers the live
- * `/luxury-v4/gallery` routes today and is untouched. Image viewing no
+ * `/gallery` routes today and is untouched. Image viewing no
  * longer lives here: every clickable image sitewide (including Gallery)
  * opens the single global `PremiumLightbox` via `useLightbox()` from
  * `components/v4/lightbox` — there is no per-page lightbox anymore.

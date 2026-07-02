@@ -13,7 +13,7 @@ export interface ServicePageShellProps {
  * ServicePageShell — the chrome every service page shares with the
  * homepage: the same floating navbar, the same smooth-scroll behaviour,
  * the same page-mount fade-in, and the same footer. Mirrors the wrapper in
- * app/luxury-v4/page.tsx exactly so service pages feel like a natural
+ * app/page.tsx exactly so service pages feel like a natural
  * extension of the homepage rather than a different site.
  */
 export default function ServicePageShell({ children }: ServicePageShellProps) {

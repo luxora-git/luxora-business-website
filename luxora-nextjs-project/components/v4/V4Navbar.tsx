@@ -23,11 +23,11 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Design Gallery', menu: galleryMenu, href: '/luxury-v4/gallery' },
-  { label: 'Interior Elements', menu: elementsMenu, href: '/luxury-v4/elements' },
-  { label: 'Services', menu: servicesMenu, href: '/luxury-v4/services/full-home-interior-design' },
-  { label: 'Products', menu: productsMenu, href: '/luxury-v4/products' },
-  { label: 'Portfolio', menu: portfolioMenu, href: '/luxury-v4/portfolio' },
+  { label: 'Design Gallery', menu: galleryMenu, href: '/gallery' },
+  { label: 'Interior Elements', menu: elementsMenu, href: '/elements' },
+  { label: 'Services', menu: servicesMenu, href: '/services/full-home-interior-design' },
+  { label: 'Products', menu: productsMenu, href: '/products' },
+  { label: 'Portfolio', menu: portfolioMenu, href: '/portfolio' },
   { label: 'Price Calculator', href: luxoraPriceCalculatorUrl, external: true },
 ];
 
@@ -82,7 +82,7 @@ export default function V4Navbar() {
             }}
           >
             {/* Logo */}
-            <Link href="/luxury-v4" className="flex-shrink-0" style={{ width: '148px' }}>
+            <Link href="/" className="flex-shrink-0" style={{ width: '148px' }}>
               <Image
                 src="/logo.png"
                 alt="Luxora"

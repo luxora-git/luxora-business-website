@@ -6,7 +6,7 @@
 The project has multiple homepage versions (v1, v2, v3, v4, etc.). You must ONLY touch V4 files.
 
 ### Files you are ALLOWED to modify or create:
-- `app/(routes)/luxury-v4/` — the V4 page route and its files
+- `app/(routes)/` — the V4 page route and its files
 - `components/sections/v4/` — V4-specific section components (create this folder if it doesn't exist)
 - `components/ui/v4/` — V4-specific UI components like BotanicalDecor, SectionHeader (create if needed)
 - Any file that has `v4` in its path or filename
@@ -24,7 +24,7 @@ The project has multiple homepage versions (v1, v2, v3, v4, etc.). You must ONLY
 Instead of editing `globals.css`, add all V4-specific CSS inside the V4 page or a V4-scoped stylesheet:
 
 ```tsx
-// At the top of app/(routes)/luxury-v4/page.tsx or in a v4-specific layout:
+// At the top of app/(routes)/page.tsx or in a v4-specific layout:
 // Use a <style> tag or a V4-scoped CSS module
 
 // Option A — inline style tag in the V4 page component:
@@ -41,13 +41,13 @@ Instead of editing `globals.css`, add all V4-specific CSS inside the V4 page or 
 ```
 
 ```tsx
-// Option B — create app/(routes)/luxury-v4/v4.css (new file, V4 only):
+// Option B — create app/(routes)/v4.css (new file, V4 only):
 // Import it only inside the V4 page/layout file.
 // Do NOT import it in globals.css or root layout.
 ```
 
 ### For Google Fonts in V4:
-Do NOT add fonts to the root `layout.tsx`. Instead add a `<Head>` or `<link>` tag only inside the V4 page or its local layout file (`app/(routes)/luxury-v4/layout.tsx` — create if needed).
+Do NOT add fonts to the root `layout.tsx`. Instead add a `<Head>` or `<link>` tag only inside the V4 page or its local layout file (`app/(routes)/layout.tsx` — create if needed).
 
 ### Verification before each file edit:
 Before editing ANY file, ask yourself:
@@ -69,7 +69,7 @@ Before editing ANY file, ask yourself:
 
 ### 1A. Create V4-scoped CSS file
 
-**Create NEW file:** `app/(routes)/luxury-v4/v4.module.css`
+**Create NEW file:** `app/(routes)/v4.module.css`
 (Do NOT edit globals.css)
 
 ```css
@@ -106,7 +106,7 @@ Before editing ANY file, ask yourself:
 
 ### 1B. Wrap V4 page with the scoped class
 
-**Edit ONLY:** `app/(routes)/luxury-v4/page.tsx`
+**Edit ONLY:** `app/(routes)/page.tsx`
 
 ```tsx
 import styles from './v4.module.css';
@@ -122,7 +122,7 @@ export default function LuxuryV4Page() {
 
 ### 1C. Add Google Fonts to V4-only layout
 
-**Create NEW file:** `app/(routes)/luxury-v4/layout.tsx`
+**Create NEW file:** `app/(routes)/layout.tsx`
 (If it already exists, edit ONLY that file — do NOT touch root layout.tsx)
 
 ```tsx
@@ -1247,8 +1247,8 @@ After implementing all sections, verify these items:
 ## IMPORTANT IMPLEMENTATION ORDER
 
 ```
-1. app/(routes)/luxury-v4/v4.module.css        ← NEW file (V4 CSS variables)
-2. app/(routes)/luxury-v4/layout.tsx           ← NEW or edit V4-only layout (fonts)
+1. app/(routes)/v4.module.css        ← NEW file (V4 CSS variables)
+2. app/(routes)/layout.tsx           ← NEW or edit V4-only layout (fonts)
 3. components/ui/v4/BotanicalDecor.tsx         ← NEW component
 4. components/ui/v4/SectionHeader.tsx          ← NEW component
 5. components/sections/v4/ServicesSection.tsx  ← NEW component
@@ -1260,7 +1260,7 @@ After implementing all sections, verify these items:
 11. components/sections/v4/SmartHomeSection.tsx   ← NEW component
 12. components/sections/v4/RealHomesSection.tsx   ← NEW component
 13. components/sections/v4/Footer.tsx             ← NEW component
-14. app/(routes)/luxury-v4/page.tsx           ← EDIT: import all new V4 sections
+14. app/(routes)/page.tsx           ← EDIT: import all new V4 sections
 ```
 
 Implement ONE section at a time, verify visually, then move to next.

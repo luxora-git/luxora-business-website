@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://luxora.in/luxury-v4/sitemap
+Sitemap: https://luxora.in/sitemap.xml

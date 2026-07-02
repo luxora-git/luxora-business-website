@@ -259,7 +259,7 @@ export default function PremiumNavbar() {
   const pathname = usePathname();
   const isV2 = pathname.startsWith('/luxury-v2');
   const isV3 = pathname.startsWith('/luxury-v3');
-  const isV4 = pathname.startsWith('/luxury-v4');
+  const isV4 = pathname.startsWith('/');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);

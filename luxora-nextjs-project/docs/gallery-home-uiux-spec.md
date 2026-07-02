@@ -1,4 +1,4 @@
-# Luxora Design Gallery — Gallery Home (`/luxury-v4/gallery`) UI/UX Specification
+# Luxora Design Gallery — Gallery Home (`/gallery`) UI/UX Specification
 
 Status: **Implementation blueprint.** No JSX, no React, no Tailwind, no code in this document.
 Builds on: [`design-gallery-architecture.md`](./design-gallery-architecture.md) (frozen — not modified by this document). Every data source, route, and taxonomy referenced below is defined there; this document is purely the *page-level UI/UX spec* for one route.

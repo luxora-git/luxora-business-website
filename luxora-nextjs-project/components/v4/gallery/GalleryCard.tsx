@@ -34,7 +34,7 @@ function CardArrow() {
  * Phase 1: `standard` (grid tile) and `featured` (large hero-style card).
  */
 export default function GalleryCard({ project, variant = 'standard' }: GalleryCardProps) {
-  const href = `/luxury-v4/gallery/${project.category}/${project.slug}`;
+  const href = `/gallery/${project.category}/${project.slug}`;
 
   if (variant === 'featured') {
     // Deliberately just two fields — style and room type. No budget,

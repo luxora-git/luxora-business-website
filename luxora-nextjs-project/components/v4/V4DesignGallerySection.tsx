@@ -53,7 +53,7 @@ function GalleryCard({
 }) {
   return (
     <Link
-      href={`/luxury-v4/gallery/${category}`}
+      href={`/gallery/${category}`}
       className={`group relative flex flex-col overflow-hidden rounded-[18px] border border-[rgba(160,120,80,0.14)] shadow-[0_8px_28px_rgba(60,35,16,0.07)] cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(60,35,16,0.12)] ${className}`}
       style={{ background: '#F9F3EA' }}
     >

@@ -27,21 +27,21 @@ const EXTERNAL_HREFS: Record<string, string> = {
 
 /** Every other footer link label mapped to its real internal page. */
 const INTERNAL_HREFS: Record<string, string> = {
-  'About Us': '/luxury-v4/about-us',
-  'Contact Us': '/luxury-v4/contact-us',
-  'Careers': '/luxury-v4/careers',
-  'Privacy Policy': '/luxury-v4/privacy-policy',
-  'Terms & Conditions': '/luxury-v4/terms-conditions',
-  'Disclaimer': '/luxury-v4/disclaimer',
-  'Refund Policy': '/luxury-v4/refund-policy',
-  'Cancellation Policy': '/luxury-v4/cancellation-policy',
-  'Shipping Policy': '/luxury-v4/shipping-policy',
-  'Sitemap': '/luxury-v4/sitemap',
-  'Design Gallery': '/luxury-v4/gallery',
-  'Interior Elements': '/luxury-v4/elements',
-  'Products': '/luxury-v4/products',
-  'Portfolio': '/luxury-v4/portfolio',
-  'Services': '/luxury-v4/services/full-home-interior-design',
+  'About Us': '/about-us',
+  'Contact Us': '/contact-us',
+  'Careers': '/careers',
+  'Privacy Policy': '/privacy-policy',
+  'Terms & Conditions': '/terms-conditions',
+  'Disclaimer': '/disclaimer',
+  'Refund Policy': '/refund-policy',
+  'Cancellation Policy': '/cancellation-policy',
+  'Shipping Policy': '/shipping-policy',
+  'Sitemap': '/sitemap',
+  'Design Gallery': '/gallery',
+  'Interior Elements': '/elements',
+  'Products': '/products',
+  'Portfolio': '/portfolio',
+  'Services': '/services/full-home-interior-design',
 };
 
 /** Mobile-only collapsible link column — desktop keeps the always-open columns below. */
@@ -91,7 +91,7 @@ function FooterAccordionSection({
 function FooterBrandColumn() {
   return (
     <div>
-      <Link href="/luxury-v4" className="inline-block mb-6">
+      <Link href="/" className="inline-block mb-6">
         <Image
           src="/logo.png"
           alt="Luxora"
@@ -191,7 +191,7 @@ function FooterLink({ label, openConsultationModal }: { label: string; openConsu
     );
   }
   return (
-    <Link href={INTERNAL_HREFS[label] ?? '/luxury-v4'} className={sharedClassName} style={sharedStyle}>
+    <Link href={INTERNAL_HREFS[label] ?? '/'} className={sharedClassName} style={sharedStyle}>
       {content}
     </Link>
   );
@@ -347,9 +347,9 @@ export default function V4FooterSection() {
             <span className="text-[11px] tracking-[0.08em]" style={{ color: '#C9A227' }}>✦</span>
           </div>
           <div className="flex gap-6 text-[11px] tracking-[0.10em]" style={{ color: '#9C7B68' }}>
-            <Link href="/luxury-v4/privacy-policy" className="hover:text-[#C9A227] transition-colors duration-200">Privacy</Link>
-            <Link href="/luxury-v4/terms-conditions" className="hover:text-[#C9A227] transition-colors duration-200">Terms</Link>
-            <Link href="/luxury-v4/sitemap" className="hover:text-[#C9A227] transition-colors duration-200">Sitemap</Link>
+            <Link href="/privacy-policy" className="hover:text-[#C9A227] transition-colors duration-200">Privacy</Link>
+            <Link href="/terms-conditions" className="hover:text-[#C9A227] transition-colors duration-200">Terms</Link>
+            <Link href="/sitemap" className="hover:text-[#C9A227] transition-colors duration-200">Sitemap</Link>
           </div>
         </div>
       </div>

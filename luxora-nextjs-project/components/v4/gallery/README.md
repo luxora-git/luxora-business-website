@@ -10,7 +10,7 @@ Image viewing does **not** live here in either generation — there was previous
 
 The bottom-of-page conversion CTA also does **not** live here — `GalleryConsultationCTA` (common/) and `GalleryCtaBand` (root) were both retired in favor of the single sitewide `GlobalClosingCTA` (`components/v4/common/GlobalClosingCTA`), the same closing section every page (Gallery, Portfolio, Services, Elements, Products, Homepage) renders immediately above the footer.
 
-**These power the live `/luxury-v4/gallery` routes today** (Gallery Home, Category pages, Detail pages — see `app/luxury-v4/gallery/`). They are tightly coupled to `lib/content/gallery/*` (`GalleryProject`, `GalleryFilterState`, etc.) and are **not modified or removed** by the new component library below.
+**These power the live `/gallery` routes today** (Gallery Home, Category pages, Detail pages — see `app/gallery/`). They are tightly coupled to `lib/content/gallery/*` (`GalleryProject`, `GalleryFilterState`, etc.) and are **not modified or removed** by the new component library below.
 
 ## 2. Gallery Component Library (v2) — subfolders
 

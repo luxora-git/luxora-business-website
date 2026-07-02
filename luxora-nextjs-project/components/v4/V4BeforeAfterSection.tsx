@@ -252,7 +252,7 @@ export default function V4BeforeAfterSection() {
                   {currentTransform.description}
                 </p>
                 <Link
-                  href={`/luxury-v4/portfolio/${currentTransform.slug}`}
+                  href={`/portfolio/${currentTransform.slug}`}
                   className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase pb-0.5 transition-colors duration-300 hover:text-[#C9A227]"
                   style={{ color: '#2C1F14', borderBottom: '1.5px solid rgba(201,162,39,0.4)' }}
                 >

@@ -301,7 +301,7 @@ export default function V4HeroSection() {
                   </svg>
                 </button>
                 <a
-                  href="/luxury-v4/gallery"
+                  href="/gallery"
                   className="inline-flex items-center justify-center px-9 py-4 rounded-full font-semibold text-[13px] tracking-[0.08em] uppercase transition-all duration-300 hover:bg-white/10 group"
                   style={{ color: '#FFFFFF', border: '1px solid rgba(201,162,39,0.50)' }}
                 >
@@ -370,7 +370,7 @@ export default function V4HeroSection() {
                     </svg>
                   </button>
                   <a
-                    href="/luxury-v4/gallery"
+                    href="/gallery"
                     className="inline-flex items-center justify-center px-8 py-4 rounded-full font-semibold text-[12px] tracking-[0.08em] uppercase transition-all duration-300 hover:bg-white/10 group"
                     style={{ color: '#FFFFFF', border: '1px solid rgba(201,162,39,0.45)' }}
                   >

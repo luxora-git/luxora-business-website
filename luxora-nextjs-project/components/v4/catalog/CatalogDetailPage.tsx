@@ -37,9 +37,9 @@ export default function CatalogDetailPage({ item, parentLabel, parentHref }: Cat
   const isProduct = parentLabel === 'Products';
 
   const relatedLinks = [
-    ...(service ? [{ label: `${service.title} Service`, sublabel: 'Service', href: `/luxury-v4/services/${service.slug}` }] : []),
-    ...(category ? [{ label: `${category.label} Gallery`, sublabel: 'Design Gallery', href: `/luxury-v4/gallery/${category.slug}` }] : []),
-    ...relatedPortfolio.map((p) => ({ label: p.title, sublabel: p.category, href: `/luxury-v4/portfolio/${p.slug}` })),
+    ...(service ? [{ label: `${service.title} Service`, sublabel: 'Service', href: `/services/${service.slug}` }] : []),
+    ...(category ? [{ label: `${category.label} Gallery`, sublabel: 'Design Gallery', href: `/gallery/${category.slug}` }] : []),
+    ...relatedPortfolio.map((p) => ({ label: p.title, sublabel: p.category, href: `/portfolio/${p.slug}` })),
   ].slice(0, 4);
 
   const showLightbox = (index: number) => {
@@ -69,7 +69,7 @@ export default function CatalogDetailPage({ item, parentLabel, parentHref }: Cat
         description={item.description}
         image={item.heroImage.url}
         imageAlt={item.heroImage.alt}
-        breadcrumbItems={[{ label: 'Home', href: '/luxury-v4' }, { label: parentLabel, href: parentHref }, { label: item.title }]}
+        breadcrumbItems={[{ label: 'Home', href: '/' }, { label: parentLabel, href: parentHref }, { label: item.title }]}
       />
 
       {/* Description + Highlights */}
@@ -95,7 +95,7 @@ export default function CatalogDetailPage({ item, parentLabel, parentHref }: Cat
         <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
           <GallerySectionHeader eyebrow="Real Work" title="Recent" titleItalic="Designs" />
           {category && (
-            <Link href={`/luxury-v4/gallery/${category.slug}`} className="text-[11px] font-bold tracking-[0.1em] uppercase flex-shrink-0" style={{ color: luxoraColors.gold }}>
+            <Link href={`/gallery/${category.slug}`} className="text-[11px] font-bold tracking-[0.1em] uppercase flex-shrink-0" style={{ color: luxoraColors.gold }}>
               View All in Gallery →
             </Link>
           )}
@@ -121,7 +121,7 @@ export default function CatalogDetailPage({ item, parentLabel, parentHref }: Cat
           <GallerySectionHeader eyebrow="Proof of Execution" title="See It" titleItalic="Completed" description="Real Luxora clients whose projects included this." className="mb-10" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedPortfolio.map((project) => (
-              <Link key={project.slug} href={`/luxury-v4/portfolio/${project.slug}`} className="group relative rounded-2xl overflow-hidden aspect-[4/5] block border" style={{ borderColor: 'rgba(160,120,80,0.16)' }}>
+              <Link key={project.slug} href={`/portfolio/${project.slug}`} className="group relative rounded-2xl overflow-hidden aspect-[4/5] block border" style={{ borderColor: 'rgba(160,120,80,0.16)' }}>
                 <Image src={project.heroImage.url} alt={project.heroImage.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(44,31,20,0.85) 0%, transparent 55%)' }} />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -141,7 +141,7 @@ export default function CatalogDetailPage({ item, parentLabel, parentHref }: Cat
             <p className="text-[14px] font-light text-center sm:text-left" style={{ color: luxoraColors.espresso }}>
               Want this delivered as part of a full project? See our {service.title} service.
             </p>
-            <Link href={`/luxury-v4/services/${service.slug}`} className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase flex-shrink-0" style={{ color: luxoraColors.gold }}>
+            <Link href={`/services/${service.slug}`} className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase flex-shrink-0" style={{ color: luxoraColors.gold }}>
               View Service →
             </Link>
           </div>

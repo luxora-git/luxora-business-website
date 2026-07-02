@@ -1,0 +1,9 @@
+.next
+node_modules
+.git
+
+app/luxury-v2/**
+app/luxury-v3/**
+
+components/v2/**
+components/v3/**

@@ -383,7 +383,7 @@ export const fullHomeInteriorDesign: ServicePageData = {
       },
     ],
     ctaLabel: 'View Complete Portfolio',
-    ctaHref: '/luxury-v4/portfolio',
+    ctaHref: '/portfolio',
   },
 
   materials: {
@@ -569,7 +569,7 @@ export const fullHomeInteriorDesign: ServicePageData = {
       { title: 'The Rishabh Residence', location: 'Vaishali Nagar, Jaipur', image: real('MASTER BEDROOM DESIGN/Rishabh ji final render 01.webp'), imageAlt: 'Completed master bedroom, Rishabh Residence, Jaipur', area: '3BHK+', duration: '8–10 Weeks' },
     ],
     ctaLabel: 'View All Projects',
-    ctaHref: '/luxury-v4/portfolio',
+    ctaHref: '/portfolio',
   },
 
   testimonials: {
@@ -608,10 +608,10 @@ export const fullHomeInteriorDesign: ServicePageData = {
     titleItalic: 'We Can Help',
     description: 'Full Home Interiors pairs naturally with these services.',
     services: [
-      { number: '01', title: 'Modular Kitchens', description: 'Bespoke modular kitchens with German-grade fittings and premium finishes.', href: '/luxury-v4/services/modular-kitchen-design' },
-      { number: '02', title: 'Designer Wardrobes', description: 'Smart storage solutions that combine elegance with everyday practicality.', href: '/luxury-v4/services/wardrobe-design' },
-      { number: '03', title: 'Living Room Design', description: 'Custom living rooms built around how you actually live, not a showroom display.', href: '/luxury-v4/services/living-room-interior-design' },
-      { number: '04', title: 'Commercial & Office Interiors', description: 'Brand-driven workspaces and retail environments that inspire identity.', href: '/luxury-v4/services/commercial-office-interior-design' },
+      { number: '01', title: 'Modular Kitchens', description: 'Bespoke modular kitchens with German-grade fittings and premium finishes.', href: '/services/modular-kitchen-design' },
+      { number: '02', title: 'Designer Wardrobes', description: 'Smart storage solutions that combine elegance with everyday practicality.', href: '/services/wardrobe-design' },
+      { number: '03', title: 'Living Room Design', description: 'Custom living rooms built around how you actually live, not a showroom display.', href: '/services/living-room-interior-design' },
+      { number: '04', title: 'Commercial & Office Interiors', description: 'Brand-driven workspaces and retail environments that inspire identity.', href: '/services/commercial-office-interior-design' },
     ],
   },
 

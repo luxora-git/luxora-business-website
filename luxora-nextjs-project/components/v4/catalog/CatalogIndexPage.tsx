@@ -14,15 +14,15 @@ export interface CatalogIndexPageProps {
   titleItalic?: string;
   description: string;
   items: CatalogItem[];
-  basePath: string; // e.g. '/luxury-v4/elements'
+  basePath: string; // e.g. '/elements'
   closingTitle: string;
   closingTitleItalic?: string;
   closingDescription: string;
 }
 
 /**
- * CatalogIndexPage — the shared listing template for /luxury-v4/elements
- * and /luxury-v4/products. Reuses the Gallery visual language so both feel
+ * CatalogIndexPage — the shared listing template for /elements
+ * and /products. Reuses the Gallery visual language so both feel
  * like a natural part of the same site rather than a bolted-on catalog.
  */
 export default function CatalogIndexPage({
@@ -39,7 +39,7 @@ export default function CatalogIndexPage({
   return (
     <>
       <PageHero
-        breadcrumbItems={[{ label: 'Home', href: '/luxury-v4' }, { label: eyebrow }]}
+        breadcrumbItems={[{ label: 'Home', href: '/' }, { label: eyebrow }]}
         badge={eyebrow}
         heading={title}
         headingItalic={titleItalic}

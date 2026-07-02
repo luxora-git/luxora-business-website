@@ -27,7 +27,7 @@ for (let i = 0; i < featured.length; i += PER_SLIDE) {
 function PortfolioCard({ project }: { project: (typeof featured)[number] }) {
   return (
     <Link
-      href={`/luxury-v4/portfolio/${project.slug}`}
+      href={`/portfolio/${project.slug}`}
       className="group flex flex-col"
     >
       <div
@@ -227,7 +227,7 @@ export default function V4PortfolioShowcaseSection() {
         {/* Bottom CTA */}
         <div className="text-center mt-20 md:mt-24" data-v4-reveal>
           <Link
-            href="/luxury-v4/portfolio"
+            href="/portfolio"
             className="inline-flex items-center gap-3 px-9 py-4 rounded-full font-bold text-[12px] tracking-[0.1em] uppercase transition-all duration-300 hover:-translate-y-0.5"
             style={{ background: '#1C1005', color: '#FDFAF6' }}
           >

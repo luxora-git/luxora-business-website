@@ -2,7 +2,7 @@
 
 Status: **Architecture freeze** — blueprint only, no implementation in this document.
 Scope: **Design Gallery only.** Portfolio (completed projects, case studies, testimonials) is a separate product and is referenced here only in Section 15 to draw the boundary. Gallery is the inspiration + discovery + SEO product; Portfolio is the trust + case-study + conversion product. They never share schema, taxonomy, or URL namespace — restated as a closing principle in Section 25 and not to be revisited casually.
-Base path: `/luxury-v4/gallery` (extends the existing V4 implementation already live at this path; this document is the target shape, not a rewrite from zero).
+Base path: `/gallery` (extends the existing V4 implementation already live at this path; this document is the target shape, not a rewrite from zero).
 
 **Document history:** v1 established Sections 0–15 (core IA, routing, data model, search/filter, SEO, mobile, Gallery/Portfolio boundary). v2 (this revision) adds Sections 16–25: Collections, Tags, the Recommendation Engine, Design Identity, Color & Material metadata, Editorial Discovery on Home, reserved architecture for future features, the content growth roadmap, content governance, and a closing set of architecture principles. v1 sections are amended only where a v2 addition requires it (noted inline); nothing in v1 is reversed.
 
@@ -77,18 +77,18 @@ All URLs are lowercase, hyphenated, English, no trailing slash, no query params 
 
 ### 2.1 Gallery Home
 ```
-/luxury-v4/gallery
+/gallery
 ```
 
 ### 2.2 Category pages
 ```
-/luxury-v4/gallery/[category]
+/gallery/[category]
 ```
 `[category]` = the existing `GalleryCategory.slug` (`living-room`, `bedroom`, `kitchen`, `wardrobes`, `full-home`, `office`). One static route per taxonomy entry — already implemented via `generateStaticParams` over `galleryCategories`.
 
 ### 2.3 Style pages (new taxonomy, promoted from filter facet to indexable route)
 ```
-/luxury-v4/gallery/style/[style]
+/gallery/style/[style]
 ```
 `[style]` = a slugified version of `GalleryProjectMeta.style` (`contemporary`, `scandinavian`, `luxury`, `classic`, `minimalist`, `industrial`, …). Namespaced under `/style/` rather than flattened to `/gallery/[style]` to avoid a routing collision with category slugs and to make the taxonomy axis explicit in the URL (and to search engines).
 
@@ -96,21 +96,21 @@ Style is a **cross-cutting facet**, not a sub-category of a room — a Style pag
 
 ### 2.4 Single design pages
 ```
-/luxury-v4/gallery/[category]/[slug]
+/gallery/[category]/[slug]
 ```
 Canonical, single URL per design, parented under its **primary category** (`GalleryProject.category`), matching the current implementation. A design that also matches a style never gets a second URL under `/gallery/style/[style]/[slug]` — the Style page links to the same canonical category-parented URL. `secondaryCategories` (already reserved in the data model) are surfaced as cross-links on the page, not as alternate canonical paths.
 
 ### 2.5 Collections routes (promoted from "reserved" to a designed system — see Section 16)
 ```
-/luxury-v4/gallery/collections                 (Collections hub — index of all live collections)
-/luxury-v4/gallery/collections/[collection]     (single Collection page)
+/gallery/collections                 (Collections hub — index of all live collections)
+/gallery/collections/[collection]     (single Collection page)
 ```
 Collections is a real, designed discovery system as of this revision, not merely a reserved field — see Section 16 for its full data model, navigation, SEO, and rollout gating. It does not replace Category or Style; all three exist permanently side by side.
 
 ### 2.6 Reserved / explicitly out of scope at Phase 1
-- `/luxury-v4/gallery/search` — no dedicated route; search is a client-side filter state on Home (see Section 6).
-- `/luxury-v4/gallery/tag/[tag]` — **never built, by design.** Tags are explicitly not a routing axis (Section 17); a tag that earns enough demand is promoted to a Collection, not to a fourth route type.
-- `/luxury-v4/gallery/[category]/[style]` combined static routes — deliberately not built as a full cartesian product (see Section 12); only a curated subset is promoted to static routes when search data justifies it.
+- `/gallery/search` — no dedicated route; search is a client-side filter state on Home (see Section 6).
+- `/gallery/tag/[tag]` — **never built, by design.** Tags are explicitly not a routing axis (Section 17); a tag that earns enough demand is promoted to a Collection, not to a fourth route type.
+- `/gallery/[category]/[style]` combined static routes — deliberately not built as a full cartesian product (see Section 12); only a curated subset is promoted to static routes when search data justifies it.
 
 ---
 
@@ -119,7 +119,7 @@ Collections is a real, designed discovery system as of this revision, not merely
 Extends the existing V4 structure; no new top-level conventions introduced.
 
 ```
-app/luxury-v4/gallery/
+app/gallery/
 ├── page.tsx                          # Gallery Home (rail-based — see §21)
 ├── [category]/
 │   ├── page.tsx                      # Category page
@@ -431,8 +431,8 @@ GalleryCollection {
 ### 16.3 URL structure
 
 ```
-/luxury-v4/gallery/collections                 — hub: index of all isActive collections, grouped by kind for editorial control
-/luxury-v4/gallery/collections/[collection]     — single Collection page, same layout shape as a Category/Style page
+/gallery/collections                 — hub: index of all isActive collections, grouped by kind for editorial control
+/gallery/collections/[collection]     — single Collection page, same layout shape as a Category/Style page
 ```
 A Collection page reuses `GalleryHero` + `GalleryBrowser` (locked to that collection's resolved project list) exactly as Category/Style pages do — no bespoke page template, per the Section 4 component-architecture rule.
 

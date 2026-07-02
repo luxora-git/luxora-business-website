@@ -7,11 +7,11 @@ import { products } from '@/lib/content/catalog/products';
 import { portfolioProjects } from '@/lib/content/portfolio/projects';
 
 const SITE_ORIGIN = 'https://luxora.in';
-const BASE = '/luxury-v4';
+const BASE = '';
 
 // Static top-level pages
 const staticPages = [
-  { url: `${BASE}`,                    priority: 1.0, changeFrequency: 'weekly' as const },
+  { url: `${BASE}/`,                    priority: 1.0, changeFrequency: 'weekly' as const },
   { url: `${BASE}/gallery`,             priority: 0.9, changeFrequency: 'weekly' as const },
   { url: `${BASE}/portfolio`,           priority: 0.8, changeFrequency: 'weekly' as const },
   { url: `${BASE}/elements`,            priority: 0.7, changeFrequency: 'monthly' as const },

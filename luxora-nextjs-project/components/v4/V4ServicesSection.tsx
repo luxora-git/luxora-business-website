@@ -9,37 +9,37 @@ const services = [
     id: '01',
     title: 'Interior Design Consultancy',
     description: 'Personalised interiors crafted around your lifestyle, needs and vision.',
-    href: '/luxury-v4/services/full-home-interior-design',
+    href: '/services/full-home-interior-design',
   },
   {
     id: '02',
     title: 'Architectural Design',
     description: 'Structural planning to façade design — blending function with aesthetic vision.',
-    href: '/luxury-v4/services/architectural-design',
+    href: '/services/architectural-design',
   },
   {
     id: '03',
     title: 'Designer Modular Kitchens',
     description: 'Bespoke modular kitchens with German-grade fittings and premium finishes.',
-    href: '/luxury-v4/services/modular-kitchen-design',
+    href: '/services/modular-kitchen-design',
   },
   {
     id: '04',
     title: 'Designer Wardrobes',
     description: 'Smart storage solutions that combine elegance with everyday practicality.',
-    href: '/luxury-v4/services/wardrobe-design',
+    href: '/services/wardrobe-design',
   },
   {
     id: '05',
     title: 'Home Automation',
     description: 'Lighting, climate and security — seamlessly integrated at a single touch.',
-    href: '/luxury-v4/services/home-automation',
+    href: '/services/home-automation',
   },
   {
     id: '06',
     title: 'Commercial & Office Interiors',
     description: 'Brand-driven workspaces and retail environments that inspire identity.',
-    href: '/luxury-v4/services/commercial-office-interior-design',
+    href: '/services/commercial-office-interior-design',
   },
 ];
 
