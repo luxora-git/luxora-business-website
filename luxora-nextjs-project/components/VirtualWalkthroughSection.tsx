@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 
-const VIRTUAL_TOUR_URL = 'https://luxora.in/virtualtour/viewer/index.php?code=c4ca4238a0b923820dcc509a6f75849b';
+const VIRTUAL_TOUR_URL = 'https://vr.luxora.in/viewer/index.php?code=c4ca4238a0b923820dcc509a6f75849b';
 
 const featureBadges = [
   { label: '360° View', icon: 'view360' },
