@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useConsultationModal } from './modal';
 
 const TOUR_URL =
-  'https://luxora.in/virtualtour/viewer/index.php?code=c4ca4238a0b923820dcc509a6f75849b';
+  'https://vr.luxora.in/viewer/index.php?code=c4ca4238a0b923820dcc509a6f75849b';
 
 /* ── Corner L-bracket decoration (shows on all 4 corners of the frame) */
 function CornerBracket({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {

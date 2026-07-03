@@ -8,10 +8,10 @@ interface Transformation {
   id: string;
   /** Slug of the matching full case study in lib/content/portfolio/projects.ts */
   slug: string;
-  /** Approved AI design concept shown to the client before build-out. */
-  concept: string;
-  /** Real photograph of the completed Luxora project. */
-  completed: string;
+  /** Real photograph of the room before the Luxora renovation. */
+  before: string;
+  /** Real photograph of the same room after the Luxora renovation. */
+  after: string;
   title: string;
   location: string;
   propertyType: string;
@@ -21,47 +21,46 @@ interface Transformation {
 }
 
 /**
- * "Concept vs Completed" — not a literal before/after of one physical room
- * (we don't have real pre-renovation photos), but a real approved AI concept
- * next to the real, completed Luxora project it became. Facts below are
- * pulled straight from the matching case study in lib/content/portfolio.
+ * Real before/after photographs of the same physical room, pre- and
+ * post-renovation. Facts below are pulled straight from the matching case
+ * study in lib/content/portfolio.
  */
 const transformations: Transformation[] = [
   {
     id: 'living-room',
     slug: 'krish-ji-residence',
-    concept: '/img/AI%20BASED/LIVING%20BEDROOM%20DESIGNS/lr3.webp',
-    completed: '/img/PROJECT%20BASED/LIVING%20ROOM%20DESIGN/Krish%20ji%20S.F.%20A01_View130000.webp',
+    before: '/img/before-after/livingroom_before.webp',
+    after: '/img/before-after/livingroom_after.webp',
     title: 'Grand Living Room',
     location: 'Malviya Nagar, Jaipur',
     propertyType: 'Independent House',
     investmentRange: '₹45L – ₹65L (typical for this scope)',
     duration: '10–12 weeks',
-    description: 'From an approved design concept to the finished Krish Residence living room — one continuous entrance-to-dining sightline in warm wood tones.',
+    description: 'From a dated, closed-off room to the finished Krish Residence living room — one continuous entrance-to-dining sightline in warm wood tones.',
   },
   {
     id: 'kitchen',
     slug: 'rakesh-ji-residence',
-    concept: '/img/AI%20BASED/MODULAR%20KITCHEN/mk1.webp',
-    completed: '/img/PROJECT%20BASED/MODULAR%20KITCHEN/Rakesh%20ji%20living%20A01_View060000.webp',
+    before: '/img/before-after/kitchen_before.webp',
+    after: '/img/before-after/kitchen_after.webp',
     title: 'Modular Kitchen',
     location: 'Mansarovar, Jaipur',
     propertyType: 'Independent House',
     investmentRange: '₹28L – ₹42L (typical for this scope)',
     duration: '8–9 weeks',
-    description: 'From concept to the completed Rakesh Residence kitchen — intelligent storage and a premium countertop planned around daily use.',
+    description: 'From a cramped, dated layout to the completed Rakesh Residence kitchen — intelligent storage and a premium countertop planned around daily use.',
   },
   {
     id: 'bedroom',
     slug: 'rishabh-ji-residence',
-    concept: '/img/AI%20BASED/MASTER%20BEDROOM%20DESIGNS/mb1.webp',
-    completed: '/img/PROJECT%20BASED/MASTER%20BEDROOM%20DESIGN/Rishabh%20ji%20final%20render%2002.webp',
+    before: '/img/before-after/bedroom_before.webp',
+    after: '/img/before-after/bedroom_after.webp',
     title: 'Master Bedroom Suite',
     location: 'Vaishali Nagar, Jaipur',
     propertyType: 'Independent House',
     investmentRange: '₹30L – ₹45L (typical for this scope)',
     duration: '8–10 weeks',
-    description: 'From concept to the completed Rishabh Residence master suite — a distinct material mood carried through on the same joinery language.',
+    description: 'From a bare, unfinished shell to the completed Rishabh Residence master suite — a distinct material mood carried through on the same joinery language.',
   },
 ];
 
@@ -131,17 +130,17 @@ export default function V4BeforeAfterSection() {
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16 items-end mb-12 md:mb-16" data-v4-reveal-heading>
           <div>
             <span className="text-[#C9A227] text-[11px] font-semibold tracking-[0.28em] uppercase mb-5 block">
-              Our Work Speaks
+              Real Transformations
             </span>
             <h2
               className="font-playfair italic font-normal leading-[1.1] tracking-[-0.02em]"
               style={{ fontSize: 'clamp(2rem, 3.5vw, 3.4rem)', color: '#2C1F14' }}
             >
-              Bringing Your Vision to Life
+              From Ordinary to Extraordinary
             </h2>
           </div>
           <p className="text-base md:text-[17px] leading-relaxed font-light max-w-md lg:pb-2" style={{ color: '#6B4C3B' }}>
-            Every Luxora project starts as an approved design concept — drag the slider to see it next to the real, completed space.
+            Compare real spaces before renovation with their final Luxora transformation — drag the slider to see every detail change.
           </p>
         </div>
 
@@ -175,9 +174,9 @@ export default function V4BeforeAfterSection() {
           >
             <div className="absolute inset-0">
               <Image
-                key={`completed-${currentTransform.id}`}
-                src={currentTransform.completed}
-                alt={`${currentTransform.title} — completed Luxora project`}
+                key={`after-${currentTransform.id}`}
+                src={currentTransform.after}
+                alt={`${currentTransform.title} — after Luxora renovation`}
                 fill
                 className="object-cover pointer-events-none"
                 sizes="(max-width: 768px) 100vw, 1200px"
@@ -187,16 +186,16 @@ export default function V4BeforeAfterSection() {
               />
               <div className="absolute top-6 right-6 sm:top-8 sm:right-8 pointer-events-none">
                 <div className="px-4 py-2 bg-[#FDFAF6]/90 backdrop-blur-[6px] border border-[rgba(160,120,80,0.25)] rounded-full">
-                  <span className="text-[#2C1F14] text-[10px] font-semibold tracking-[0.18em] uppercase">Completed</span>
+                  <span className="text-[#2C1F14] text-[10px] font-bold tracking-[0.22em] uppercase">After</span>
                 </div>
               </div>
             </div>
 
             <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}>
               <Image
-                key={`concept-${currentTransform.id}`}
-                src={currentTransform.concept}
-                alt={`${currentTransform.title} — approved design concept`}
+                key={`before-${currentTransform.id}`}
+                src={currentTransform.before}
+                alt={`${currentTransform.title} — before Luxora renovation`}
                 fill
                 className="object-cover pointer-events-none"
                 sizes="(max-width: 768px) 100vw, 1200px"
@@ -206,7 +205,7 @@ export default function V4BeforeAfterSection() {
               />
               <div className="absolute top-6 left-6 sm:top-8 sm:left-8 pointer-events-none">
                 <div className="px-4 py-2 bg-[#2C1F14]/70 backdrop-blur-[6px] border border-white/15 rounded-full">
-                  <span className="text-white text-[10px] font-semibold tracking-[0.18em] uppercase">Concept</span>
+                  <span className="text-white text-[10px] font-bold tracking-[0.22em] uppercase">Before</span>
                 </div>
               </div>
             </div>
@@ -220,8 +219,8 @@ export default function V4BeforeAfterSection() {
               }}
             >
               <div
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-14 h-14 sm:w-16 sm:h-16 bg-[#FDFAF6] rounded-full flex items-center justify-center"
-                style={{ boxShadow: '0 0 0 1px rgba(201,162,39,0.4), 0 6px 28px rgba(100,60,20,0.18)' }}
+                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-14 h-14 sm:w-16 sm:h-16 bg-[#FDFAF6] rounded-full flex items-center justify-center v4-slider-handle-shimmer"
+                style={{ boxShadow: '0 0 0 1px rgba(201,162,39,0.4), 0 0 22px rgba(201,162,39,0.35), 0 6px 28px rgba(100,60,20,0.18)' }}
               >
                 <div className="absolute inset-[3px] rounded-full border border-[#C9A227]/20" />
                 <div className="flex items-center gap-[6px]">
@@ -292,7 +291,30 @@ export default function V4BeforeAfterSection() {
             <span className="w-10 h-px" style={{ backgroundColor: 'rgba(160,120,80,0.18)' }} />
           </span>
         </div>
+
+        <div className="text-center mt-10">
+          <Link
+            href="/portfolio"
+            className="inline-flex items-center gap-2.5 px-9 py-4 rounded-full text-[11px] font-bold tracking-[0.16em] uppercase transition-all duration-300 hover:-translate-y-0.5"
+            style={{ backgroundColor: '#2C1F14', color: '#FDFAF6', boxShadow: '0 8px 28px rgba(44,31,20,0.22)' }}
+          >
+            Explore More Transformations
+            <svg className="w-3.5 h-3.5" fill="none" stroke="#C9A227" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
       </div>
+
+      <style jsx>{`
+        @keyframes v4SliderShimmer {
+          0%, 100% { box-shadow: 0 0 0 1px rgba(201,162,39,0.4), 0 0 14px rgba(201,162,39,0.25), 0 6px 28px rgba(100,60,20,0.18); }
+          50% { box-shadow: 0 0 0 1px rgba(201,162,39,0.6), 0 0 26px rgba(201,162,39,0.5), 0 6px 28px rgba(100,60,20,0.18); }
+        }
+        .v4-slider-handle-shimmer {
+          animation: v4SliderShimmer 2.4s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }
