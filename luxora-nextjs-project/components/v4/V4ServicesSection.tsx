@@ -94,20 +94,25 @@ export default function V4ServicesSection() {
           <button
             type="button"
             onClick={openConsultationModal}
-            className="group relative block w-full text-left rounded-[2rem] overflow-hidden h-[460px] md:h-[600px] lg:h-[650px] shadow-[0_20px_60px_rgba(100,60,20,0.14)]"
+            className="group relative block w-full text-left rounded-[2rem] h-[460px] md:h-[600px] lg:h-[650px] shadow-[0_20px_60px_rgba(100,60,20,0.14)]"
           >
-            <img
-              src="/img/PROJECT%20BASED/LIVING%20ROOM%20DESIGN/Krish%20ji%20S.F.%20A01_View130000.webp"
-              alt="Luxora signature interior"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(180deg, rgba(20,14,6,0.10) 0%, rgba(20,14,6,0.12) 40%, rgba(20,14,6,0.80) 100%)',
-              }}
-            />
+            {/* Image + gradient are clipped to the rounded card; the badge and
+                CTA panel below live outside this wrapper so they're never
+                cropped regardless of content length or viewport size. */}
+            <div className="absolute inset-0 rounded-[2rem] overflow-hidden">
+              <img
+                src="/img/PROJECT%20BASED/LIVING%20ROOM%20DESIGN/Krish%20ji%20S.F.%20A01_View130000.webp"
+                alt="Luxora signature interior"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'linear-gradient(180deg, rgba(20,14,6,0.10) 0%, rgba(20,14,6,0.12) 40%, rgba(20,14,6,0.80) 100%)',
+                }}
+              />
+            </div>
 
             {/* Luxury badge */}
             <div
@@ -200,11 +205,10 @@ export default function V4ServicesSection() {
           </span>
 
           <a
-            href="#v4-contact"
-            className="inline-flex items-center gap-3 px-9 py-3.5 rounded-full text-[11px] font-bold tracking-[0.18em] uppercase border transition-all duration-400 hover:bg-[#C9A227] hover:text-[#1C1005]"
-            style={{ borderColor: 'rgba(201,162,39,0.45)', color: '#C9A227' }}
+            href="/portfolio"
+            className="inline-flex items-center gap-3 px-9 py-3.5 rounded-full text-[11px] font-bold tracking-[0.18em] uppercase border border-[rgba(201,162,39,0.45)] text-[#C9A227] transition-all duration-400 hover:bg-[#C9A227] hover:text-[#1C1005]"
           >
-            Explore All Services
+            Explore Our Portfolio
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
