@@ -1,4 +1,5 @@
 import type { ServiceHighlightItem } from '@/lib/content/services/types';
+import { luxoraStats } from '@/lib/content/global/stats';
 
 /**
  * Landing screen content — Phase 2. Unlike the category/style/package
@@ -59,12 +60,15 @@ export const estimatorLandingContent: EstimatorLandingContent = {
   secondaryCta: { label: 'Learn How It Works', targetId: 'estimator-journey' },
   // '\n' marks the deliberate line break — every label renders as exactly
   // two lines (via whitespace-pre-line) so the trust strip stays symmetric.
+  // Quantified claims are sourced from luxoraStats (the sitewide single
+  // source of truth) — a concrete number beats a generic quality label as
+  // a trust device every time.
   trustItems: [
+    { label: `${luxoraStats.homesDelivered} Homes\nDelivered` },
+    { label: `${luxoraStats.clientRating}★ Client\nRating` },
+    { label: `${luxoraStats.warrantyYears}-Year\nWarranty` },
     { label: 'Transparent\nPricing' },
-    { label: 'Personalized\nRecommendations' },
-    { label: 'Expert Interior\nDesigners' },
     { label: 'Jaipur Based\nStudio' },
-    { label: 'Premium\nMaterials' },
     { label: 'End-to-End\nExecution' },
   ],
   journey: {
