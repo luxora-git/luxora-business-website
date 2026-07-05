@@ -5,5 +5,6 @@ export { default as EstimatorPrimaryCTA } from './EstimatorPrimaryCTA';
 export { default as EstimatorProgressBar } from './EstimatorProgressBar';
 export { default as EstimatorStepShell } from './EstimatorStepShell';
 export { default as EstimatorCategoryCard } from './EstimatorCategoryCard';
+export { default as EstimatorStyleTile } from './EstimatorStyleTile';
 export { EstimatorFlowProvider, useEstimatorFlow, ESTIMATOR_SCREEN_ORDER } from './useEstimatorFlow';
 export type { EstimatorScreen, EstimatorState, EstimatorCategory } from './useEstimatorFlow';

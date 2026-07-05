@@ -43,6 +43,8 @@ export type EstimatorCategory = 'full-home' | 'kitchen' | 'wardrobe' | null;
 export interface EstimatorState {
   currentScreen: EstimatorScreen;
   category: EstimatorCategory;
+  /** Selected style slugs from the Visual Inspiration step (0–2, optional by design). */
+  styles: string[];
   /** TODO (later phase): typed per-question answers (BHK, carpet area, rooms, finish, etc.). */
   answers: Record<string, unknown>;
   /** TODO (later phase): real package tier slug once package content exists. */
@@ -54,12 +56,15 @@ export interface EstimatorState {
 interface EstimatorFlowContextValue extends EstimatorState {
   goToScreen: (screen: EstimatorScreen) => void;
   setCategory: (category: EstimatorCategory) => void;
+  /** Toggles a style selection, capped at `maxStyles` concurrent picks. */
+  toggleStyle: (slug: string, maxStyles: number) => void;
   reset: () => void;
 }
 
 const initialState: EstimatorState = {
   currentScreen: 'landing',
   category: null,
+  styles: [],
   answers: {},
   packageTier: null,
   lead: {},
@@ -83,11 +88,21 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, category }));
   }, []);
 
+  const toggleStyle = useCallback((slug: string, maxStyles: number) => {
+    setState((prev) => {
+      if (prev.styles.includes(slug)) {
+        return { ...prev, styles: prev.styles.filter((s) => s !== slug) };
+      }
+      if (prev.styles.length >= maxStyles) return prev;
+      return { ...prev, styles: [...prev.styles, slug] };
+    });
+  }, []);
+
   const reset = useCallback(() => setState(initialState), []);
 
   const value = useMemo<EstimatorFlowContextValue>(
-    () => ({ ...state, goToScreen, setCategory, reset }),
-    [state, goToScreen, setCategory, reset],
+    () => ({ ...state, goToScreen, setCategory, toggleStyle, reset }),
+    [state, goToScreen, setCategory, toggleStyle, reset],
   );
 
   return <EstimatorFlowContext.Provider value={value}>{children}</EstimatorFlowContext.Provider>;

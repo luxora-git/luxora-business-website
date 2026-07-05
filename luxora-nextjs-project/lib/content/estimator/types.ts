@@ -29,6 +29,8 @@ export interface EstimatorStyleOption {
   label: string;
   image: string;
   imageAlt: string;
+  /** One-line editorial description shown on the style tile. */
+  description?: string;
 }
 
 export interface EstimatorPackageTier {
