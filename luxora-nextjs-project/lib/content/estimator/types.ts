@@ -33,7 +33,10 @@ export interface EstimatorStyleOption {
   description?: string;
 }
 
-export interface EstimatorPackageTier {
+/** Content shape for package-tier cards (Phase 7 scaffold). The tier
+ * *identity* union (essential/signature/bespoke) lives in ./pricing.ts as
+ * `EstimatorPackageTier`. */
+export interface EstimatorPackageTierContent {
   slug: string;
   name: string;
   tagline: string;
@@ -44,5 +47,5 @@ export interface EstimatorPackageTier {
 export interface EstimatorContent {
   categories: EstimatorCategoryOption[];
   styles: EstimatorStyleOption[];
-  packageTiers: EstimatorPackageTier[];
+  packageTiers: EstimatorPackageTierContent[];
 }

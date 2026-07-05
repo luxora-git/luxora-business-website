@@ -8,5 +8,6 @@ export { default as EstimatorCategoryCard } from './EstimatorCategoryCard';
 export { default as EstimatorStyleTile } from './EstimatorStyleTile';
 export { default as EstimatorOptionCard } from './EstimatorOptionCard';
 export { default as EstimatorRoomCounter } from './EstimatorRoomCounter';
+export { default as EstimatorBudgetCard } from './EstimatorBudgetCard';
 export { EstimatorFlowProvider, useEstimatorFlow, ESTIMATOR_SCREEN_ORDER } from './useEstimatorFlow';
 export type { EstimatorScreen, EstimatorState, EstimatorCategory } from './useEstimatorFlow';
