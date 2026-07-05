@@ -53,6 +53,7 @@ export interface EstimatorState {
 
 interface EstimatorFlowContextValue extends EstimatorState {
   goToScreen: (screen: EstimatorScreen) => void;
+  setCategory: (category: EstimatorCategory) => void;
   reset: () => void;
 }
 
@@ -78,11 +79,15 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, currentScreen: screen }));
   }, []);
 
+  const setCategory = useCallback((category: EstimatorCategory) => {
+    setState((prev) => ({ ...prev, category }));
+  }, []);
+
   const reset = useCallback(() => setState(initialState), []);
 
   const value = useMemo<EstimatorFlowContextValue>(
-    () => ({ ...state, goToScreen, reset }),
-    [state, goToScreen, reset],
+    () => ({ ...state, goToScreen, setCategory, reset }),
+    [state, goToScreen, setCategory, reset],
   );
 
   return <EstimatorFlowContext.Provider value={value}>{children}</EstimatorFlowContext.Provider>;
