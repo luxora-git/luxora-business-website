@@ -6,6 +6,7 @@ export * from './types';
 export * from './landing';
 export * from './categories';
 export * from './styles';
+export * from './questions';
 
 /**
  * Package-tier content — still an intentional scaffold; real content

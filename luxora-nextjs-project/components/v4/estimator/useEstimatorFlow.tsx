@@ -58,6 +58,7 @@ interface EstimatorFlowContextValue extends EstimatorState {
   setCategory: (category: EstimatorCategory) => void;
   /** Toggles a style selection, capped at `maxStyles` concurrent picks. */
   toggleStyle: (slug: string, maxStyles: number) => void;
+  setAnswer: (key: string, value: unknown) => void;
   reset: () => void;
 }
 
@@ -85,7 +86,18 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setCategory = useCallback((category: EstimatorCategory) => {
-    setState((prev) => ({ ...prev, category }));
+    // Answers are category-specific (bhkType vs kitchenShape vs wardrobeType) —
+    // switching category invalidates them, so they're cleared to avoid stale
+    // data leaking into later pricing. Style picks are category-agnostic and kept.
+    setState((prev) => ({
+      ...prev,
+      category,
+      answers: prev.category === category ? prev.answers : {},
+    }));
+  }, []);
+
+  const setAnswer = useCallback((key: string, value: unknown) => {
+    setState((prev) => ({ ...prev, answers: { ...prev.answers, [key]: value } }));
   }, []);
 
   const toggleStyle = useCallback((slug: string, maxStyles: number) => {
@@ -101,8 +113,8 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
   const reset = useCallback(() => setState(initialState), []);
 
   const value = useMemo<EstimatorFlowContextValue>(
-    () => ({ ...state, goToScreen, setCategory, toggleStyle, reset }),
-    [state, goToScreen, setCategory, toggleStyle, reset],
+    () => ({ ...state, goToScreen, setCategory, toggleStyle, setAnswer, reset }),
+    [state, goToScreen, setCategory, toggleStyle, setAnswer, reset],
   );
 
   return <EstimatorFlowContext.Provider value={value}>{children}</EstimatorFlowContext.Provider>;
