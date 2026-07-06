@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createBitrix24Lead, isBitrix24Configured, Bitrix24RequestError } from '@/lib/integrations/bitrix24';
 import { calculateEstimateRange, formatEstimateINR, type EstimatorPackageTier } from '@/lib/content/estimator/pricing';
-import { estimatorQuestions, FULL_HOME_ROOMS } from '@/lib/content/estimator/questions';
+import { buildEstimateSummaryItems } from '@/lib/content/estimator/summary';
 import { estimatorCategories } from '@/lib/content/estimator/categories';
-import { estimatorStyles } from '@/lib/content/estimator/styles';
-import { estimatorPackages } from '@/lib/content/estimator/packages';
 import type { EstimatorCategorySlug } from '@/lib/content/estimator/types';
 
 /**
@@ -57,36 +55,15 @@ function isValidBody(body: unknown): body is EstimatorLeadBody {
   );
 }
 
-/** Builds the human-readable CRM note: every slug mapped back to its
- * display label via the same content configs that rendered the flow. */
+/** Builds the human-readable CRM note from the same shared summary
+ * builder the reveal screen uses — visitor and sales team always read the
+ * identical brief. */
 function buildComments(body: EstimatorLeadBody): string {
   const lines: string[] = ['=== LUXORA ESTIMATOR LEAD ==='];
 
-  const categoryLabel = estimatorCategories.find((c) => c.slug === body.category)?.label ?? body.category;
-  lines.push(`Project: ${categoryLabel}`);
-
-  if (body.styles.length > 0) {
-    const styleLabels = body.styles.map((slug) => estimatorStyles.find((s) => s.slug === slug)?.label ?? slug);
-    lines.push(`Preferred Styles: ${styleLabels.join(', ')}`);
+  for (const item of buildEstimateSummaryItems(body.category, body.styles, body.answers, body.packageTier)) {
+    lines.push(`${item.label}: ${item.value}`);
   }
-
-  for (const question of estimatorQuestions[body.category]) {
-    const answer = body.answers[question.key];
-    if (answer === undefined || answer === null) continue;
-
-    if (question.type === 'room-counter' && typeof answer === 'object') {
-      const rooms = Object.entries(answer as Record<string, number>)
-        .filter(([, count]) => count > 0)
-        .map(([key, count]) => `${FULL_HOME_ROOMS.find((r) => r.key === key)?.label ?? key} × ${count}`);
-      if (rooms.length > 0) lines.push(`Rooms: ${rooms.join(', ')}`);
-    } else {
-      const label = question.options?.find((o) => o.value === answer)?.label ?? String(answer);
-      lines.push(`${question.questionItalic ? `${question.question} ${question.questionItalic}` : question.question}: ${label}`);
-    }
-  }
-
-  const tierName = estimatorPackages.find((p) => p.slug === body.packageTier)?.name ?? body.packageTier;
-  lines.push(`Package: ${tierName}`);
 
   const range = calculateEstimateRange(body.category, body.answers, body.packageTier);
   lines.push(`Estimated Investment: ${formatEstimateINR(range.min)} – ${formatEstimateINR(range.max)}`);

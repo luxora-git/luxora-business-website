@@ -13,9 +13,7 @@ export interface EstimatorPageShellProps {
   children: ReactNode;
 }
 
-const FULL_CHROME_SCREENS: EstimatorScreen[] = ['landing', 'thankYou'];
-// TODO (later phase): add 'proposal' here once its real content is built —
-// deferred per Phase 2.1 direction ("Proposal screen later if appropriate").
+const FULL_CHROME_SCREENS: EstimatorScreen[] = ['landing', 'proposal', 'thankYou'];
 
 /**
  * EstimatorPageShell — screen-aware. Renders the exact, unmodified
