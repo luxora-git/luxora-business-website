@@ -110,7 +110,7 @@ export const estimatorLandingContent: EstimatorLandingContent = {
     items: [
       { value: '01', label: 'Know Your Realistic Budget', description: 'A grounded, honest number — not a lowball teaser.' },
       { value: '02', label: 'Avoid Hidden Surprises', description: 'Transparent inclusions from the very first estimate.' },
-      { value: '03', label: 'Compare Package Options', description: 'See how Signature, Elite, and Luxury differ — clearly.' },
+      { value: '03', label: 'Compare Package Options', description: 'See how Essential, Signature, and Bespoke differ — clearly.' },
       { value: '04', label: 'Plan Confidently', description: 'Move forward knowing what your investment actually covers.' },
       { value: '05', label: 'Talk To Designers With Clarity', description: 'Walk into your consultation already informed.' },
     ],

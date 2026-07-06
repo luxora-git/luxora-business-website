@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import EstimatorStepShell from '../EstimatorStepShell';
 import EstimatorOptionCard from '../EstimatorOptionCard';
 import EstimatorRoomCounter from '../EstimatorRoomCounter';
@@ -81,14 +81,15 @@ export default function QuestionsScreen() {
       continueLabel={isLast ? 'See My Estimate' : 'Continue'}
       canContinue={answered}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`${category}-${current.key}`}
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        >
+      {/* Enter-only sub-question transition — same background-tab-freeze
+          hardening as the outer flow router (see app/estimate/page.tsx):
+          the keyed remount always shows the new question immediately. */}
+      <motion.div
+        key={`${category}-${current.key}`}
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      >
           {current.type === 'option-select' && (
             <div role="radiogroup" aria-label={`${current.question} ${current.questionItalic ?? ''}`.trim()} className="flex flex-col gap-3.5 max-w-2xl mx-auto">
               {current.options?.map((option) => (
@@ -114,8 +115,7 @@ export default function QuestionsScreen() {
               ))}
             </div>
           )}
-        </motion.div>
-      </AnimatePresence>
+      </motion.div>
     </EstimatorStepShell>
   );
 }

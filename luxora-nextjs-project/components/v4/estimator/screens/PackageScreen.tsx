@@ -5,6 +5,7 @@ import EstimatorStepShell from '../EstimatorStepShell';
 import EstimatorPackageCard from '../EstimatorPackageCard';
 import { useEstimatorFlow } from '../useEstimatorFlow';
 import { estimatorPackages, getRecommendedTier } from '@/lib/content/estimator/packages';
+import { getPackageImage } from '@/lib/content/estimator/imagery';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 
 /**
@@ -28,6 +29,16 @@ export default function PackageScreen() {
   }, [category, goToScreen]);
 
   const recommendedTier = useMemo(() => getRecommendedTier(styles), [styles]);
+
+  // Context-aware imagery: each tier card shows the chosen room type only.
+  const displayPackages = useMemo(
+    () =>
+      estimatorPackages.map((tier) => {
+        const image = getPackageImage(category, tier.slug, { src: tier.image, alt: tier.imageAlt });
+        return { ...tier, image: image.src, imageAlt: image.alt };
+      }),
+    [category],
+  );
 
   if (!category) return null;
 
@@ -60,7 +71,7 @@ export default function PackageScreen() {
         onKeyDown={handleGroupKeyDown}
         className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-7 max-w-6xl mx-auto items-stretch"
       >
-        {estimatorPackages.map((tier) => (
+        {displayPackages.map((tier) => (
           <EstimatorPackageCard
             key={tier.slug}
             tier={tier}

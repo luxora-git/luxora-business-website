@@ -11,6 +11,7 @@ export * from './questions';
 export * from './pricing';
 export * from './packages';
 export * from './summary';
+export * from './imagery';
 
 /**
  * All estimator content, fully authored: landing (Phase 2), categories

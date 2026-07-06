@@ -1,7 +1,7 @@
 'use client';
 
-import type { ComponentType } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, type ComponentType } from 'react';
+import { motion } from 'framer-motion';
 import {
   EstimatorFlowProvider,
   useEstimatorFlow,
@@ -35,28 +35,35 @@ const SCREEN_COMPONENTS: Record<EstimatorScreen, ComponentType> = {
 };
 
 /**
- * Screen-to-screen transition: outgoing fades+lifts out, incoming
- * fades+rises in (mode="wait" so they never animate simultaneously),
- * using the sitewide expo-out curve. Scroll resets to top on every
- * screen change so a new step never starts mid-page.
+ * Screen-to-screen transition — ENTER-ONLY by design. The keyed motion.div
+ * remounts instantly on screen change and fades/rises in; there is
+ * deliberately no AnimatePresence exit animation. Exit-gated transitions
+ * (mode="wait") depend on the exit animation actually completing, and
+ * Chrome throttles requestAnimationFrame in background tabs — a visitor
+ * who clicks Continue and switches tabs mid-transition would return to a
+ * flow frozen between screens (heading from the new step, content from
+ * the old, progress bar ahead of both — observed live in QA). Enter-only
+ * transitions can never strand the flow: the new screen exists the moment
+ * state changes, animated or not.
  */
 function EstimatorFlowRouter() {
   const { currentScreen } = useEstimatorFlow();
   const Screen = SCREEN_COMPONENTS[currentScreen];
 
+  // Every step starts at the top of the page, never mid-scroll.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, [currentScreen]);
+
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={currentScreen}
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -12 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        onAnimationStart={() => window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })}
-      >
-        <Screen />
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      key={currentScreen}
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <Screen />
+    </motion.div>
   );
 }
 

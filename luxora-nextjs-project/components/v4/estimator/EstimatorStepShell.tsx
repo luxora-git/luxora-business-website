@@ -56,7 +56,12 @@ export default function EstimatorStepShell({
           >
             {question}
             {questionItalic && (
-              <span className="block font-playfair italic">{questionItalic}</span>
+              <>
+                {/* Space is real text so screen readers don't read the two
+                    lines as one run-on word; visually inert (italic span is
+                    block-level). */}{' '}
+                <span className="block font-playfair italic">{questionItalic}</span>
+              </>
             )}
           </h1>
           {subtitle && (

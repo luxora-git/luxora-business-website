@@ -1,9 +1,11 @@
 'use client';
 
+import { useMemo } from 'react';
 import EstimatorStepShell from '../EstimatorStepShell';
 import EstimatorStyleTile from '../EstimatorStyleTile';
 import { useEstimatorFlow } from '../useEstimatorFlow';
 import { estimatorStyles, MAX_STYLE_SELECTIONS } from '@/lib/content/estimator/styles';
+import { getStyleImage } from '@/lib/content/estimator/imagery';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 
 /**
@@ -19,10 +21,23 @@ import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
  * so the moodboard feels swipeable rather than a long vertical wall.
  */
 export default function StyleScreen() {
-  const { styles, toggleStyle, goToScreen } = useEstimatorFlow();
+  const { category, styles, toggleStyle, goToScreen } = useEstimatorFlow();
 
   const selectionFull = styles.length >= MAX_STYLE_SELECTIONS;
   const handleToggle = (slug: string) => toggleStyle(slug, MAX_STYLE_SELECTIONS);
+
+  // Context-aware imagery: every tile shows the chosen room type only
+  // (kitchen users see kitchens, wardrobe users see wardrobes; full-home
+  // keeps the mixed-room defaults — that IS its context). Memoized on
+  // category, which is stable for the life of this screen.
+  const displayStyles = useMemo(
+    () =>
+      estimatorStyles.map((style) => {
+        const image = getStyleImage(category, style.slug, { src: style.image, alt: style.imageAlt });
+        return { ...style, image: image.src, imageAlt: image.alt };
+      }),
+    [category],
+  );
 
   return (
     <EstimatorStepShell
@@ -37,7 +52,7 @@ export default function StyleScreen() {
       <div role="group" aria-label="Interior styles — select up to two">
         {/* Desktop / tablet grid */}
         <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 max-w-6xl mx-auto">
-          {estimatorStyles.map((option) => (
+          {displayStyles.map((option) => (
             <EstimatorStyleTile
               key={option.slug}
               option={option}
@@ -51,7 +66,7 @@ export default function StyleScreen() {
         {/* Mobile — horizontal snap scroller with peeking next tile */}
         <div className="sm:hidden -mx-6 px-6 overflow-x-auto pb-2" style={{ scrollSnapType: 'x mandatory' }}>
           <div className="flex gap-4 w-max">
-            {estimatorStyles.map((option) => (
+            {displayStyles.map((option) => (
               <div key={option.slug} className="w-[78vw] max-w-[320px] flex-shrink-0" style={{ scrollSnapAlign: 'center' }}>
                 <EstimatorStyleTile
                   option={option}
