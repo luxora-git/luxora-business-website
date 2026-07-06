@@ -33,15 +33,19 @@ export interface EstimatorStyleOption {
   description?: string;
 }
 
-/** Content shape for package-tier cards (Phase 7 scaffold). The tier
- * *identity* union (essential/signature/bespoke) lives in ./pricing.ts as
- * `EstimatorPackageTier`. */
+/** Content shape for package-tier cards. The tier *identity* union
+ * (essential/signature/bespoke) lives in ./pricing.ts as
+ * `EstimatorPackageTier`. Deliberately carries NO price fields — package
+ * cards are price-free by business rule (the personalized figure stays
+ * gated behind the lead form). */
 export interface EstimatorPackageTierContent {
   slug: string;
   name: string;
   tagline: string;
   description: string;
-  /** TODO (later phase): pricing model fields, feature list, highlighted flag — see Reuse Matrix §J. */
+  image: string;
+  imageAlt: string;
+  features: string[];
 }
 
 export interface EstimatorContent {

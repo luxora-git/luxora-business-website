@@ -24,7 +24,10 @@ export type EstimatorScreen =
   | 'thankYou'
   | 'resume';
 
-/** Linear order of the guided flow. 'resume' is an alternate entry point, not part of the sequence. */
+/** Linear order of the guided flow. 'resume' is an alternate entry point,
+ * not part of the sequence. Lead capture deliberately precedes the
+ * proposal: the personalized estimate is gated behind form submission
+ * (business rule — the price is the incentive that earns the lead). */
 export const ESTIMATOR_SCREEN_ORDER: EstimatorScreen[] = [
   'landing',
   'category',
@@ -32,8 +35,8 @@ export const ESTIMATOR_SCREEN_ORDER: EstimatorScreen[] = [
   'questions',
   'budget',
   'package',
-  'proposal',
   'lead',
+  'proposal',
   'thankYou',
 ];
 
@@ -45,9 +48,9 @@ export interface EstimatorState {
   category: EstimatorCategory;
   /** Selected style slugs from the Visual Inspiration step (0–2, optional by design). */
   styles: string[];
-  /** TODO (later phase): typed per-question answers (BHK, carpet area, rooms, finish, etc.). */
+  /** Per-question answers keyed by question key (see lib/content/estimator/questions.ts). */
   answers: Record<string, unknown>;
-  /** TODO (later phase): real package tier slug once package content exists. */
+  /** Selected package tier slug (essential/signature/bespoke). */
   packageTier: string | null;
   /** TODO (later phase): typed lead-capture fields once the Lead screen is built. */
   lead: Record<string, unknown>;
@@ -59,6 +62,7 @@ interface EstimatorFlowContextValue extends EstimatorState {
   /** Toggles a style selection, capped at `maxStyles` concurrent picks. */
   toggleStyle: (slug: string, maxStyles: number) => void;
   setAnswer: (key: string, value: unknown) => void;
+  setPackageTier: (tier: string) => void;
   reset: () => void;
 }
 
@@ -100,6 +104,10 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, answers: { ...prev.answers, [key]: value } }));
   }, []);
 
+  const setPackageTier = useCallback((tier: string) => {
+    setState((prev) => ({ ...prev, packageTier: tier }));
+  }, []);
+
   const toggleStyle = useCallback((slug: string, maxStyles: number) => {
     setState((prev) => {
       if (prev.styles.includes(slug)) {
@@ -113,8 +121,8 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
   const reset = useCallback(() => setState(initialState), []);
 
   const value = useMemo<EstimatorFlowContextValue>(
-    () => ({ ...state, goToScreen, setCategory, toggleStyle, setAnswer, reset }),
-    [state, goToScreen, setCategory, toggleStyle, setAnswer, reset],
+    () => ({ ...state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, reset }),
+    [state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, reset],
   );
 
   return <EstimatorFlowContext.Provider value={value}>{children}</EstimatorFlowContext.Provider>;
