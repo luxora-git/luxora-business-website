@@ -52,7 +52,7 @@ export interface EstimatorState {
   answers: Record<string, unknown>;
   /** Selected package tier slug (essential/signature/bespoke). */
   packageTier: string | null;
-  /** TODO (later phase): typed lead-capture fields once the Lead screen is built. */
+  /** Lead-capture fields (fullName, mobileNumber, city, email, timeline, whatsappConsent). */
   lead: Record<string, unknown>;
 }
 
@@ -63,6 +63,8 @@ interface EstimatorFlowContextValue extends EstimatorState {
   toggleStyle: (slug: string, maxStyles: number) => void;
   setAnswer: (key: string, value: unknown) => void;
   setPackageTier: (tier: string) => void;
+  /** Merges submitted lead fields into flow state (kept for the reveal/proposal screens). */
+  setLead: (lead: Record<string, unknown>) => void;
   reset: () => void;
 }
 
@@ -108,6 +110,10 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, packageTier: tier }));
   }, []);
 
+  const setLead = useCallback((lead: Record<string, unknown>) => {
+    setState((prev) => ({ ...prev, lead: { ...prev.lead, ...lead } }));
+  }, []);
+
   const toggleStyle = useCallback((slug: string, maxStyles: number) => {
     setState((prev) => {
       if (prev.styles.includes(slug)) {
@@ -121,8 +127,8 @@ export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
   const reset = useCallback(() => setState(initialState), []);
 
   const value = useMemo<EstimatorFlowContextValue>(
-    () => ({ ...state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, reset }),
-    [state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, reset],
+    () => ({ ...state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, setLead, reset }),
+    [state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, setLead, reset],
   );
 
   return <EstimatorFlowContext.Provider value={value}>{children}</EstimatorFlowContext.Provider>;
