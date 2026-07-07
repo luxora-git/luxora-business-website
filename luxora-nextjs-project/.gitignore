@@ -3,3 +3,4 @@ node_modules
 .env
 .env.local
 livspace-analysis.md
+*.tsbuildinfo
