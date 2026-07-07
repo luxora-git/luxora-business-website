@@ -1,0 +1,143 @@
+'use client';
+
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+
+/**
+ * Estimator flow state — Phase 1 scaffold only.
+ *
+ * This defines the *shape* of the guided-estimator state and navigation
+ * only. No pricing, no validation, no lead submission, no business logic —
+ * those land in later phases per the approved Implementation Plan and
+ * Component Reuse Matrix. The Context/Provider/hook pattern is modeled
+ * directly on components/v4/modal/ConsultationModalContext.tsx.
+ */
+
+export type EstimatorScreen =
+  | 'landing'
+  | 'category'
+  | 'style'
+  | 'questions'
+  | 'budget'
+  | 'package'
+  | 'proposal'
+  | 'lead'
+  | 'thankYou'
+  | 'resume';
+
+/** Linear order of the guided flow. 'resume' is an alternate entry point,
+ * not part of the sequence. Lead capture deliberately precedes the
+ * proposal: the personalized estimate is gated behind form submission
+ * (business rule — the price is the incentive that earns the lead). */
+export const ESTIMATOR_SCREEN_ORDER: EstimatorScreen[] = [
+  'landing',
+  'category',
+  'style',
+  'questions',
+  'budget',
+  'package',
+  'lead',
+  'proposal',
+  'thankYou',
+];
+
+/** TODO (later phase): replace with the real category slugs sourced from lib/content/estimator. */
+export type EstimatorCategory = 'full-home' | 'kitchen' | 'wardrobe' | null;
+
+export interface EstimatorState {
+  currentScreen: EstimatorScreen;
+  category: EstimatorCategory;
+  /** Selected style slugs from the Visual Inspiration step (0–2, optional by design). */
+  styles: string[];
+  /** Per-question answers keyed by question key (see lib/content/estimator/questions.ts). */
+  answers: Record<string, unknown>;
+  /** Selected package tier slug (essential/signature/bespoke). */
+  packageTier: string | null;
+  /** Lead-capture fields (fullName, mobileNumber, city, email, timeline, whatsappConsent). */
+  lead: Record<string, unknown>;
+}
+
+interface EstimatorFlowContextValue extends EstimatorState {
+  goToScreen: (screen: EstimatorScreen) => void;
+  setCategory: (category: EstimatorCategory) => void;
+  /** Toggles a style selection, capped at `maxStyles` concurrent picks. */
+  toggleStyle: (slug: string, maxStyles: number) => void;
+  setAnswer: (key: string, value: unknown) => void;
+  setPackageTier: (tier: string) => void;
+  /** Merges submitted lead fields into flow state (kept for the reveal/proposal screens). */
+  setLead: (lead: Record<string, unknown>) => void;
+  reset: () => void;
+}
+
+const initialState: EstimatorState = {
+  currentScreen: 'landing',
+  category: null,
+  styles: [],
+  answers: {},
+  packageTier: null,
+  lead: {},
+};
+
+const EstimatorFlowContext = createContext<EstimatorFlowContextValue | null>(null);
+
+/**
+ * EstimatorFlowProvider — mounted once per estimator session. Currently
+ * scoped to app/estimate/page.tsx (not the root layout), so flow state only
+ * exists while the estimator is mounted.
+ */
+export function EstimatorFlowProvider({ children }: { children: ReactNode }) {
+  const [state, setState] = useState<EstimatorState>(initialState);
+
+  const goToScreen = useCallback((screen: EstimatorScreen) => {
+    setState((prev) => ({ ...prev, currentScreen: screen }));
+  }, []);
+
+  const setCategory = useCallback((category: EstimatorCategory) => {
+    // Answers are category-specific (bhkType vs kitchenShape vs wardrobeType) —
+    // switching category invalidates them, so they're cleared to avoid stale
+    // data leaking into later pricing. Style picks are category-agnostic and kept.
+    setState((prev) => ({
+      ...prev,
+      category,
+      answers: prev.category === category ? prev.answers : {},
+    }));
+  }, []);
+
+  const setAnswer = useCallback((key: string, value: unknown) => {
+    setState((prev) => ({ ...prev, answers: { ...prev.answers, [key]: value } }));
+  }, []);
+
+  const setPackageTier = useCallback((tier: string) => {
+    setState((prev) => ({ ...prev, packageTier: tier }));
+  }, []);
+
+  const setLead = useCallback((lead: Record<string, unknown>) => {
+    setState((prev) => ({ ...prev, lead: { ...prev.lead, ...lead } }));
+  }, []);
+
+  const toggleStyle = useCallback((slug: string, maxStyles: number) => {
+    setState((prev) => {
+      if (prev.styles.includes(slug)) {
+        return { ...prev, styles: prev.styles.filter((s) => s !== slug) };
+      }
+      if (prev.styles.length >= maxStyles) return prev;
+      return { ...prev, styles: [...prev.styles, slug] };
+    });
+  }, []);
+
+  const reset = useCallback(() => setState(initialState), []);
+
+  const value = useMemo<EstimatorFlowContextValue>(
+    () => ({ ...state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, setLead, reset }),
+    [state, goToScreen, setCategory, toggleStyle, setAnswer, setPackageTier, setLead, reset],
+  );
+
+  return <EstimatorFlowContext.Provider value={value}>{children}</EstimatorFlowContext.Provider>;
+}
+
+export function useEstimatorFlow(): EstimatorFlowContextValue {
+  const ctx = useContext(EstimatorFlowContext);
+  if (!ctx) {
+    throw new Error('useEstimatorFlow must be used within an EstimatorFlowProvider');
+  }
+  return ctx;
+}
