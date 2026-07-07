@@ -43,9 +43,8 @@ export default function DisclaimerPage() {
 
         <LegalSection title="Third-Party Links">
           <p>
-            This website links to external tools and platforms we operate or partner with, including our Price
-            Calculator and Luxora Lifestyles. We are not responsible for the content or availability of third-party
-            websites linked from here.
+            This website links to external platforms we operate or partner with, including Luxora Lifestyles. We are
+            not responsible for the content or availability of third-party websites linked from here.
           </p>
         </LegalSection>
 

@@ -90,6 +90,11 @@ export default function V4HeroSection() {
               event.target.unloadModule('captions');
               event.target.unloadModule('cc');
             } catch (_) {}
+            // Belt-and-suspenders alongside the `start=3` URL param — skips
+            // the company logo intro on the very first load too.
+            try {
+              event.target.seekTo(3, true);
+            } catch (_) {}
           },
           onStateChange: (event: any) => {
             // Re-kill captions every time playback starts
@@ -97,6 +102,13 @@ export default function V4HeroSection() {
               try {
                 ytPlayerRef.current?.unloadModule('captions');
                 ytPlayerRef.current?.unloadModule('cc');
+              } catch (_) {}
+              // The hero video loops (loop=1 + self-referencing playlist),
+              // which restarts from 0:00 — re-skip the logo intro every
+              // time playback resumes near the start, not just on first load.
+              try {
+                const t = ytPlayerRef.current?.getCurrentTime?.() ?? 0;
+                if (t < 1) ytPlayerRef.current?.seekTo(3, true);
               } catch (_) {}
             }
           },
@@ -202,7 +214,7 @@ export default function V4HeroSection() {
                 <div className="absolute inset-0 z-10 pointer-events-none" />
                 <iframe
                   id="hero-yt-iframe"
-                  src="https://www.youtube.com/embed/153mazee_1w?autoplay=1&mute=1&loop=1&playlist=153mazee_1w&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1&cc_load_policy=0&cc_lang_pref=&widget_referrer=luxora"
+                  src="https://www.youtube.com/embed/153mazee_1w?autoplay=1&mute=1&loop=1&playlist=153mazee_1w&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1&cc_load_policy=0&cc_lang_pref=&widget_referrer=luxora&start=3"
                   className="absolute"
                   style={{
                     top: '50%', left: '50%',

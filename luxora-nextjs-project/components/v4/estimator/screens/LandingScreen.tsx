@@ -5,7 +5,14 @@ import { LuxuryGrain } from '@/components/v4/background';
 import { useScrollReveal } from '@/lib/useScrollReveal';
 import { estimatorLandingContent } from '@/lib/content/estimator/landing';
 import { useEstimatorFlow } from '../useEstimatorFlow';
-import { EstimatorHero, EstimatorTrustRow, EstimatorJourneyPreview, EstimatorTimeEstimate, EstimatorBenefitCards } from '../landing';
+import {
+  EstimatorHero,
+  EstimatorTrustRow,
+  EstimatorJourneyPreview,
+  EstimatorTimeEstimate,
+  EstimatorBenefitCards,
+  EstimatorConversionCta,
+} from '../landing';
 
 /**
  * LandingScreen — Phase 2.1 polish pass.
@@ -48,6 +55,11 @@ export default function LandingScreen() {
         steps={estimatorLandingContent.journey.steps}
       />
 
+      <EstimatorConversionCta
+        content={estimatorLandingContent.midConversionCta}
+        onStart={() => goToScreen('category')}
+      />
+
       <EstimatorTimeEstimate
         label={estimatorLandingContent.timeEstimateLabel}
         value={estimatorLandingContent.timeEstimateValue}
@@ -67,6 +79,11 @@ export default function LandingScreen() {
         </div>
       </section>
       <EstimatorBenefitCards items={estimatorLandingContent.whyUseThis.items} />
+
+      <EstimatorConversionCta
+        content={estimatorLandingContent.closingConversionCta}
+        onStart={() => goToScreen('category')}
+      />
     </div>
   );
 }

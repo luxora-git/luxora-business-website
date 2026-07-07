@@ -28,7 +28,7 @@ const navItems: NavItem[] = [
   { label: 'Services', menu: servicesMenu, href: '/services/full-home-interior-design' },
   { label: 'Products', menu: productsMenu, href: '/products' },
   { label: 'Portfolio', menu: portfolioMenu, href: '/portfolio' },
-  { label: 'Price Calculator', href: luxoraPriceCalculatorUrl, external: true },
+  { label: 'Price Calculator', href: luxoraPriceCalculatorUrl },
 ];
 
 export default function V4Navbar() {

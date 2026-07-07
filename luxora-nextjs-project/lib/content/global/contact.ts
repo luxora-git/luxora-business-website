@@ -21,8 +21,8 @@ export const luxoraContact = {
   },
 } as const;
 
-/** The standalone Price Calculator / Budget Estimator tool — always opens in a new tab. */
-export const luxoraPriceCalculatorUrl = 'https://estimate.luxora.in/';
+/** The integrated Luxora Interior Estimator — an internal route, not an external tool. */
+export const luxoraPriceCalculatorUrl = '/estimate';
 
 export const luxoraSocialLinks = [
   {

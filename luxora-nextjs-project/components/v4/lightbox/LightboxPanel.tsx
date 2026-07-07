@@ -319,15 +319,13 @@ export default function LightboxPanel({ content, onClose }: LightboxPanelProps) 
         >
           Book Free Consultation
         </button>
-        <a
+        <Link
           href={luxoraPriceCalculatorUrl}
-          target="_blank"
-          rel="noopener noreferrer"
           className="inline-flex items-center justify-center w-full gap-2 px-6 py-3.5 rounded-full font-bold text-[12px] tracking-[0.08em] uppercase transition-all duration-300 hover:-translate-y-0.5"
           style={{ background: 'transparent', color: luxoraColors.gold, border: `1px solid ${luxoraColors.gold}` }}
         >
           Get Free Estimate
-        </a>
+        </Link>
       </div>
     </div>
   );

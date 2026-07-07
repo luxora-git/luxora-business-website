@@ -17,8 +17,8 @@ function formatLakh(value: number): string {
 
 /**
  * ServiceCostEstimatorPreview — a compact, glanceable estimate widget
- * (area + package → instant range), not the full calculator. Feeds into
- * the existing standalone Price Calculator tool via `ctaHref`.
+ * (area + package → instant range), not the full estimator. Feeds into
+ * the integrated Luxora Interior Estimator via `ctaHref`.
  */
 export default function ServiceCostEstimatorPreview({ data }: ServiceCostEstimatorPreviewProps) {
   const [areaIndex, setAreaIndex] = useState(Math.floor(data.areaOptions.length / 2));
@@ -119,8 +119,8 @@ export default function ServiceCostEstimatorPreview({ data }: ServiceCostEstimat
             </p>
             <a
               href={data.ctaHref}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={/^https?:\/\//.test(data.ctaHref) ? '_blank' : undefined}
+              rel={/^https?:\/\//.test(data.ctaHref) ? 'noopener noreferrer' : undefined}
               className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-bold text-[11px] tracking-[0.10em] uppercase transition-all duration-300 hover:-translate-y-0.5"
               style={{ background: luxoraColors.gold, color: '#1C1005', boxShadow: '0 8px 28px rgba(201,162,39,0.28)' }}
             >

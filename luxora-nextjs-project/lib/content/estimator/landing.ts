@@ -7,6 +7,14 @@ import { luxoraStats } from '@/lib/content/global/stats';
  * authored content for the Landing Experience approved in Phase 2.
  */
 
+function encodePath(path: string): string {
+  return path.split('/').map(encodeURIComponent).join('/');
+}
+/** Real (non-AI-render) project photography — same folder GlobalClosingCTA sources from. */
+function real(path: string): string {
+  return encodePath(`/img/PROJECT BASED/${path}`);
+}
+
 export interface EstimatorTrustItem {
   label: string;
 }
@@ -33,6 +41,19 @@ export interface EstimatorWhyUseThisContent {
   items: ServiceHighlightItem[];
 }
 
+/** A full-bleed image conversion checkpoint — same recipe as GlobalClosingCTA
+ * (the shared closing section every other V4 page ends with), so every CTA
+ * on the site reads as one consistent design language. */
+export interface EstimatorConversionCtaContent {
+  eyebrow?: string;
+  title: string;
+  titleItalic?: string;
+  description: string;
+  ctaLabel: string;
+  image: string;
+  imageAlt: string;
+}
+
 export interface EstimatorLandingContent {
   eyebrow: string;
   headline: string;
@@ -47,6 +68,8 @@ export interface EstimatorLandingContent {
   timeEstimateValue: string;
   privacyNote: string;
   whyUseThis: EstimatorWhyUseThisContent;
+  midConversionCta: EstimatorConversionCtaContent;
+  closingConversionCta: EstimatorConversionCtaContent;
 }
 
 export const estimatorLandingContent: EstimatorLandingContent = {
@@ -114,5 +137,23 @@ export const estimatorLandingContent: EstimatorLandingContent = {
       { value: '04', label: 'Plan Confidently', description: 'Move forward knowing what your investment actually covers.' },
       { value: '05', label: 'Talk To Designers With Clarity', description: 'Walk into your consultation already informed.' },
     ],
+  },
+  midConversionCta: {
+    eyebrow: 'Just 3 Minutes Away',
+    title: 'Curious What Your',
+    titleItalic: 'Dream Home Actually Costs?',
+    description: 'See your personalized investment range instantly — no forms to fill, no pressure, just clarity.',
+    ctaLabel: 'Start Your Free Estimate',
+    image: real('LIVING ROOM DESIGN/Karamveer ji G.F. A01_View070000.webp'),
+    imageAlt: 'Elegant, fully styled living room by Luxora',
+  },
+  closingConversionCta: {
+    eyebrow: 'Start Your Journey',
+    title: 'Stop Guessing.',
+    titleItalic: 'Start Planning With Real Numbers.',
+    description: 'Join homeowners across Jaipur who planned their dream interiors with total budget clarity.',
+    ctaLabel: 'Start Your Free Estimate',
+    image: real('MASTER BEDROOM DESIGN/Balram ji Bedroom A01.webp'),
+    imageAlt: 'Serene, fully styled master bedroom by Luxora',
   },
 };

@@ -21,12 +21,11 @@ const col3 = { title: 'Explore',  links: ['Design Gallery', 'Interior Elements',
 const MODAL_TRIGGER_LABELS = new Set(['Book Free Consultation']);
 
 /** Footer link labels that open an external URL in a new tab. */
-const EXTERNAL_HREFS: Record<string, string> = {
-  'Get Free Estimate': luxoraPriceCalculatorUrl,
-};
+const EXTERNAL_HREFS: Record<string, string> = {};
 
 /** Every other footer link label mapped to its real internal page. */
 const INTERNAL_HREFS: Record<string, string> = {
+  'Get Free Estimate': luxoraPriceCalculatorUrl,
   'About Us': '/about-us',
   'Contact Us': '/contact-us',
   'Careers': '/careers',
