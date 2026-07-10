@@ -53,8 +53,15 @@ it.
 
 ## Containers
 
-One recipe: legacy `max-w-7xl` behavior to 1535px, then
-`2xl:1440 → 3xl:1680 (wider gutters) → 4xl:1840 cap`.
+One recipe: the classic 1280px column through 1919px, then conservative
+tiers — `3xl:1560 (wider gutters) → 4xl:1760 cap`.
+
+> **The ~85% rule (learned from a real regression):** the container must
+> never consume more than ~85% of the viewport. The generous side margins
+> ARE the luxury framing — a 1440px container on a 1536px viewport left
+> 48px margins and made the whole site feel stretched and cheap. Tier
+> values are chosen so margins stay proportionally generous (1560 = 81%
+> of 1920; 1760 = 69% of 2560).
 
 ```tsx
 // New code — preferred:

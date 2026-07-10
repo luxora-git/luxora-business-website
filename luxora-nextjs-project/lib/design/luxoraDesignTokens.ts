@@ -82,13 +82,14 @@ export const luxoraType = {
 /**
  * Design System V2 — layout & rhythm recipes (Tailwind class strings).
  *
- * `container` is THE section content wrapper for the whole site: identical
- * to the legacy `max-w-7xl` recipe up to 1535px, then widens through named
- * tiers (2xl 1440 → 3xl 1680 → 4xl 1840 cap) so large displays get a
- * designed composition instead of a 1280px column in an ocean of margin.
- * Prefer the `SectionContainer` component (components/v4/common) in new
- * code; consume this string directly only when a component needs to merge
- * it into an existing element.
+ * `container` is THE section content wrapper for the whole site: the
+ * classic 1280px column through 1919px (the generous side margins ARE the
+ * luxury framing — the container must never consume more than ~85% of the
+ * viewport), then conservative named tiers: 3xl 1560 (81% of 1920) and
+ * 4xl 1760 (69% of 2560) so large displays get a designed composition
+ * without ever feeling stretched. Prefer the `SectionContainer` component
+ * (components/v4/common) in new code; consume this string directly only
+ * when a component needs to merge it into an existing element.
  *
  * The three `section*` recipes are the only allowed vertical paddings for
  * full sections — pick the one matching the section's current density.
@@ -98,7 +99,7 @@ export const luxoraSpacing = {
   sectionRelaxed: 'py-28 md:py-36 3xl:py-44',
   sectionTight: 'py-16 md:py-20 3xl:py-28',
   container:
-    'max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 2xl:max-w-[1440px] 3xl:max-w-[1680px] 3xl:px-20 4xl:max-w-[1840px]',
+    'max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 3xl:max-w-[1560px] 3xl:px-20 4xl:max-w-[1760px]',
   grid: 'gap-6 md:gap-8 3xl:gap-10',
   card: 'p-6 md:p-8',
 } as const;

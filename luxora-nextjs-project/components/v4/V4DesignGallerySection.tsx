@@ -141,15 +141,15 @@ export default function V4DesignGallerySection() {
           renderDesktopPage={([slide]) => (
             /* Asymmetric editorial mosaic; height grows with the container's
                large-display tiers so the composition keeps its proportions. */
-            <div className="grid grid-cols-[1fr_1.5fr_1fr] gap-5 h-[540px] 2xl:h-[600px] 2xl:gap-6 3xl:h-[660px]">
-              <div className="flex flex-col gap-5 2xl:gap-6 h-full">
+            <div className="grid grid-cols-[1fr_1.5fr_1fr] gap-5 h-[540px] 3xl:h-[620px] 3xl:gap-6">
+              <div className="flex flex-col gap-5 3xl:gap-6 h-full">
                 <DesktopGalleryCard {...slide.left[0]} className="flex-1" />
                 <DesktopGalleryCard {...slide.left[1]} className="flex-1" />
               </div>
 
               <DesktopGalleryCard {...slide.center} className="h-full" />
 
-              <div className="flex flex-col gap-5 2xl:gap-6 h-full">
+              <div className="flex flex-col gap-5 3xl:gap-6 h-full">
                 <DesktopGalleryCard {...slide.right[0]} className="flex-1" />
                 <DesktopGalleryCard {...slide.right[1]} className="flex-1" />
               </div>

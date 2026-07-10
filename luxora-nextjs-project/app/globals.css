@@ -37,11 +37,11 @@
    the growth, never comically large text. */
 :root {
   /* Hero H1 — was clamp(2.4rem, 5.5vw, 5.8rem), cap engaged ~1690px */
-  --lux-type-display: clamp(2.4rem, 5.5vw, 6.6rem);
+  --lux-type-display: clamp(2.4rem, 5.5vw, 6.2rem);
   /* Page/closing H1 — was clamp(2.2rem, 4.5vw, 3.8rem), cap ~1350px */
-  --lux-type-h1: clamp(2.2rem, 4.5vw, 5.4rem);
+  --lux-type-h1: clamp(2.2rem, 4.5vw, 5rem);
   /* Section headings — was clamp(2rem, 3.5vw, 3.4rem), cap ~1554px */
-  --lux-type-h2: clamp(2rem, 3.5vw, 4.2rem);
+  --lux-type-h2: clamp(2rem, 3.5vw, 3.8rem);
   /* Card / sub-block titles */
   --lux-type-h3: clamp(1.15rem, 1.05vw, 1.4rem);
 }

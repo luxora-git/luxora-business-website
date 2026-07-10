@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import gsap from 'gsap';
 import { useConsultationModal } from './modal';
 import { luxoraStats } from '@/lib/content/global/stats';
-import { luxoraSpacing, luxoraType } from '@/lib/design/luxoraDesignTokens';
+import { luxoraType } from '@/lib/design/luxoraDesignTokens';
 
 interface Slide {
   image: string;
@@ -193,54 +193,6 @@ export default function V4HeroSection() {
       <style jsx>{`
         .kb { animation: kb 9s ease-in-out forwards; }
         @keyframes kb { from { transform: scale(1.05); } to { transform: scale(1.0); } }
-
-        /* ── Hero video sizing — tiered crop strategy ─────────────────
-           Default (up to ~21:10 section aspect): classic cover-fit of the
-           16:9 video. Vertical crop stays ≤ ~15%, visually invisible.
-
-           Ultrawide (>21:10 — 21:9 monitors, TVs, very short windows):
-           cover-fit would discard 25–30% of the frame's vertical
-           composition. Instead the video fits the section HEIGHT exactly
-           (zero content loss) and the leftover side zones become a
-           deliberate cinematic frame: espresso panels that bleed into the
-           video's edges. Excess width turns into intentional luxury
-           framing instead of lost footage. */
-        .hero-yt {
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: max(100%, 177.78vh);
-          height: max(100%, 56.25vw);
-          min-width: 100%;
-          min-height: 100%;
-        }
-        .hero-cinema-frame {
-          display: none;
-        }
-        @media (min-aspect-ratio: 21/10) {
-          .hero-yt {
-            width: 177.78vh;
-            height: 100%;
-            min-width: 0;
-          }
-          .hero-cinema-frame {
-            display: block;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            z-index: 5;
-            width: calc((100vw - 177.78vh) / 2 + 120px);
-            pointer-events: none;
-          }
-          .hero-cinema-frame-left {
-            left: 0;
-            background: linear-gradient(to right, #1C1005 0%, #1C1005 calc(100% - 180px), rgba(28, 16, 5, 0) 100%);
-          }
-          .hero-cinema-frame-right {
-            right: 0;
-            background: linear-gradient(to left, #1C1005 0%, #1C1005 calc(100% - 180px), rgba(28, 16, 5, 0) 100%);
-          }
-        }
       `}</style>
 
       <section
@@ -264,16 +216,19 @@ export default function V4HeroSection() {
                 <iframe
                   id="hero-yt-iframe"
                   src="https://www.youtube.com/embed/153mazee_1w?autoplay=1&mute=1&loop=1&playlist=153mazee_1w&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1&cc_load_policy=0&cc_lang_pref=&widget_referrer=luxora&start=3"
-                  className="hero-yt absolute"
-                  style={{ border: 'none', pointerEvents: 'none' }}
+                  className="absolute"
+                  style={{
+                    top: '50%', left: '50%',
+                    transform: 'translate(-50%,-50%)',
+                    width: 'max(100%, 177.78vh)',
+                    height: 'max(100%, 56.25vw)',
+                    minWidth: '100%', minHeight: '100%',
+                    border: 'none', pointerEvents: 'none',
+                  }}
                   allow="autoplay; encrypted-media; picture-in-picture"
                   allowFullScreen
                   title="Luxora"
                 />
-                {/* Cinematic side frames — only render on ultrawide aspect
-                    ratios (see the hero-yt media query above) */}
-                <div className="hero-cinema-frame hero-cinema-frame-left" aria-hidden="true" />
-                <div className="hero-cinema-frame hero-cinema-frame-right" aria-hidden="true" />
               </div>
             ) : (
               <img
@@ -328,7 +283,7 @@ export default function V4HeroSection() {
 
               <h1
                 className="font-playfair font-normal text-white leading-[1.05] tracking-[-0.03em] mb-7 drop-shadow-2xl"
-                style={{ fontSize: 'clamp(1.9rem, 3.6vw, 4.3rem)' }}
+                style={{ fontSize: 'clamp(1.9rem, 3.6vw, 4rem)' }}
               >
                 <span data-h-heading className="block">{slide.heading}</span>
                 {slide.headingItalic && (
@@ -383,10 +338,11 @@ export default function V4HeroSection() {
             </div>
 
           ) : (
-            /* ── IMAGE SLIDES: Bottom-anchored editorial layout — text column
-                 anchored to the shared container so it aligns with every other
-                 section (and never hugs the viewport edge on large displays) */
-            <div className={`flex-1 flex flex-col justify-end pb-36 ${luxoraSpacing.container}`}>
+            /* ── IMAGE SLIDES: Bottom-anchored editorial layout. Edge-anchored
+                 paddings below 1920px (the expansive full-bleed hero look,
+                 identical to production); from 3xl up the column centers on
+                 the container width so it never drifts to a far screen edge. */
+            <div className="flex-1 flex flex-col justify-end px-6 sm:px-8 md:px-12 lg:px-16 pb-36 w-full 3xl:max-w-[1560px] 3xl:mx-auto 3xl:px-20">
               <div className="max-w-[680px]">
                 <div data-h-eyebrow className="mb-5">
                   <span
@@ -457,36 +413,35 @@ export default function V4HeroSection() {
         </div>
 
         {/* ── Stats — right-side floating cards on IMAGE slides only.
-             Anchored inside the shared container (not the section edge) so
-             on large displays they stay part of the composed column with
-             the headline instead of drifting to the far screen edge. ── */}
+             Edge-anchored below 1920px (production behavior); from 3xl up
+             they clamp to the hero content column's right edge so they stay
+             part of the composition instead of drifting to a far screen
+             edge on ultrawide displays. ── */}
         {!isVideo && (
-          <div className={`pointer-events-none absolute inset-0 z-20 ${luxoraSpacing.container}`}>
-            <div
-              data-h-stats
-              className="pointer-events-auto absolute right-6 md:right-12 lg:right-16 3xl:right-20 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-3"
-            >
-              {statCards.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="backdrop-blur-xl border rounded-xl px-5 py-3.5 transition-all duration-300 hover:border-[#C9A227]/40"
-                  style={{ background: 'rgba(20,18,16,0.72)', borderColor: 'rgba(255,255,255,0.10)' }}
-                >
-                  <div className="font-playfair text-xl font-bold leading-none mb-1 text-white">{stat.value}</div>
-                  <div className="text-[9px] tracking-[0.12em] uppercase font-medium" style={{ color: 'rgba(255,255,255,0.60)' }}>{stat.label}</div>
-                </div>
-              ))}
-            </div>
+          <div
+            data-h-stats
+            className="absolute right-6 md:right-12 lg:right-16 3xl:right-[calc((100vw_-_1560px)/2_+_5rem)] top-1/2 -translate-y-1/2 z-20 hidden xl:flex flex-col gap-3"
+          >
+            {statCards.map((stat) => (
+              <div
+                key={stat.label}
+                className="backdrop-blur-xl border rounded-xl px-5 py-3.5 transition-all duration-300 hover:border-[#C9A227]/40"
+                style={{ background: 'rgba(20,18,16,0.72)', borderColor: 'rgba(255,255,255,0.10)' }}
+              >
+                <div className="font-playfair text-xl font-bold leading-none mb-1 text-white">{stat.value}</div>
+                <div className="text-[9px] tracking-[0.12em] uppercase font-medium" style={{ color: 'rgba(255,255,255,0.60)' }}>{stat.label}</div>
+              </div>
+            ))}
           </div>
         )}
 
         {/* ── Prev / Next arrows ──────────────────────────────────── */}
         {[
-          /* 3xl+: arrows clamp toward the content column ((100vw − 1760px)/2
-             puts them just outside the 1680px container) instead of drifting
-             to the far edges of an ultrawide screen. */
-          { fn: prevSlide, side: 'left-5 md:left-8 3xl:left-[max(2rem,calc((100vw_-_1760px)/2))]', icon: 'M15 19l-7-7 7-7', label: 'Previous' },
-          { fn: nextSlide, side: 'right-5 md:right-8 3xl:right-[max(2rem,calc((100vw_-_1760px)/2))]', icon: 'M9 5l7 7-7 7', label: 'Next' },
+          /* 3xl+: arrows clamp toward the content column ((100vw − 1640px)/2
+             puts them just outside the 1560px hero column) instead of
+             drifting to the far edges of an ultrawide screen. */
+          { fn: prevSlide, side: 'left-5 md:left-8 3xl:left-[max(2rem,calc((100vw_-_1640px)/2))]', icon: 'M15 19l-7-7 7-7', label: 'Previous' },
+          { fn: nextSlide, side: 'right-5 md:right-8 3xl:right-[max(2rem,calc((100vw_-_1640px)/2))]', icon: 'M9 5l7 7-7 7', label: 'Next' },
         ].map((btn) => (
           <button
             key={btn.label}
