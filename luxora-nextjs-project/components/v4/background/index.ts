@@ -15,3 +15,19 @@ export type { LuxuryGrainProps } from './LuxuryGrain';
 
 export { default as LuxuryDivider } from './LuxuryDivider';
 export type { LuxuryDividerProps, LuxuryDividerVariant } from './LuxuryDivider';
+
+export { default as LuxuryFrame } from './LuxuryFrame';
+export type { LuxuryFrameProps, LuxuryFrameVariant } from './LuxuryFrame';
+
+export { default as LuxuryMesh } from './LuxuryMesh';
+export type { LuxuryMeshProps, LuxuryMeshTone } from './LuxuryMesh';
+
+export { default as LuxurySpotlight } from './LuxurySpotlight';
+export type { LuxurySpotlightProps, LuxurySpotlightFrom } from './LuxurySpotlight';
+
+export { default as LuxuryGeometry } from './LuxuryGeometry';
+export type { LuxuryGeometryProps, LuxuryGeometryVariant } from './LuxuryGeometry';
+
+/* Scene compositions — the Background Design System's named visual
+ * languages (see docs/background-design-system.md). */
+export * from './scenes';

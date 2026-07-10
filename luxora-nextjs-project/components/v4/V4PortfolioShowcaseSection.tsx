@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import { portfolioProjects } from '@/lib/content/portfolio/projects';
+import { GoldenComposition } from './background';
 import { Showcase } from './showcase';
 
 const FEATURED_SLUGS = [
@@ -105,17 +106,9 @@ export default function V4PortfolioShowcaseSection() {
       className="relative overflow-hidden py-28 md:py-36 3xl:py-44"
       style={{ backgroundColor: '#FDFAF6' }}
     >
-      {/* Dot grid — mirrors the Design Gallery's visual weight */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.05]">
-        <svg className="h-full w-full" preserveAspectRatio="none">
-          <defs>
-            <pattern id="portfolio-dots" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="#C9A96E" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#portfolio-dots)" />
-        </svg>
-      </div>
+      {/* Scene: GoldenComposition — the statement register for completed
+          work (see docs/background-design-system.md) */}
+      <GoldenComposition id="home-portfolio" />
 
       <div className={`relative z-10 ${luxoraSpacing.container}`}>
         <Showcase<(typeof featured)[number]>

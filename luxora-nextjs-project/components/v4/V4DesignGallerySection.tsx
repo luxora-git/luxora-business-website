@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { luxoraColors, luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { SoftGeometry } from './background';
 import { Showcase, ShowcaseMosaicPage, SHOWCASE_CARD_BG, type ShowcaseMosaicItem } from './showcase';
 
 const CARD_FOOTER_BG = 'rgba(239,227,206,0.97)';
@@ -115,17 +116,9 @@ export default function V4DesignGallerySection() {
       className="relative overflow-hidden py-28 md:py-36 3xl:py-44"
       style={{ backgroundColor: '#F5EFE6' }}
     >
-      {/* Dot grid */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.05]">
-        <svg className="h-full w-full" preserveAspectRatio="none">
-          <defs>
-            <pattern id="gallery-dots" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="#C9A96E" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#gallery-dots)" />
-        </svg>
-      </div>
+      {/* Scene: SoftGeometry — quiet accents at the edges, middle stays
+          clear for the showcase (see docs/background-design-system.md) */}
+      <SoftGeometry id="home-gallery" />
 
       <div className={`relative z-10 ${luxoraSpacing.container}`}>
         <Showcase<GallerySlide>
