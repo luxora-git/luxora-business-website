@@ -1,9 +1,10 @@
 /**
- * Consultation request submission — client for `/api/consultation`, which
- * forwards every submission to Bitrix24 CRM as a Lead (see
- * `lib/integrations/bitrix24.ts`). Intentionally a real network call rather
- * than a faked success so the modal's loading/success/error states are
- * honest about backend/CRM availability.
+ * Consultation request submission — client for `/api/consultation`, the
+ * same Bitrix24 + Amazon SES lead pipeline the Estimator uses (see
+ * app/api/consultation/route.ts). The route always responds 200/ok — a
+ * failure in either integration is logged server-side for manual recovery
+ * rather than surfaced as an error here, so a visitor's request is never
+ * rejected just because the CRM or email happened to be unavailable.
  */
 
 export interface ConsultationFormData {
@@ -19,12 +20,9 @@ export interface ConsultationFormData {
 
 export class ConsultationSubmissionError extends Error {}
 
-/**
- * POSTs the consultation request to `/api/consultation`. There is no route
- * handler for this yet — until one is added, this will reject and the
- * modal will surface its error state. That is expected and correct: it
- * keeps the UI honest rather than pretending a backend exists.
- */
+/** POSTs the consultation request to `/api/consultation`. Only rejects on a
+ * network failure or a malformed-payload response — a real backend/CRM
+ * outage is handled server-side and still returns 200. */
 export async function submitConsultationRequest(data: ConsultationFormData): Promise<void> {
   let response: Response;
   try {

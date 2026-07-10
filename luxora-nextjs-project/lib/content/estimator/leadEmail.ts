@@ -1,13 +1,13 @@
 import { formatEstimateINR, type EstimateRange } from './pricing';
 import type { EstimateSummaryItem } from './summary';
+import { sectionHeading, dataSection, renderEmailShell } from '@/lib/content/email/emailShell';
 
 /**
  * Estimator lead notification email — pure presentation, no I/O. Built
  * from the same shared summary items that power the reveal screen and
- * the CRM note, so every surface reads the identical brief. Table-based
- * layout with inline styles (the only reliable approach across email
- * clients), single column, max-width 600px so it reads well on mobile.
- * Every user-provided string is HTML-escaped.
+ * the CRM note, so every surface reads the identical brief. Renders
+ * through the shared `renderEmailShell` (see lib/content/email/emailShell.ts)
+ * — the same branding/layout the Consultation notification email uses.
  */
 
 export interface EstimatorLeadEmailInput {
@@ -46,46 +46,6 @@ const TIMELINE_LABELS: Record<string, string> = {
   exploring: 'Just exploring',
 };
 
-/* ── Palette (matches luxoraDesignTokens) ─────────────────────────── */
-const GOLD = '#C9A227';
-const ESPRESSO_DEEP = '#1C1005';
-const ESPRESSO = '#2C1F14';
-const SOFT_BROWN = '#6B4C3B';
-const CREAM = '#F5EFE6';
-const IVORY = '#FDFAF6';
-const HAIRLINE = '#E5D9C5';
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function sectionHeading(title: string): string {
-  return `<tr><td style="padding:26px 28px 10px;">
-    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:${GOLD};font-family:Arial,Helvetica,sans-serif;">${title}</p>
-    <div style="height:1px;background:${HAIRLINE};margin-top:8px;"></div>
-  </td></tr>`;
-}
-
-function dataRow(label: string, value: string): string {
-  return `<tr>
-    <td style="padding:7px 28px 7px;vertical-align:top;width:42%;font-size:12px;font-weight:700;letter-spacing:0.5px;color:${SOFT_BROWN};font-family:Arial,Helvetica,sans-serif;">${escapeHtml(label)}</td>
-    <td style="padding:7px 28px 7px 0;vertical-align:top;font-size:13px;color:${ESPRESSO};font-family:Arial,Helvetica,sans-serif;">${escapeHtml(value)}</td>
-  </tr>`;
-}
-
-function dataSection(rows: Array<[string, string | undefined]>): string {
-  const rendered = rows
-    .filter((r): r is [string, string] => Boolean(r[1] && r[1].trim()))
-    .map(([label, value]) => dataRow(label, value))
-    .join('');
-  return `<tr><td style="padding:0 0 6px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rendered}</table></td></tr>`;
-}
-
 export function buildEstimatorLeadEmail(input: EstimatorLeadEmailInput): { subject: string; html: string } {
   const { lead, meta } = input;
   const rangeText = `${formatEstimateINR(input.range.min)} – ${formatEstimateINR(input.range.max)}`;
@@ -98,26 +58,7 @@ export function buildEstimatorLeadEmail(input: EstimatorLeadEmailInput): { subje
 
   const subject = `New Estimator Lead — ${lead.fullName} · ${input.categoryLabel} · ${rangeText}`;
 
-  const html = `<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(subject)}</title></head>
-<body style="margin:0;padding:0;background:${CREAM};">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};padding:24px 12px;">
-    <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:${IVORY};border-radius:12px;overflow:hidden;border:1px solid ${HAIRLINE};">
-
-        <!-- Header -->
-        <tr><td style="background:${ESPRESSO_DEEP};padding:26px 28px;text-align:center;">
-          <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${GOLD};font-family:Arial,Helvetica,sans-serif;">Luxora Interiors</p>
-          <p style="margin:8px 0 0;font-size:20px;color:${IVORY};font-family:Georgia,'Times New Roman',serif;">New Website Estimator Lead</p>
-        </td></tr>
-
-        <!-- Estimate banner -->
-        <tr><td style="background:${ESPRESSO};padding:18px 28px;text-align:center;">
-          <p style="margin:0;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(253,250,246,0.6);font-family:Arial,Helvetica,sans-serif;">Estimated Investment</p>
-          <p style="margin:6px 0 0;font-size:26px;color:${GOLD};font-family:Georgia,'Times New Roman',serif;">${escapeHtml(rangeText)}</p>
-        </td></tr>
-
+  const bodyHtml = `
         ${sectionHeading('Customer Details')}
         ${dataSection([
           ['Name', lead.fullName],
@@ -152,18 +93,15 @@ export function buildEstimatorLeadEmail(input: EstimatorLeadEmailInput): { subje
           ['IP Address', meta.ip],
           ['Device / Browser', meta.userAgent],
           ['Request ID', meta.requestId],
-        ])}
+        ])}`;
 
-        <!-- Footer -->
-        <tr><td style="padding:20px 28px 24px;text-align:center;border-top:1px solid ${HAIRLINE};">
-          <p style="margin:0;font-size:11px;color:${SOFT_BROWN};font-family:Arial,Helvetica,sans-serif;">Automated notification from the Luxora Website Estimator.</p>
-        </td></tr>
-
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
+  const html = renderEmailShell({
+    subject,
+    headerTitle: 'New Website Estimator Lead',
+    banner: { label: 'Estimated Investment', value: rangeText },
+    bodyHtml,
+    footerText: 'Automated notification from the Luxora Website Estimator.',
+  });
 
   return { subject, html };
 }
