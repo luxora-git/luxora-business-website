@@ -1,6 +1,7 @@
 'use client';
 
 import V4SectionHeader from './V4SectionHeader';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import { LuxuryContour, LuxuryBlueprint, LuxuryMarble, LuxuryHalo, LuxuryGrain } from './background';
 import { useConsultationModal } from './modal';
 
@@ -48,7 +49,7 @@ export default function V4ServicesSection() {
   return (
     <section
       id="v4-services"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
           'linear-gradient(to bottom, rgba(28,22,16,0.16) 0%, rgba(28,22,16,0.04) 7%, transparent 16%), #F5EFE6',
@@ -76,7 +77,7 @@ export default function V4ServicesSection() {
       {/* Layer 5 — whisper-quiet grain across the full section */}
       <LuxuryGrain id="v4-services-grain" opacity={0.012} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
         <div data-v4-reveal-heading>
           <V4SectionHeader
             eyebrow="What We Do"

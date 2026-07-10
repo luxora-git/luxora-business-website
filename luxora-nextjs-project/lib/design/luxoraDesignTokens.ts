@@ -52,10 +52,54 @@ export const luxoraBlur = {
   softBlur: '24px',
 } as const;
 
+/**
+ * Design System V2 — fluid type scale.
+ *
+ * The `display`/`h1`/`h2`/`h3` entries are CSS custom properties defined in
+ * app/globals.css (fluid clamp() values, identical to the legacy hand-tuned
+ * clamps below ~1550px, scaling further to a cap at 1920px) — use them as
+ * inline `fontSize` values. The remaining entries are Tailwind class
+ * recipes for UI text; they match today's responsive classes exactly and
+ * add the 3xl/4xl tiers on top.
+ */
+export const luxoraType = {
+  /** Hero-level H1 — `style={{ fontSize: luxoraType.display }}` */
+  display: 'var(--lux-type-display)',
+  /** Page/closing-CTA H1 */
+  h1: 'var(--lux-type-h1)',
+  /** Section headings (V4SectionHeader) */
+  h2: 'var(--lux-type-h2)',
+  /** Card / sub-block titles */
+  h3: 'var(--lux-type-h3)',
+  /** Uppercase gold eyebrow above headings — className recipe */
+  eyebrow: 'text-[11px] 3xl:text-[13px] font-semibold tracking-[0.28em] uppercase',
+  /** Section descriptions / leads — className recipe */
+  lead: 'text-base md:text-lg 3xl:text-xl',
+  /** Standard body copy — className recipe */
+  body: 'text-sm md:text-base 3xl:text-lg',
+} as const;
+
+/**
+ * Design System V2 — layout & rhythm recipes (Tailwind class strings).
+ *
+ * `container` is THE section content wrapper for the whole site: identical
+ * to the legacy `max-w-7xl` recipe up to 1535px, then widens through named
+ * tiers (2xl 1440 → 3xl 1680 → 4xl 1840 cap) so large displays get a
+ * designed composition instead of a 1280px column in an ocean of margin.
+ * Prefer the `SectionContainer` component (components/v4/common) in new
+ * code; consume this string directly only when a component needs to merge
+ * it into an existing element.
+ *
+ * The three `section*` recipes are the only allowed vertical paddings for
+ * full sections — pick the one matching the section's current density.
+ */
 export const luxoraSpacing = {
-  section: 'py-24 md:py-32',
-  container: 'max-w-7xl mx-auto px-6 md:px-12 lg:px-16',
-  grid: 'gap-6 md:gap-8',
+  section: 'py-24 md:py-32 3xl:py-40',
+  sectionRelaxed: 'py-28 md:py-36 3xl:py-44',
+  sectionTight: 'py-16 md:py-20 3xl:py-28',
+  container:
+    'max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 2xl:max-w-[1440px] 3xl:max-w-[1680px] 3xl:px-20 4xl:max-w-[1840px]',
+  grid: 'gap-6 md:gap-8 3xl:gap-10',
   card: 'p-6 md:p-8',
 } as const;
 

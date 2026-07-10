@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import { RoomStage, DeviceToggleRow, ScenePresetButton, scenePresets, toastCopy } from './smart-living';
 import type { SmartLivingState, DeviceKey, SceneKey } from './smart-living';
 
@@ -68,7 +69,7 @@ export default function V4SmartLivingSection() {
   return (
     <section
       id="v4-smart-living"
-      className="relative overflow-hidden py-24 md:py-32"
+      className="relative overflow-hidden py-24 md:py-32 3xl:py-40"
       style={{
         background:
           'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 94% 4%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 2% 98%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
@@ -83,7 +84,7 @@ export default function V4SmartLivingSection() {
         </svg>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
         {/* Heading */}
         <div className="text-center mb-12" data-v4-reveal-heading>
           <div className="flex items-center justify-center gap-4 mb-5">

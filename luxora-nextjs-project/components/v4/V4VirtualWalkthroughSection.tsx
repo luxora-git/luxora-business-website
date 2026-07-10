@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import { useConsultationModal } from './modal';
 
 const TOUR_URL =
@@ -80,7 +81,7 @@ export default function V4VirtualWalkthroughSection() {
         </svg>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
+      <div className={`relative z-10 ${luxoraSpacing.sectionTight} ${luxoraSpacing.container}`}>
 
         {/* ══ HEADING ══════════════════════════════════════════════ */}
         <div className="text-center mb-12" data-v4-reveal-heading>

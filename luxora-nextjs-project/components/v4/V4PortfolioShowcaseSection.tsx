@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import Link from 'next/link';
 import { portfolioProjects } from '@/lib/content/portfolio/projects';
 import V4SectionHeader from './V4SectionHeader';
@@ -106,7 +107,7 @@ export default function V4PortfolioShowcaseSection() {
   return (
     <section
       id="v4-portfolio"
-      className="relative overflow-hidden py-28 md:py-36"
+      className="relative overflow-hidden py-28 md:py-36 3xl:py-44"
       style={{ backgroundColor: '#FDFAF6' }}
     >
       {/* Dot grid — mirrors the Design Gallery's visual weight */}
@@ -121,7 +122,7 @@ export default function V4PortfolioShowcaseSection() {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
         {/* Header row + nav arrows — same treatment as Design Gallery */}
         <div className="mb-12 flex items-end justify-between md:mb-16" data-v4-reveal-heading>

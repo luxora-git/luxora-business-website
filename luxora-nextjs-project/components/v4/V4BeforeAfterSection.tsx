@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -106,7 +107,7 @@ export default function V4BeforeAfterSection() {
   return (
     <section
       id="v4-transformations"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
           'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 88% 8%, rgba(201,162,39,0.08) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 8% 95%, rgba(44,31,20,0.04) 0%, transparent 55%), #FDFAF6',
@@ -126,7 +127,7 @@ export default function V4BeforeAfterSection() {
       {/* Decorative sphere */}
       <div className="absolute top-24 -right-24 w-64 h-64 rounded-full border border-[#C9A227]/8 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16 items-end mb-12 md:mb-16" data-v4-reveal-heading>
           <div>
             <span className="text-[#C9A227] text-[11px] font-semibold tracking-[0.28em] uppercase mb-5 block">

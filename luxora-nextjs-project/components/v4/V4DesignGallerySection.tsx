@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import V4SectionHeader from './V4SectionHeader';
-import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
+import { luxoraColors, luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 
 /** Card surface — a shade darker than the section background (#F5EFE6) so
  * cards read as elevated blocks instead of blending into the page. Same
@@ -205,7 +205,7 @@ export default function V4DesignGallerySection() {
   return (
     <section
       id="v4-gallery"
-      className="relative overflow-hidden py-28 md:py-36"
+      className="relative overflow-hidden py-28 md:py-36 3xl:py-44"
       style={{ backgroundColor: '#F5EFE6' }}
     >
       {/* Dot grid */}
@@ -220,7 +220,7 @@ export default function V4DesignGallerySection() {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
         {/* Header row + nav arrows */}
         <div className="mb-12 flex items-end justify-between md:mb-16" data-v4-reveal-heading>

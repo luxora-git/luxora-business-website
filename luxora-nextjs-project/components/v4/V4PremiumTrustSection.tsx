@@ -1,6 +1,7 @@
 'use client';
 
 import { luxoraStats } from '@/lib/content/global/stats';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 
 // ── Concentric ripple arcs from top-right (exact Figma pattern)
 function ConcentricArcs() {
@@ -95,7 +96,7 @@ export default function V4PremiumTrustSection() {
   return (
     <section
       id="v4-about"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
           'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 92% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 4% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
@@ -105,7 +106,7 @@ export default function V4PremiumTrustSection() {
       <Sphere3D />
       <BottomRightLeaf />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
         {/* ── Eyebrow with gold lines on both sides */}
         <div className="flex items-center justify-center gap-4 mb-6" data-v4-reveal-heading>

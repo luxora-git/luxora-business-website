@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 
 /* ── 3D Sphere (left side, exact Figma) ────────────────────────── */
 function Sphere3D() {
@@ -157,7 +158,7 @@ export default function V4FurnitureCollectionSection() {
   return (
     <section
       id="v4-furniture"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
           'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 6% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 96% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
@@ -166,7 +167,7 @@ export default function V4FurnitureCollectionSection() {
       <Sphere3D />
       <BgPatterns />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
         {/* ── Eyebrow with gold lines */}
         <div className="flex items-center justify-center gap-4 mb-5" data-v4-reveal-heading>

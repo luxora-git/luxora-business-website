@@ -26,6 +26,26 @@
   --luxora-charcoal: #111111;
 }
 
+/* ── Luxora Design System V2 — fluid type scale ─────────────────────
+   Single source of truth for the serif display/heading sizes, consumed
+   through `luxoraType` in lib/design/luxoraDesignTokens.ts (never
+   hardcode these clamps in components). Each value is IDENTICAL to the
+   hand-tuned V4 clamp() it replaces at every width where the old cap
+   had not yet engaged (~1350–1690px depending on tier), then continues
+   on the same slope to a deliberate cap at 1920px. Beyond 1920 the
+   type stays flat — on ultrawide/TV the containers and spacing carry
+   the growth, never comically large text. */
+:root {
+  /* Hero H1 — was clamp(2.4rem, 5.5vw, 5.8rem), cap engaged ~1690px */
+  --lux-type-display: clamp(2.4rem, 5.5vw, 6.6rem);
+  /* Page/closing H1 — was clamp(2.2rem, 4.5vw, 3.8rem), cap ~1350px */
+  --lux-type-h1: clamp(2.2rem, 4.5vw, 5.4rem);
+  /* Section headings — was clamp(2rem, 3.5vw, 3.4rem), cap ~1554px */
+  --lux-type-h2: clamp(2rem, 3.5vw, 4.2rem);
+  /* Card / sub-block titles */
+  --lux-type-h3: clamp(1.15rem, 1.05vw, 1.4rem);
+}
+
 * {
   box-sizing: border-box;
 }

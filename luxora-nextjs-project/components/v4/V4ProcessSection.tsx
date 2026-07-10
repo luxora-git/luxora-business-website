@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import { useConsultationModal } from './modal';
 import { luxoraStats } from '@/lib/content/global/stats';
 
@@ -60,7 +61,7 @@ export default function V4ProcessSection() {
   return (
     <section
       id="v4-process"
-      className="relative overflow-hidden py-20 md:py-28"
+      className="relative overflow-hidden py-20 md:py-28 3xl:py-36"
       style={{
         background:
           'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 8% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 98% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
@@ -74,7 +75,7 @@ export default function V4ProcessSection() {
         </svg>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
         {/* ── Heading */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12" data-v4-reveal-heading>
