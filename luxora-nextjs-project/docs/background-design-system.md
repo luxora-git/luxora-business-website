@@ -4,10 +4,15 @@
 page (homepage, estimator, gallery, portfolio, services, contact, future
 landing pages). Two layers:
 
-1. **Primitives** — single visual ingredients (`LuxuryGrain`, `LuxuryHalo`,
-   `LuxuryContour`, `LuxuryBlueprint`, `LuxuryMarble`, `LuxuryDivider`,
-   `LuxuryFrame`, `LuxuryMesh`, `LuxurySpotlight`, `LuxuryGeometry`).
-   Pure SVG/CSS, zero image requests.
+1. **Primitives** — single visual ingredients. v1: `LuxuryGrain`,
+   `LuxuryHalo`, `LuxuryContour`, `LuxuryBlueprint`, `LuxuryMarble`,
+   `LuxuryDivider`, `LuxuryFrame`, `LuxuryMesh`, `LuxurySpotlight`,
+   `LuxuryGeometry`. v2 (the "painted environment" set, modeled on the
+   LunarEdge reference): `LuxurySphere` (matte ceramic orb with cast
+   shadow), `LuxuryRidges` (large fabric-ridge / concentric-ring line
+   bundles), `LuxuryBotanical` (palm-shadow and bas-relief frond),
+   `LuxuryArch` (nested hairline archways), `LuxuryStucco` (plaster
+   mottle under the fine grain). Pure SVG/CSS, zero image requests.
 2. **Scenes** (`background/scenes`) — named, art-directed compositions of
    primitives with hand-tuned positions and opacities. Sections consume a
    scene by name; they do not assemble primitives ad hoc.
@@ -17,10 +22,18 @@ landing pages). Two layers:
 - **Content is always the hero.** Scenes live at `z-0` under a `z-10`
   content wrapper, `pointer-events-none`, `aria-hidden`. Host section must
   be `relative overflow-hidden`.
-- **Opacity budget:** scenes stay within `luxoraPatternOpacity` territory —
-  if you can *see* a background element at a glance, it's too loud.
+- **Tone-on-tone, at scale (v2 principle):** background forms may be LARGE
+  and clearly visible — but only in *form*, never in *contrast*. Big
+  cream-on-cream shapes (spheres, ridges, arches, leaf shadows) read as a
+  crafted plaster wall; small high-contrast accents read as CSS clip-art.
+  The test is not "can I see it?" but "does it pull the eye from content?"
+- **Materiality:** prefer shaded, dimensional elements (highlight + ambient
+  occlusion + cast shadow) over flat hairlines wherever the element
+  represents an object rather than line work.
 - **Rhythm:** adjacent sections must not share a scene. Statement scenes
-  (`GoldenComposition`, `DarkLuxury`) need quiet neighbors.
+  (`GoldenComposition`, `DarkLuxury`) need quiet neighbors. **At most two
+  dark sections per page** (locked decision) — dark moments are drama, and
+  repeated drama stops being drama.
 - **API:** every scene takes `{ id, surface?: 'light'|'dark', intensity?:
   'whisper'|'standard' }`. `id` must be unique per instance (namespaces SVG
   filters). Use `whisper` on content-dense surfaces.
