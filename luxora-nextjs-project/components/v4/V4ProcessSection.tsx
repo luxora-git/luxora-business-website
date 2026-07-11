@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { Architectural } from './background';
 import { useConsultationModal } from './modal';
 import { luxoraStats } from '@/lib/content/global/stats';
 
@@ -67,13 +68,9 @@ export default function V4ProcessSection() {
           'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 8% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 98% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
       }}
     >
-      {/* ── Background arcs */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.07]" aria-hidden="true">
-        <svg className="w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
-          <path d="M-120 820 Q360 520 720 660 T1560 820" stroke="#C9A96E" strokeWidth="1.4"/>
-          <path d="M-120 640 Q360 380 720 500 T1560 640" stroke="#C9A96E" strokeWidth="0.9"/>
-        </svg>
-      </div>
+      {/* Scene: Architectural — the drafted, structured register for the
+          process journey (see docs/background-design-system.md) */}
+      <Architectural id="home-process" />
 
       <div className={`relative z-10 ${luxoraSpacing.container}`}>
 

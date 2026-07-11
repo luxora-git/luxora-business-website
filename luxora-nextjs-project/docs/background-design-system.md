@@ -110,13 +110,23 @@ landing pages). Two layers:
 | SoftGeometry | ✓ default | ✓ lighter gold lines |
 | MinimalEditorial | ✓ default | ✓ slightly stronger rules |
 
-## Homepage rhythm map (target)
+## Homepage rhythm map (implemented)
 
 Hero (video) → Services `EditorialLight` → Process `Architectural` →
-Trust `DarkLuxury` → Before/After `MinimalEditorial` → Design Gallery
-`SoftGeometry` → Portfolio `GoldenComposition` → Walkthrough `DarkLuxury`
-→ Furniture `LuxuryAmbient` → Smart Living `Architectural` → Testimonials
-`PremiumHalo` → Closing CTA (image) → Footer.
+Trust *(bespoke, kept)* → Before/After `MinimalEditorial` → Design
+Gallery `SoftGeometry` → Portfolio `GoldenComposition` → Walkthrough
+`EditorialLight` → Furniture *(bespoke, kept)* → Smart Living
+`Architectural` → Testimonials `PremiumHalo` (+ its signature botanical
+accent) → Closing CTA (image) → Footer.
+
+Two sections deliberately keep their hand-built compositions instead of
+consuming a scene: **Premium Trust** (concentric arcs + bronze sphere +
+leaf) and **Furniture Collection** (sphere + ring) — both were already
+crafted in the painted-environment language and are visually proven.
+Do not migrate them for purity's sake; revisit only if their look drifts
+from the system. All homepage sections are light-surfaced; `DarkLuxury`
+serves genuinely dark surfaces elsewhere (estimator bands, future
+features) within the two-dark-sections page rule.
 
 Other pages receive their scene maps during the page-by-page responsive
 audit (Milestone 6).

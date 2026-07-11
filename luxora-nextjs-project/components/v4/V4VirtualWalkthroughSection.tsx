@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { EditorialLight } from './background';
 import { useConsultationModal } from './modal';
 
 const TOUR_URL =
@@ -72,14 +73,9 @@ export default function V4VirtualWalkthroughSection() {
       }}
     >
 
-      {/* ── Subtle arc lines background */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.07]" aria-hidden="true">
-        <svg className="w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
-          <path d="M-120 820 Q360 520 720 660 T1560 820" stroke="#C9A96E" strokeWidth="1.4" />
-          <path d="M-120 680 Q360 420 720 540 T1560 680" stroke="#C9A96E" strokeWidth="1.0" />
-          <path d="M-120 540 Q360 320 720 420 T1560 540" stroke="#C9A96E" strokeWidth="0.7" />
-        </svg>
-      </div>
+      {/* Scene: EditorialLight — a calm rest between the golden Portfolio
+          statement and the warm Furniture ambience */}
+      <EditorialLight id="home-walkthrough" />
 
       <div className={`relative z-10 ${luxoraSpacing.sectionTight} ${luxoraSpacing.container}`}>
 

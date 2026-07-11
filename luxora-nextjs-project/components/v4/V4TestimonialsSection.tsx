@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import V4BotanicalDecor from './V4BotanicalDecor';
 import V4SectionHeader from './V4SectionHeader';
+import { PremiumHalo } from './background';
 import { useConsultationModal } from './modal';
 import { luxoraColors, luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 
@@ -62,16 +63,9 @@ export default function V4TestimonialsSection() {
           'radial-gradient(ellipse 70% 60% at 15% 0%, rgba(201,162,39,0.07) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 100% 100%, rgba(201,162,39,0.05) 0%, transparent 55%), #FDFAF6',
       }}
     >
-      {/* Dot pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.05]">
-        <svg className="w-full h-full" preserveAspectRatio="none">
-          <defs><pattern id="v4-yt-dots" width="28" height="28" patternUnits="userSpaceOnUse">
-            <circle cx="1.5" cy="1.5" r="0.9" fill="#9C7B68" />
-          </pattern></defs>
-          <rect width="100%" height="100%" fill="url(#v4-yt-dots)" />
-        </svg>
-      </div>
-      <div className="absolute -top-40 -right-40 w-[420px] h-[420px] rounded-full border border-[#C9A227]/15 pointer-events-none" />
+      {/* Scene: PremiumHalo — total focus on the featured stories; the
+          botanical accent stays as this section's signature */}
+      <PremiumHalo id="home-testimonials" />
       <V4BotanicalDecor side="right" variant="small" />
 
       <div className={`relative z-10 ${luxoraSpacing.container}`}>
