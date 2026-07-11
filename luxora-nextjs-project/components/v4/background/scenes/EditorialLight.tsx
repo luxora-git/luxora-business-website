@@ -21,12 +21,12 @@ export default function EditorialLight({ id, surface = 'light', intensity = 'sta
     <>
       <LuxurySpotlight
         from="top-left"
-        color={dark ? 'rgba(232,196,104,0.5)' : 'rgba(253,250,246,0.85)'}
-        opacity={0.5 * m}
+        color={dark ? 'rgba(232,196,104,0.5)' : 'rgba(253,250,246,0.9)'}
+        opacity={0.55 * m}
       />
-      <LuxuryFrame variant="rules" inset={0} color={luxoraColors.gold} opacity={(dark ? 0.16 : 0.12) * m} />
-      {!dark && <LuxuryBotanical mode="relief" size={230} right="2.5%" bottom="5%" rotation={14} opacity={0.32 * m} />}
-      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.03 : 0.022} />
+      <LuxuryFrame variant="rules" inset={0} color={luxoraColors.gold} opacity={(dark ? 0.16 : 0.14) * m} />
+      {!dark && <LuxuryBotanical mode="relief" size={290} right="2%" bottom="4%" rotation={14} opacity={0.5 * m} />}
+      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.032 : 0.033} />
       <LuxuryGrain id={`${id}-grain`} opacity={dark ? 0.02 : 0.012} />
     </>
   );

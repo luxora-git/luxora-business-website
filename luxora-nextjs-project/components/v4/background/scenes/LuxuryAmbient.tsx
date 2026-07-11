@@ -19,11 +19,11 @@ export default function LuxuryAmbient({ id, surface = 'light', intensity = 'stan
   const dark = surface === 'dark';
   return (
     <>
-      <LuxuryMesh tone={dark ? 'dark' : 'warm'} opacity={(dark ? 0.1 : 0.07) * m} />
-      <LuxuryRidges variant="sweep" position="top-left" rotation={-14} opacity={(dark ? 0.1 : 0.12) * m} />
-      {!dark && <LuxurySphere size={88} right="3%" bottom="10%" opacity={0.85 * m} />}
-      <LuxuryHalo position="bottom-right" size="lg" opacity={0.07 * m} blur={110} />
-      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.03 : 0.024} />
+      <LuxuryMesh tone={dark ? 'dark' : 'warm'} opacity={(dark ? 0.1 : 0.09) * m} />
+      <LuxuryRidges variant="sweep" position="top-left" rotation={-14} opacity={(dark ? 0.12 : 0.18) * m} />
+      {!dark && <LuxurySphere size={112} right="3%" bottom="10%" opacity={0.9 * m} />}
+      <LuxuryHalo position="bottom-right" size="lg" opacity={0.08 * m} blur={110} />
+      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.032 : 0.033} />
       <LuxuryGrain id={`${id}-grain`} opacity={dark ? 0.02 : 0.012} />
     </>
   );

@@ -33,7 +33,7 @@ export default function ShowcaseOverlayCard({
   return (
     <Link
       href={href}
-      className={`group relative block overflow-hidden rounded-[16px] border border-[rgba(160,120,80,0.16)] shadow-[0_10px_30px_rgba(44,31,20,0.10)] cursor-pointer transition-all duration-500 hover:shadow-[0_18px_44px_rgba(44,31,20,0.15)] ${className}`}
+      className={`group relative block overflow-hidden rounded-[16px] border border-[rgba(160,120,80,0.16)] shadow-[0_2px_6px_rgba(44,31,20,0.05),0_14px_34px_rgba(44,31,20,0.10)] cursor-pointer transition-all duration-500 hover:shadow-[0_4px_10px_rgba(44,31,20,0.06),0_26px_56px_rgba(44,31,20,0.16)] ${className}`}
       style={{ background: SHOWCASE_CARD_BG }}
     >
       <div className={`relative overflow-hidden ${imageWrapClassName}`}>

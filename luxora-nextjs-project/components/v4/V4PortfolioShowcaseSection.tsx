@@ -34,7 +34,7 @@ function PortfolioCard({ project }: { project: (typeof featured)[number] }) {
       className="group flex flex-col"
     >
       <div
-        className="relative overflow-hidden rounded-[18px] mb-5 shadow-[0_8px_28px_rgba(60,35,16,0.07)] transition-shadow duration-500 group-hover:shadow-[0_20px_50px_rgba(60,35,16,0.14)]"
+        className="relative overflow-hidden rounded-[18px] mb-5 shadow-[0_2px_6px_rgba(60,35,16,0.05),0_14px_34px_rgba(60,35,16,0.10)] transition-shadow duration-500 group-hover:shadow-[0_4px_10px_rgba(60,35,16,0.06),0_26px_56px_rgba(60,35,16,0.16)]"
         style={{
           aspectRatio: '4/5',
           border: '1px solid rgba(160,120,80,0.14)',
@@ -104,7 +104,7 @@ export default function V4PortfolioShowcaseSection() {
     <section
       id="v4-portfolio"
       className="relative overflow-hidden py-28 md:py-36 3xl:py-44"
-      style={{ backgroundColor: '#FDFAF6' }}
+      style={{ backgroundColor: '#F5EFE6' }}
     >
       {/* Scene: GoldenComposition — the statement register for completed
           work (see docs/background-design-system.md) */}

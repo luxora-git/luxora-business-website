@@ -16,8 +16,8 @@ export default function PremiumHalo({ id, surface = 'light', intensity = 'standa
   const dark = surface === 'dark';
   return (
     <>
-      <LuxuryHalo position="center" size="xl" opacity={(dark ? 0.12 : 0.09) * m} blur={140} />
-      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.03 : 0.022} />
+      <LuxuryHalo position="center" size="xl" opacity={(dark ? 0.12 : 0.11) * m} blur={140} />
+      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.032 : 0.03} />
       <LuxuryGrain id={`${id}-grain`} opacity={dark ? 0.02 : 0.012} />
     </>
   );

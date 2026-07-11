@@ -73,7 +73,7 @@ function DesktopGalleryCard({ title, image, category, className = '' }: GalleryI
   return (
     <Link
       href={`/gallery/${category}`}
-      className={`group relative flex flex-col overflow-hidden rounded-[18px] border border-[rgba(160,120,80,0.16)] shadow-[0_10px_30px_rgba(44,31,20,0.10)] cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_22px_54px_rgba(44,31,20,0.16)] ${className}`}
+      className={`group relative flex flex-col overflow-hidden rounded-[18px] border border-[rgba(160,120,80,0.16)] shadow-[0_2px_6px_rgba(44,31,20,0.05),0_14px_34px_rgba(44,31,20,0.10)] cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_4px_10px_rgba(44,31,20,0.06),0_26px_56px_rgba(44,31,20,0.16)] ${className}`}
       style={{ background: SHOWCASE_CARD_BG }}
     >
       {/* Image — fills top portion */}

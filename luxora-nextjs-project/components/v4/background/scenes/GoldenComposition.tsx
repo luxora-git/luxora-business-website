@@ -24,17 +24,17 @@ export default function GoldenComposition({ id, surface = 'light', intensity = '
 
   return (
     <>
-      <LuxuryRidges variant="rings" position="top-right" opacity={(dark ? 0.12 : 0.14) * m} color={dark ? line : '#C9A96E'} />
+      <LuxuryRidges variant="rings" position="top-right" opacity={(dark ? 0.14 : 0.2) * m} color={dark ? line : '#C9A96E'} />
       {!dark && (
         <>
-          <LuxuryBotanical mode="shadow" size={460} bottom="-6%" left="-4%" rotation={-18} opacity={0.065 * m} />
+          <LuxuryBotanical mode="shadow" size={540} bottom="-6%" left="-4%" rotation={-18} opacity={0.09 * m} />
           {/* Orb rests in the open lower-left, clear of the heading block */}
-          <LuxurySphere size={104} left="3%" bottom="9%" opacity={0.9 * m} />
+          <LuxurySphere size={130} left="3%" bottom="9%" opacity={0.92 * m} />
         </>
       )}
-      <LuxuryHalo position="bottom-left" size="lg" opacity={0.07 * m} blur={120} />
-      <LuxuryFrame variant="corners" inset={26} arm={52} color={line} opacity={(dark ? 0.28 : 0.22) * m} />
-      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.03 : 0.024} />
+      <LuxuryHalo position="bottom-left" size="lg" opacity={0.08 * m} blur={120} />
+      <LuxuryFrame variant="corners" inset={26} arm={52} color={line} opacity={(dark ? 0.3 : 0.26) * m} />
+      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.032 : 0.035} />
       <LuxuryGrain id={`${id}-grain`} opacity={dark ? 0.02 : 0.012} />
     </>
   );

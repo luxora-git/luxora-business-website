@@ -65,7 +65,7 @@ export default function V4ProcessSection() {
       className="relative overflow-hidden py-20 md:py-28 3xl:py-36"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 8% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 98% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
+          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 8% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 98% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EFE6',
       }}
     >
       {/* Scene: Architectural — the drafted, structured register for the

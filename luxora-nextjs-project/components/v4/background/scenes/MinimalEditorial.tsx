@@ -17,8 +17,8 @@ export default function MinimalEditorial({ id, surface = 'light', intensity = 's
   const dark = surface === 'dark';
   return (
     <>
-      <LuxuryFrame variant="rules" inset={0} color={luxoraColors.gold} opacity={(dark ? 0.14 : 0.1) * m} />
-      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.024 : 0.016} />
+      <LuxuryFrame variant="rules" inset={0} color={luxoraColors.gold} opacity={(dark ? 0.14 : 0.12) * m} />
+      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.026 : 0.022} />
       <LuxuryGrain id={`${id}-grain`} opacity={dark ? 0.016 : 0.01} />
     </>
   );

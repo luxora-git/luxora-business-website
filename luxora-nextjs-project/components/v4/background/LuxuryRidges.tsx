@@ -47,8 +47,8 @@ export default function LuxuryRidges({
       className={`pointer-events-none select-none overflow-hidden ${className}`}
       style={{
         ...getLuxuryPositionStyle(position),
-        width: 'clamp(420px, 52vw, 940px)',
-        height: 'clamp(340px, 42vw, 760px)',
+        width: 'clamp(480px, 60vw, 1080px)',
+        height: 'clamp(380px, 48vw, 860px)',
         opacity,
         transform: composeLuxuryTransform(position, rotation, scale),
         zIndex: 0,

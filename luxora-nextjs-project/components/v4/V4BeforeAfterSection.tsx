@@ -111,7 +111,7 @@ export default function V4BeforeAfterSection() {
       className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 88% 8%, rgba(201,162,39,0.08) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 8% 95%, rgba(44,31,20,0.04) 0%, transparent 55%), #FDFAF6',
+          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 88% 8%, rgba(201,162,39,0.08) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 8% 95%, rgba(44,31,20,0.04) 0%, transparent 55%), #F5EFE6',
       }}
     >
       {/* Scene: MinimalEditorial — the before/after imagery carries this

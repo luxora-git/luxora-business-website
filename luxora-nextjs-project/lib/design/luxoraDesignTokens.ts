@@ -31,11 +31,15 @@ export const luxoraBackgroundLayers = {
   dark: luxoraColors.espressoDeep,
 } as const;
 
+/** Two-layer soft shadows (a tight contact layer + a wide ambient layer) —
+ * objects read as physically resting on the wall instead of outlined.
+ * Every card surface should come from these rather than inventing values. */
 export const luxoraShadows = {
-  card: '0 4px 24px rgba(44,31,20,0.08)',
-  floating: '0 20px 60px rgba(44,31,20,0.14)',
-  image: '0 20px 60px rgba(100,60,20,0.18)',
-  luxury: '0 30px 80px rgba(44,31,20,0.20)',
+  card: '0 2px 6px rgba(44,31,20,0.05), 0 14px 34px rgba(44,31,20,0.10)',
+  cardHover: '0 4px 10px rgba(44,31,20,0.06), 0 26px 56px rgba(44,31,20,0.16)',
+  floating: '0 4px 12px rgba(44,31,20,0.06), 0 24px 64px rgba(44,31,20,0.14)',
+  image: '0 4px 12px rgba(100,60,20,0.08), 0 24px 60px rgba(100,60,20,0.16)',
+  luxury: '0 6px 16px rgba(44,31,20,0.07), 0 34px 84px rgba(44,31,20,0.18)',
 } as const;
 
 export const luxoraRadius = {

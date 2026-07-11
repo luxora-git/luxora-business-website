@@ -22,10 +22,10 @@ export default function Architectural({ id, surface = 'light', intensity = 'stan
   const line = dark ? luxoraColors.goldLight : '#C9A96E';
   return (
     <>
-      <LuxuryArch right="4%" bottom="0" size={300} height={380} count={3} gap={26} color={line} opacity={(dark ? 0.18 : 0.22) * m} />
-      <LuxuryFrame variant="corners" inset={24} arm={44} color={dark ? line : luxoraColors.gold} opacity={(dark ? 0.26 : 0.2) * m} />
-      <LuxuryGeometry variant="squares" color={line} opacity={0.12 * m} />
-      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.03 : 0.022} />
+      <LuxuryArch right="4%" bottom="0" size={380} height={480} count={3} gap={30} color={line} opacity={(dark ? 0.2 : 0.28) * m} />
+      <LuxuryFrame variant="corners" inset={24} arm={48} color={dark ? line : luxoraColors.gold} opacity={(dark ? 0.28 : 0.24) * m} />
+      <LuxuryGeometry variant="squares" color={line} opacity={0.16 * m} />
+      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.032 : 0.033} />
       <LuxuryGrain id={`${id}-grain`} opacity={dark ? 0.02 : 0.012} />
     </>
   );
