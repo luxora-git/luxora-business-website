@@ -4,36 +4,40 @@
 page (homepage, estimator, gallery, portfolio, services, contact, future
 landing pages). Two layers:
 
-1. **Primitives** — single visual ingredients. v1: `LuxuryGrain`,
-   `LuxuryHalo`, `LuxuryContour`, `LuxuryBlueprint`, `LuxuryMarble`,
-   `LuxuryDivider`, `LuxuryFrame`, `LuxuryMesh`, `LuxurySpotlight`,
-   `LuxuryGeometry`. v2 (the "painted environment" set): `LuxurySphere`
-   (matte ceramic orb with cast shadow), `LuxuryRidges` (large
-   fabric-ridge / concentric-ring line bundles), `LuxuryBotanical`
-   (palm-shadow and bas-relief frond), `LuxuryArch` (nested hairline
-   archways), `LuxuryStucco` (plaster mottle under the fine grain).
-   Pure SVG/CSS, zero image requests.
+1. **Primitives** — single visual ingredients. **In active use (texture &
+   light only):** `LuxuryGrain`, `LuxuryStucco` (paper + limewash texture),
+   `LuxurySpotlight`, `LuxuryHalo`, `LuxuryMesh` (light & colour fields),
+   `LuxuryFrame` (editorial hairline rules). **Retained but currently unused
+   — the shape set:** `LuxuryContour`, `LuxuryBlueprint`, `LuxuryMarble`,
+   `LuxuryGeometry`, `LuxurySphere`, `LuxuryRidges`, `LuxuryBotanical`,
+   `LuxuryArch`, plus `LuxuryDivider`. These are kept in the library for the
+   future "signature element" path (see the restraint decision below) but no
+   scene renders them today. Pure SVG/CSS, zero image requests.
 2. **Scenes** (`background/scenes`) — named, art-directed compositions of
-   primitives with hand-tuned positions and opacities. Sections consume a
-   scene by name; they do not assemble primitives ad hoc.
+   primitives with hand-tuned values. Sections consume a scene by name; they
+   do not assemble primitives ad hoc.
 
 ## Global rules
 
 - **Content is always the hero.** Scenes live at `z-0` under a `z-10`
   content wrapper, `pointer-events-none`, `aria-hidden`. Host section must
   be `relative overflow-hidden`.
-- **Tone-on-tone, at scale (v2 principle):** background forms may be LARGE
-  and clearly visible — but only in *form*, never in *contrast*. Big
-  cream-on-cream shapes (spheres, ridges, arches, leaf shadows) read as a
-  crafted plaster wall; small high-contrast accents read as CSS clip-art.
-  The test is not "can I see it?" but "does it pull the eye from content?"
-- **Materiality:** prefer shaded, dimensional elements (highlight + ambient
-  occlusion + cast shadow) over flat hairlines wherever the element
-  represents an object rather than line work.
-- **Rhythm:** adjacent sections must not share a scene. Statement scenes
-  (`GoldenComposition`, `DarkLuxury`) need quiet neighbors. **At most two
-  dark sections per page** (locked decision) — dark moments are drama, and
-  repeated drama stops being drama.
+- **Restraint over ornament (governing principle).** Scenes are built from
+  **texture (grain + limewash stucco) and light (spotlight, halo, mesh)
+  only** — no decorative shapes. Reason, learned the hard way: hand-coded
+  CSS/SVG line-art (ridges, arches, rings, fronds) reads as a budget
+  imitation of crafted illustration and *cheapens* a premium page. The most
+  premium interior brands use almost no background decoration — the luxury
+  comes from a beautiful warm wall, directional light, exceptional cards,
+  photography and type. When in doubt, remove.
+- **The "signature element" exception (not yet used).** A single, genuinely
+  exceptional crafted element (e.g. a flawless gradient-shaded orb, or a
+  real leaf silhouette from a photo) may be introduced in one or two marquee
+  sections — but only if it is exceptional. The shape primitives above are
+  retained for exactly this. Scattered line-art is never acceptable.
+- **Rhythm:** adjacent sections must not share a scene. Differentiation now
+  comes from **light direction and warmth**, not shapes. **At most two dark
+  sections per page** (locked decision).
 - **API:** every scene takes `{ id, surface?: 'light'|'dark', intensity?:
   'whisper'|'standard' }`. `id` must be unique per instance (namespaces SVG
   filters). Use `whisper` on content-dense surfaces.
@@ -41,60 +45,55 @@ landing pages). Two layers:
 
 ## Scene catalog
 
+Every scene = limewash stucco + fine grain (the material base) + a light
+signature. They differ by **light direction and warmth**, not shapes.
+
 ### EditorialLight
 - **Purpose:** the "resting" scene between statement moments.
-- **Visual intent:** daylight from the top-left, hairline top/bottom rules, whisper grain — calm magazine-page air.
-- **Ideal usage:** clean content sections right after a hero; service overviews.
-- **Use on:** Services (homepage), service-page overviews, about sections.
-- **Avoid on:** sections needing warmth or drama; two in a row reads flat.
+- **Light signature:** daylight from the top-left + faint editorial rules — calm magazine-page air.
+- **Use on:** Services (homepage), Walkthrough, service overviews, about sections.
+- **Avoid on:** sections wanting overt warmth or drama.
 
 ### LuxuryAmbient
 - **Purpose:** warmth and domesticity.
-- **Visual intent:** gold/cream mesh washes + a low glow rising bottom-right — evening lamplight in a finished home.
-- **Ideal usage:** furniture, materials, lifestyle storytelling.
-- **Use on:** Furniture Collection, materials/finishes sections.
+- **Light signature:** warm gold/cream mesh + a low glow rising bottom-right — evening lamplight.
+- **Use on:** Furniture Collection, materials/finishes, lifestyle sections.
 - **Avoid on:** dense data or forms — warmth competes with inputs.
 
 ### Architectural
-- **Purpose:** competence, precision, process.
-- **Visual intent:** contour line work in a corner, corner marks mounting the section, outlined squares on point — a page from a drawing set.
-- **Ideal usage:** process / how-it-works, consultancy capability.
-- **Use on:** Process (homepage), Smart Living, service methodology blocks.
-- **Avoid on:** photography-dense grids; estimator question cards (geometry fights option borders); adjacent to SoftGeometry.
+- **Purpose:** composed, precise, structured.
+- **Light signature:** daylight from the top-right + editorial top/bottom rules that frame the section.
+- **Use on:** Process (homepage), Smart Living, methodology blocks.
+- **Avoid on:** warm lifestyle moments (this reads cool).
 
 ### GoldenComposition
-- **Purpose:** the brand making a claim.
-- **Visual intent:** large golden contour sweep top-right, warm glow from the left, gold corner marks — the most present light scene.
-- **Ideal usage:** portfolio/completed work, awards, signature offerings.
+- **Purpose:** the brand making a warm claim.
+- **Light signature:** richer golden mesh + a glow from the bottom-left — the most present light scene.
 - **Use on:** Portfolio Showcase (homepage), case-study landings.
-- **Avoid on:** next to another gold-forward scene; behind dense photo grids.
+- **Avoid on:** next to another warm scene.
 
 ### PremiumHalo
 - **Purpose:** total focus on centered content.
-- **Visual intent:** one large centered glow, nothing else.
-- **Ideal usage:** testimonials, a centered stat or claim.
-- **Use on:** Testimonials (homepage), review walls, award counts.
-- **Avoid on:** left-aligned editorial layouts — centered light fights an off-center composition.
+- **Light signature:** one large centered glow, nothing else.
+- **Use on:** Premium Trust, Testimonials (homepage), review walls, centered claims.
+- **Avoid on:** strongly left-aligned layouts.
 
 ### DarkLuxury
-- **Purpose:** the dramatic register.
-- **Visual intent:** golden light entering from above onto a dark amber/brown mesh, faint gold rules — espresso feature moment.
-- **Ideal usage:** full-bleed dark sections.
-- **Use on:** Premium Trust, Virtual Walkthrough, estimator time-estimate band.
-- **Avoid on:** light surfaces; more than ~two per page — repeated drama stops being drama.
+- **Purpose:** the dramatic register (dark surfaces only).
+- **Light signature:** golden light from above onto a dark amber/brown mesh + faint gold rules.
+- **Use on:** genuinely dark full-bleed surfaces (estimator time-estimate band, future dark features).
+- **Avoid on:** light surfaces; more than ~two per page.
 
 ### SoftGeometry
-- **Purpose:** quiet visual interest around content-heavy showcases.
-- **Visual intent:** outlined squares on point, tiny gold diamonds, one big off-canvas arc, soft light top-right — edges alive, middle clear.
-- **Ideal usage:** gallery/category showcases, card grids.
+- **Purpose:** a soft, quiet wash for image-led showcases (name is historical — no literal geometry).
+- **Light signature:** gentle daylight from the top-right over the faintest warm mesh; middle stays clear.
 - **Use on:** Design Gallery (homepage), category landing sections.
-- **Avoid on:** text-heavy sections (accents read as clutter); adjacent to Architectural (shared vocabulary blurs).
+- **Avoid on:** text-only sections — use MinimalEditorial.
 
 ### MinimalEditorial
-- **Purpose:** decoration-free trust surfaces.
-- **Visual intent:** faint top/bottom rules + whisper grain — almost nothing, on purpose.
-- **Ideal usage:** legal pages, forms, estimator steps, dense comparisons.
-- **Use on:** contact/legal pages, consultation modal surfaces, Before/After.
+- **Purpose:** near-blank trust surfaces.
+- **Light signature:** faint top/bottom rules + whisper texture — almost nothing, on purpose.
+- **Use on:** Before/After, legal pages, forms, estimator steps, dense comparisons.
 - **Avoid on:** hero-adjacent or feature moments — it cannot carry emotional weight.
 
 ## Surface pairing
@@ -103,30 +102,31 @@ landing pages). Two layers:
 |---|---|---|
 | EditorialLight | ✓ default | ✓ gold-tinted light |
 | LuxuryAmbient | ✓ default | ✓ dark mesh |
-| Architectural | ✓ default | ✓ lighter gold lines |
-| GoldenComposition | ✓ default | ✓ lighter gold lines |
+| Architectural | ✓ default | ✓ gold-tinted light |
+| GoldenComposition | ✓ default | ✓ dark mesh |
 | PremiumHalo | ✓ default | ✓ stronger glow |
 | DarkLuxury | ✗ never | ✓ default |
-| SoftGeometry | ✓ default | ✓ lighter gold lines |
+| SoftGeometry | ✓ default | ✓ gold-tinted light |
 | MinimalEditorial | ✓ default | ✓ slightly stronger rules |
 
 ## Homepage rhythm map (implemented)
 
-Hero (video) → Services `EditorialLight` → Process `Architectural` →
-Trust *(bespoke, kept)* → Before/After `MinimalEditorial` → Design
-Gallery `SoftGeometry` → Portfolio `GoldenComposition` → Walkthrough
-`EditorialLight` → Furniture *(bespoke, kept)* → Smart Living
-`Architectural` → Testimonials `PremiumHalo` (+ its signature botanical
-accent) → Closing CTA (image) → Footer.
+Every light section shares one `#F5EFE6` wall; scenes layer texture + a
+light signature on top. Rhythm comes from light direction/warmth:
 
-Two sections deliberately keep their hand-built compositions instead of
-consuming a scene: **Premium Trust** (concentric arcs + bronze sphere +
-leaf) and **Furniture Collection** (sphere + ring) — both were already
-crafted in the painted-environment language and are visually proven.
-Do not migrate them for purity's sake; revisit only if their look drifts
-from the system. All homepage sections are light-surfaced; `DarkLuxury`
-serves genuinely dark surfaces elsewhere (estimator bands, future
-features) within the two-dark-sections page rule.
+Hero (video) → Services `EditorialLight` → Process `Architectural` →
+Trust `PremiumHalo` → Before/After `MinimalEditorial` → Design Gallery
+`SoftGeometry` → Portfolio `GoldenComposition` → Walkthrough
+`EditorialLight` → Furniture `LuxuryAmbient` → Smart Living
+`Architectural` → Testimonials `PremiumHalo` → Closing CTA (image) →
+Footer.
+
+Every homepage section now consumes a scene — the previously hand-built
+compositions in Premium Trust (concentric arcs + sphere + leaf) and
+Furniture Collection (sphere + ring), and the Testimonials botanical
+accent, were all removed in the restraint pass. All homepage sections are
+light-surfaced; `DarkLuxury` serves genuinely dark surfaces elsewhere
+(estimator bands, future features) within the two-dark-sections page rule.
 
 Other pages receive their scene maps during the page-by-page responsive
 audit (Milestone 6).

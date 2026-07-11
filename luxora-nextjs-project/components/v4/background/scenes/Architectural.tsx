@@ -1,31 +1,29 @@
-import LuxuryArch from '../LuxuryArch';
+import LuxurySpotlight from '../LuxurySpotlight';
 import LuxuryFrame from '../LuxuryFrame';
-import LuxuryGeometry from '../LuxuryGeometry';
 import LuxuryStucco from '../LuxuryStucco';
 import LuxuryGrain from '../LuxuryGrain';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import { sceneMult, type SceneProps } from './types';
 
 /**
- * Architectural (v2 — painted environment) — structured, drafted,
- * intentional: nested archways rising from the lower-right like a vaulted
- * opening, hairline corner marks mounting the section, a few outlined
- * squares set on point, all on a limewash wall. Ideal: process /
- * how-it-works, capability and consultancy sections. Avoid:
- * photography-dense grids (the line work fights the images), estimator
- * question cards (geometry competes with option borders), and adjacent
- * to SoftGeometry (shared vocabulary blurs together).
+ * Architectural — structured and composed, expressed through framing rather
+ * than ornament: daylight from the top-right, bounded top and bottom by
+ * editorial hairline rules that "mount" the section like a plate in a
+ * monograph. No line-art shapes. Ideal: process / how-it-works, capability
+ * and systems sections. Avoid: warm lifestyle moments (this reads cool).
  */
 export default function Architectural({ id, surface = 'light', intensity = 'standard' }: SceneProps) {
   const m = sceneMult(intensity);
   const dark = surface === 'dark';
-  const line = dark ? luxoraColors.goldLight : '#C9A96E';
   return (
     <>
-      <LuxuryArch right="4%" bottom="0" size={380} height={480} count={3} gap={30} color={line} opacity={(dark ? 0.2 : 0.28) * m} />
-      <LuxuryFrame variant="corners" inset={24} arm={48} color={dark ? line : luxoraColors.gold} opacity={(dark ? 0.28 : 0.24) * m} />
-      <LuxuryGeometry variant="squares" color={line} opacity={0.16 * m} />
-      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.032 : 0.033} />
+      <LuxurySpotlight
+        from="top-right"
+        color={dark ? 'rgba(232,196,104,0.5)' : 'rgba(253,250,246,0.88)'}
+        opacity={0.5 * m}
+      />
+      <LuxuryFrame variant="rules" inset={0} color={luxoraColors.gold} opacity={(dark ? 0.18 : 0.14) * m} />
+      <LuxuryStucco id={`${id}-stucco`} opacity={dark ? 0.032 : 0.03} />
       <LuxuryGrain id={`${id}-grain`} opacity={dark ? 0.02 : 0.012} />
     </>
   );

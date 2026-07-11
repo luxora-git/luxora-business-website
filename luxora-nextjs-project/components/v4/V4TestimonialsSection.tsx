@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import V4BotanicalDecor from './V4BotanicalDecor';
 import V4SectionHeader from './V4SectionHeader';
 import { PremiumHalo } from './background';
 import { useConsultationModal } from './modal';
@@ -63,10 +62,8 @@ export default function V4TestimonialsSection() {
           'radial-gradient(ellipse 70% 60% at 15% 0%, rgba(201,162,39,0.07) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 100% 100%, rgba(201,162,39,0.05) 0%, transparent 55%), #F5EFE6',
       }}
     >
-      {/* Scene: PremiumHalo — total focus on the featured stories; the
-          botanical accent stays as this section's signature */}
+      {/* Scene: PremiumHalo — total focus on the featured stories */}
       <PremiumHalo id="home-testimonials" />
-      <V4BotanicalDecor side="right" variant="small" />
 
       <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
