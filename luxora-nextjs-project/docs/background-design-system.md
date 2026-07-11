@@ -7,12 +7,12 @@ landing pages). Two layers:
 1. **Primitives** — single visual ingredients. v1: `LuxuryGrain`,
    `LuxuryHalo`, `LuxuryContour`, `LuxuryBlueprint`, `LuxuryMarble`,
    `LuxuryDivider`, `LuxuryFrame`, `LuxuryMesh`, `LuxurySpotlight`,
-   `LuxuryGeometry`. v2 (the "painted environment" set, modeled on the
-   LunarEdge reference): `LuxurySphere` (matte ceramic orb with cast
-   shadow), `LuxuryRidges` (large fabric-ridge / concentric-ring line
-   bundles), `LuxuryBotanical` (palm-shadow and bas-relief frond),
-   `LuxuryArch` (nested hairline archways), `LuxuryStucco` (plaster
-   mottle under the fine grain). Pure SVG/CSS, zero image requests.
+   `LuxuryGeometry`. v2 (the "painted environment" set): `LuxurySphere`
+   (matte ceramic orb with cast shadow), `LuxuryRidges` (large
+   fabric-ridge / concentric-ring line bundles), `LuxuryBotanical`
+   (palm-shadow and bas-relief frond), `LuxuryArch` (nested hairline
+   archways), `LuxuryStucco` (plaster mottle under the fine grain).
+   Pure SVG/CSS, zero image requests.
 2. **Scenes** (`background/scenes`) — named, art-directed compositions of
    primitives with hand-tuned positions and opacities. Sections consume a
    scene by name; they do not assemble primitives ad hoc.
