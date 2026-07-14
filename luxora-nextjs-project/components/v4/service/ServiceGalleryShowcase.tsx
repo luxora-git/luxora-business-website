@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import V4SectionHeader from '../V4SectionHeader';
-import { LuxuryContour, LuxuryHalo, LuxuryGrain, LuxuryDivider } from '../background';
+import { LuxuryDivider, SoftGeometry } from '../background';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import { useLightbox } from '../lightbox';
 import type { LightboxPanelContent } from '../lightbox';
@@ -268,9 +268,7 @@ export default function ServiceGalleryShowcase({ data }: ServiceGalleryShowcaseP
       className="relative py-28 md:py-36 overflow-hidden"
       style={{ backgroundColor: '#F5EFE6' }}
     >
-      <LuxuryContour position="top-left" opacity={0.03} scale={1.3} />
-      <LuxuryHalo position="bottom-right" size="lg" opacity={0.05} blur={110} />
-      <LuxuryGrain id="service-gallery-grain" opacity={0.012} />
+      <SoftGeometry id="service-gallery" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         <div data-v4-reveal-heading>

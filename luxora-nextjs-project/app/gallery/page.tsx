@@ -6,7 +6,7 @@ import { ServicePageShell, ServiceFAQ } from '@/components/v4/service';
 import { GalleryBreadcrumbJsonLd } from '@/components/v4/gallery';
 
 // Background patterns
-import { LuxuryContour, LuxuryBlueprint, LuxuryHalo } from '@/components/v4/background';
+import { SoftGeometry, EditorialLight, PremiumHalo } from '@/components/v4/background';
 
 // Gallery Component Library — layout
 import PageHero from '@/components/v4/common/PageHero';
@@ -183,7 +183,7 @@ export default function GalleryHomePage() {
         id="browse-by-style"
         spacing="standard"
         background={luxoraColors.warmCream}
-        patterns={<LuxuryContour position="top-right" opacity={0.04} />}
+        patterns={<SoftGeometry id="gallery-home-rooms" />}
       >
         <GallerySectionHeader
           eyebrow="Or, Start With a Feeling"
@@ -200,7 +200,7 @@ export default function GalleryHomePage() {
         id="editors-picks"
         spacing="editorial"
         background="#F5EDE0"
-        patterns={<LuxuryBlueprint position="bottom-left" opacity={0.035} />}
+        patterns={<EditorialLight id="gallery-home-styles" />}
       >
         <GallerySectionHeader
           eyebrow="Editor's Choice"
@@ -262,7 +262,7 @@ export default function GalleryHomePage() {
         id="gallery-browser"
         spacing="standard"
         background={luxoraColors.ivory}
-        patterns={<LuxuryHalo position="top-right" size="lg" opacity={0.05} blur={110} />}
+        patterns={<PremiumHalo id="gallery-home-collections" />}
       >
         <GallerySectionHeader
           eyebrow="Browse Everything"

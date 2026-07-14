@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import V4SectionHeader from '../V4SectionHeader';
-import { LuxuryContour, LuxuryGrain } from '../background';
+import { MinimalEditorial } from '../background';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import type { ServiceBeforeAfterData } from '@/lib/content/services/types';
 
@@ -64,8 +64,7 @@ export default function ServiceBeforeAfter({ data }: ServiceBeforeAfterProps) {
           'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), #FDFAF6',
       }}
     >
-      <LuxuryContour position="bottom-left" opacity={0.03} scale={1.2} rotation={180} />
-      <LuxuryGrain id="service-before-after-grain" opacity={0.012} />
+      <MinimalEditorial id="service-before-after" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         <div data-v4-reveal-heading>

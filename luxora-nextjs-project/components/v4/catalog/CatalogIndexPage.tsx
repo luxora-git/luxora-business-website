@@ -50,7 +50,7 @@ export default function CatalogIndexPage({
 
       <GallerySection spacing="standard" background={luxoraColors.ivory} patterns={<LuxuryGrain id="catalog-index-grain" opacity={0.012} />}>
         <GallerySectionHeader eyebrow="Browse" title="Every" titleItalic="Category" className="mb-12" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-6 md:gap-8 3xl:gap-10">
           {items.map((item) => (
             <Link
               key={item.slug}

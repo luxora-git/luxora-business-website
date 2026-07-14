@@ -5,7 +5,8 @@ import { ServicePageShell } from '@/components/v4/service';
 import { GalleryBrowser, GalleryBreadcrumbJsonLd } from '@/components/v4/gallery';
 import PageHero from '@/components/v4/common/PageHero';
 import GlobalClosingCTA from '@/components/v4/common/GlobalClosingCTA';
-import { LuxuryContour, LuxuryGrain } from '@/components/v4/background';
+import { SoftGeometry } from '@/components/v4/background';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import { galleryStyles, getGalleryStyle } from '@/lib/content/gallery/styles';
 import { getProjectsByStyle } from '@/lib/content/gallery/projects';
 
@@ -57,11 +58,10 @@ export default function GalleryStylePage({ params }: StylePageProps) {
         imageAlt={style.heroImageAlt}
       />
 
-      <section className="relative py-20 md:py-28 overflow-hidden" style={{ backgroundColor: '#F5EFE6' }}>
-        <LuxuryContour position="top-right" opacity={0.03} scale={1.2} />
-        <LuxuryGrain id={`gallery-style-${style.slug}-grain`} opacity={0.012} />
+      <section className="relative py-20 md:py-28 3xl:py-36 overflow-hidden" style={{ backgroundColor: '#F5EFE6' }}>
+        <SoftGeometry id={`gallery-style-${style.slug}`} />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+        <div className={`relative z-10 ${luxoraSpacing.container}`}>
           <Suspense fallback={null}>
             <GalleryBrowser projects={projects} />
           </Suspense>

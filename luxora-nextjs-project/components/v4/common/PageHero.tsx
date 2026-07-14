@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { ServiceBreadcrumbItem, ServiceCta } from '@/lib/content/services/types';
 import { luxoraPriceCalculatorUrl } from '@/lib/content/global/contact';
+import { luxoraSpacing, luxoraType } from '@/lib/design/luxoraDesignTokens';
 import ServiceBreadcrumb from '../service/ServiceBreadcrumb';
 import ServiceCtaButton, { CONSULTATION_CTA_HREF } from '../service/ServiceCtaButton';
 
@@ -48,7 +49,7 @@ export default function PageHero({
   extraContent,
 }: PageHeroProps) {
   return (
-    <section className="relative h-[680px] md:h-[780px] overflow-hidden">
+    <section className="relative h-[680px] md:h-[780px] 3xl:h-[860px] 4xl:h-[920px] overflow-hidden">
       <img src={image} alt={imageAlt} className="absolute inset-0 w-full h-full object-cover" loading="eager" />
 
       {/* Overlay — same recipe as V4HeroSection's image slides */}
@@ -61,7 +62,7 @@ export default function PageHero({
         style={{ background: 'linear-gradient(to top, rgba(28,22,16,0.65) 0%, transparent 40%)' }}
       />
 
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col justify-center pb-10 md:pb-14">
+      <div className={`relative z-10 h-full flex flex-col justify-center pb-10 md:pb-14 ${luxoraSpacing.container}`}>
         <div className="max-w-[880px] lg:ml-[5%] xl:ml-[7%]">
           <div className="mb-8 md:mb-10">
             <ServiceBreadcrumb items={breadcrumbItems} light />
@@ -78,7 +79,7 @@ export default function PageHero({
 
           <h1
             className="font-playfair font-normal text-white leading-[1.05] tracking-[-0.025em] mb-7 drop-shadow-2xl"
-            style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5.2rem)' }}
+            style={{ fontSize: luxoraType.display }}
           >
             <span className="block">{heading}</span>
             {headingItalic && <span className="block font-playfair italic">{headingItalic}</span>}
