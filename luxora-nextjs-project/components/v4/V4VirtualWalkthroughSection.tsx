@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { EditorialLight } from './background';
 import { useConsultationModal } from './modal';
 
 const TOUR_URL =
@@ -67,20 +69,15 @@ export default function V4VirtualWalkthroughSection() {
       className="relative overflow-hidden"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 92% 6%, rgba(255,255,255,0.4) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 4% 96%, rgba(201,162,39,0.08) 0%, transparent 55%), #F5EDE0',
+          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 92% 6%, rgba(255,255,255,0.4) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 4% 96%, rgba(201,162,39,0.08) 0%, transparent 55%), #F5EFE6',
       }}
     >
 
-      {/* ── Subtle arc lines background */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.07]" aria-hidden="true">
-        <svg className="w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
-          <path d="M-120 820 Q360 520 720 660 T1560 820" stroke="#C9A96E" strokeWidth="1.4" />
-          <path d="M-120 680 Q360 420 720 540 T1560 680" stroke="#C9A96E" strokeWidth="1.0" />
-          <path d="M-120 540 Q360 320 720 420 T1560 540" stroke="#C9A96E" strokeWidth="0.7" />
-        </svg>
-      </div>
+      {/* Scene: EditorialLight — a calm rest between the golden Portfolio
+          statement and the warm Furniture ambience */}
+      <EditorialLight id="home-walkthrough" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20">
+      <div className={`relative z-10 ${luxoraSpacing.sectionTight} ${luxoraSpacing.container}`}>
 
         {/* ══ HEADING ══════════════════════════════════════════════ */}
         <div className="text-center mb-12" data-v4-reveal-heading>

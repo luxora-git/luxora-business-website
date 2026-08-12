@@ -49,7 +49,7 @@ export default function PortfolioIndexPage() {
           description="Click into any project for the full brief, the story behind it, and the complete photo gallery."
           className="mb-12"
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 gap-6 md:gap-8 3xl:gap-10">
           {portfolioProjects.map((project) => (
             <Link
               key={project.slug}

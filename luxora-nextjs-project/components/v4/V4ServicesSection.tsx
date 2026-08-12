@@ -1,7 +1,8 @@
 'use client';
 
 import V4SectionHeader from './V4SectionHeader';
-import { LuxuryContour, LuxuryBlueprint, LuxuryMarble, LuxuryHalo, LuxuryGrain } from './background';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { EditorialLight } from './background';
 import { useConsultationModal } from './modal';
 
 const services = [
@@ -48,7 +49,7 @@ export default function V4ServicesSection() {
   return (
     <section
       id="v4-services"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
           'linear-gradient(to bottom, rgba(28,22,16,0.16) 0%, rgba(28,22,16,0.04) 7%, transparent 16%), #F5EFE6',
@@ -59,24 +60,11 @@ export default function V4ServicesSection() {
         className="absolute top-0 inset-x-0 h-px pointer-events-none"
         style={{ background: 'linear-gradient(to right, transparent, rgba(201,162,39,0.45), transparent)' }}
       />
-      {/* Layer 1 — soft glow behind the cinematic image */}
-      <LuxuryHalo position="top-left" size="xl" opacity={0.07} blur={110} />
+      {/* Scene: EditorialLight — the calm resting register right after the
+          hero (see docs/background-design-system.md) */}
+      <EditorialLight id="home-services" />
 
-      {/* Layer 2 — architectural contour lines, corner to corner */}
-      <LuxuryContour position="top-left" opacity={0.04} scale={1.5} />
-      <LuxuryContour position="bottom-right" opacity={0.035} scale={1.6} rotation={180} />
-
-      {/* Layer 3 — architectural floor-plan line art, opposite corners */}
-      <LuxuryBlueprint position="top-right" opacity={0.035} scale={1.35} variant="b" density="medium" />
-      <LuxuryBlueprint position="bottom-left" opacity={0.03} scale={1.3} variant="c" density="low" rotation={4} />
-
-      {/* Layer 4 — a single subtle marble-flow accent beneath everything */}
-      <LuxuryMarble position="center" opacity={0.028} scale={1.2} />
-
-      {/* Layer 5 — whisper-quiet grain across the full section */}
-      <LuxuryGrain id="v4-services-grain" opacity={0.012} />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
         <div data-v4-reveal-heading>
           <V4SectionHeader
             eyebrow="What We Do"

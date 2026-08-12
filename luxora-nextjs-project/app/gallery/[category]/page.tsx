@@ -12,7 +12,7 @@ import GalleryFeaturedCard from '@/components/v4/gallery/cards/GalleryFeaturedCa
 import GalleryEditorialCard from '@/components/v4/gallery/cards/GalleryEditorialCard';
 import GalleryCompactCard from '@/components/v4/gallery/cards/GalleryCompactCard';
 import GalleryRail from '@/components/v4/gallery/rails/GalleryRail';
-import { LuxuryContour, LuxuryGrain } from '@/components/v4/background';
+import { SoftGeometry, MinimalEditorial } from '@/components/v4/background';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import { galleryCategories, getGalleryCategory } from '@/lib/content/gallery/categories';
 import { getProjectsByCategory } from '@/lib/content/gallery/projects';
@@ -71,7 +71,7 @@ export default function GalleryCategoryPage({ params }: CategoryPageProps) {
 
       {/* Featured Design */}
       {featured && (
-        <GallerySection spacing="editorial" background={luxoraColors.ivory} patterns={<LuxuryContour position="top-right" opacity={0.03} scale={1.2} />}>
+        <GallerySection spacing="editorial" background={luxoraColors.ivory} patterns={<SoftGeometry id={`gallery-category-${category.slug}-a`} />}>
           <GallerySectionHeader eyebrow="Featured Design" title="Where We'd" titleItalic="Start" className="mb-10" />
           <GalleryFeaturedCard
             href={`/gallery/${category.slug}/${featured.slug}`}
@@ -141,7 +141,7 @@ export default function GalleryCategoryPage({ params }: CategoryPageProps) {
       <GallerySection
         spacing="standard"
         background={luxoraColors.ivory}
-        patterns={<LuxuryGrain id={`gallery-category-${category.slug}-grain`} opacity={0.012} />}
+        patterns={<MinimalEditorial id={`gallery-category-${category.slug}-b`} />}
       >
         <GallerySectionHeader eyebrow="Full Gallery" title="Every Design in" titleItalic={category.label} className="mb-10" />
         <Suspense fallback={null}>

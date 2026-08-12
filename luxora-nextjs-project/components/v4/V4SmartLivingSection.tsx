@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { Architectural } from './background';
 import { RoomStage, DeviceToggleRow, ScenePresetButton, scenePresets, toastCopy } from './smart-living';
 import type { SmartLivingState, DeviceKey, SceneKey } from './smart-living';
 
@@ -68,22 +70,17 @@ export default function V4SmartLivingSection() {
   return (
     <section
       id="v4-smart-living"
-      className="relative overflow-hidden py-24 md:py-32"
+      className="relative overflow-hidden py-24 md:py-32 3xl:py-40"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 94% 4%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 2% 98%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
+          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 94% 4%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 2% 98%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EFE6',
       }}
     >
-      {/* Background arc lines */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.07]" aria-hidden="true">
-        <svg className="w-full h-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
-          <path d="M-120 820 Q360 520 720 660 T1560 820" stroke="#C9A96E" strokeWidth="1.4" />
-          <path d="M-120 680 Q360 420 720 540 T1560 680" stroke="#C9A96E" strokeWidth="1.0" />
-          <path d="M-120 540 Q360 320 720 420 T1560 540" stroke="#C9A96E" strokeWidth="0.7" />
-        </svg>
-      </div>
+      {/* Scene: Architectural — the engineered, systems register for smart
+          living (see docs/background-design-system.md) */}
+      <Architectural id="home-smart-living" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
         {/* Heading */}
         <div className="text-center mb-12" data-v4-reveal-heading>
           <div className="flex items-center justify-center gap-4 mb-5">

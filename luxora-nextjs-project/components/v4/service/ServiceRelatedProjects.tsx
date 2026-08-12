@@ -1,7 +1,7 @@
 'use client';
 
 import V4SectionHeader from '../V4SectionHeader';
-import { LuxuryContour, LuxuryGrain } from '../background';
+import { EditorialLight } from '../background';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import { useLightbox } from '../lightbox';
 import type { ServiceRelatedProject, ServiceRelatedProjectsData } from '@/lib/content/services/types';
@@ -40,8 +40,7 @@ export default function ServiceRelatedProjects({ data }: ServiceRelatedProjectsP
       className="relative py-24 md:py-32 overflow-hidden"
       style={{ backgroundColor: '#F5EDE0' }}
     >
-      <LuxuryContour position="top-right" opacity={0.03} scale={1.2} />
-      <LuxuryGrain id="service-related-projects-grain" opacity={0.012} />
+      <EditorialLight id="service-related" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         <div data-v4-reveal-heading>

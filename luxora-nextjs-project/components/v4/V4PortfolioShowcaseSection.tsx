@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
 import { portfolioProjects } from '@/lib/content/portfolio/projects';
-import V4SectionHeader from './V4SectionHeader';
+import { GoldenComposition } from './background';
+import { Showcase } from './showcase';
 
 const FEATURED_SLUGS = [
   'krish-ji-residence',
@@ -18,11 +19,13 @@ const featured = FEATURED_SLUGS
   .map((slug) => portfolioProjects.find((p) => p.slug === slug))
   .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
-const PER_SLIDE = 3;
-const slides: (typeof featured)[] = [];
-for (let i = 0; i < featured.length; i += PER_SLIDE) {
-  slides.push(featured.slice(i, i + PER_SLIDE));
+const PER_DESKTOP_PAGE = 3;
+const desktopPages: (typeof featured)[] = [];
+for (let i = 0; i < featured.length; i += PER_DESKTOP_PAGE) {
+  desktopPages.push(featured.slice(i, i + PER_DESKTOP_PAGE));
 }
+/* Mobile: each rich editorial card is its own swipe page. */
+const mobilePages = featured.map((p) => [p]);
 
 function PortfolioCard({ project }: { project: (typeof featured)[number] }) {
   return (
@@ -31,7 +34,7 @@ function PortfolioCard({ project }: { project: (typeof featured)[number] }) {
       className="group flex flex-col"
     >
       <div
-        className="relative overflow-hidden rounded-[18px] mb-5 shadow-[0_8px_28px_rgba(60,35,16,0.07)] transition-shadow duration-500 group-hover:shadow-[0_20px_50px_rgba(60,35,16,0.14)]"
+        className="relative overflow-hidden rounded-[18px] mb-5 shadow-[0_2px_6px_rgba(60,35,16,0.05),0_14px_34px_rgba(60,35,16,0.10)] transition-shadow duration-500 group-hover:shadow-[0_4px_10px_rgba(60,35,16,0.06),0_26px_56px_rgba(60,35,16,0.16)]"
         style={{
           aspectRatio: '4/5',
           border: '1px solid rgba(160,120,80,0.14)',
@@ -97,132 +100,37 @@ function PortfolioCard({ project }: { project: (typeof featured)[number] }) {
 }
 
 export default function V4PortfolioShowcaseSection() {
-  const [current, setCurrent] = useState(0);
-  const total = slides.length;
-
-  const next = () => setCurrent((p) => (p + 1) % total);
-  const prev = () => setCurrent((p) => (p - 1 + total) % total);
-
   return (
     <section
       id="v4-portfolio"
-      className="relative overflow-hidden py-28 md:py-36"
-      style={{ backgroundColor: '#FDFAF6' }}
+      className="relative overflow-hidden py-28 md:py-36 3xl:py-44"
+      style={{ backgroundColor: '#F5EFE6' }}
     >
-      {/* Dot grid — mirrors the Design Gallery's visual weight */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.05]">
-        <svg className="h-full w-full" preserveAspectRatio="none">
-          <defs>
-            <pattern id="portfolio-dots" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="#C9A96E" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#portfolio-dots)" />
-        </svg>
-      </div>
+      {/* Scene: GoldenComposition — the statement register for completed
+          work (see docs/background-design-system.md) */}
+      <GoldenComposition id="home-portfolio" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
-
-        {/* Header row + nav arrows — same treatment as Design Gallery */}
-        <div className="mb-12 flex items-end justify-between md:mb-16" data-v4-reveal-heading>
-          <div className="flex-1">
-            <V4SectionHeader
-              eyebrow="COMPLETED PROJECTS"
-              title="Real Homes,"
-              titleItalic="Real Jaipur Addresses"
-              description="Not concepts, not renders for inspiration — these are Luxora projects that were designed, built and handed over, each with a full case study behind it."
-              centered={false}
-            />
-          </div>
-
-          <div className="mb-14 hidden flex-shrink-0 items-center gap-3 pl-8 md:flex">
-            <button
-              onClick={prev}
-              className="group flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 hover:border-[#1C1005] hover:bg-[#1C1005]"
-              style={{ borderColor: 'rgba(160,120,80,0.30)', background: '#FDFAF6' }}
-              aria-label="Previous projects"
-            >
-              <svg className="h-4 w-4 transition-colors duration-300 group-hover:stroke-[#C8A44A]" fill="none" stroke="#2C1F14" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            <span className="tabular-nums text-[11px] font-semibold tracking-[0.16em]" style={{ color: '#9C7B68' }}>
-              {String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-            </span>
-
-            <button
-              onClick={next}
-              className="group flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 hover:border-[#1C1005] hover:bg-[#1C1005]"
-              style={{ borderColor: 'rgba(160,120,80,0.30)', background: '#FDFAF6' }}
-              aria-label="Next projects"
-            >
-              <svg className="h-4 w-4 transition-colors duration-300 group-hover:stroke-[#C8A44A]" fill="none" stroke="#2C1F14" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* CSS track slider — same mechanism as Design Gallery, different card design */}
-        <div className="overflow-hidden" data-v4-reveal>
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${current * 100}%)` }}
-          >
-            {slides.map((slide, si) => (
-              <div
-                key={si}
-                className="grid w-full flex-shrink-0 grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10"
-              >
-                {slide.map((project) => (
-                  <PortfolioCard key={project.slug} project={project} />
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile nav */}
-        <div className="mt-10 flex items-center justify-center gap-4 md:hidden">
-          <button
-            onClick={prev}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(160,120,80,0.30)]"
-            style={{ background: '#FDFAF6' }}
-            aria-label="Previous projects"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="#2C1F14" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <div className="flex gap-2">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                className="rounded-full transition-all duration-300"
-                style={{
-                  width: current === i ? '24px' : '8px',
-                  height: '8px',
-                  background: current === i ? '#C9A227' : 'rgba(201,162,39,0.3)',
-                }}
-                aria-label={`Project set ${i + 1}`}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={next}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(160,120,80,0.30)]"
-            style={{ background: '#FDFAF6' }}
-            aria-label="Next projects"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="#2C1F14" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
+        <Showcase<(typeof featured)[number]>
+          header={{
+            eyebrow: 'COMPLETED PROJECTS',
+            title: 'Real Homes,',
+            titleItalic: 'Real Jaipur Addresses',
+            description:
+              'Not concepts, not renders for inspiration — these are Luxora projects that were designed, built and handed over, each with a full case study behind it.',
+          }}
+          desktopPages={desktopPages}
+          mobilePages={mobilePages}
+          ariaLabel="Completed projects — swipe to browse"
+          renderDesktopPage={(page) => (
+            <div className="grid grid-cols-3 gap-8 xl:gap-10">
+              {page.map((project) => (
+                <PortfolioCard key={project.slug} project={project} />
+              ))}
+            </div>
+          )}
+          renderMobilePage={([project]) => <PortfolioCard project={project} />}
+        />
 
         {/* Bottom CTA */}
         <div className="text-center mt-20 md:mt-24" data-v4-reveal>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import V4SectionHeader from '../V4SectionHeader';
-import { LuxuryBlueprint, LuxuryGrain } from '../background';
+import { LuxuryAmbient } from '../background';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import { useLightbox } from '../lightbox';
 import type { ServiceMaterialsData } from '@/lib/content/services/types';
@@ -28,8 +28,7 @@ export default function ServiceMaterialsFinishes({ data }: ServiceMaterialsFinis
       className="relative py-24 md:py-32 overflow-hidden"
       style={{ backgroundColor: '#F5EDE0' }}
     >
-      <LuxuryBlueprint position="top-right" opacity={0.03} scale={1.2} variant="b" density="low" />
-      <LuxuryGrain id="service-materials-grain" opacity={0.012} />
+      <LuxuryAmbient id="service-materials" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         <div data-v4-reveal-heading>

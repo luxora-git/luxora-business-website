@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { MinimalEditorial } from './background';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -106,27 +108,17 @@ export default function V4BeforeAfterSection() {
   return (
     <section
       id="v4-transformations"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 88% 8%, rgba(201,162,39,0.08) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 8% 95%, rgba(44,31,20,0.04) 0%, transparent 55%), #FDFAF6',
+          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 88% 8%, rgba(201,162,39,0.08) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 8% 95%, rgba(44,31,20,0.04) 0%, transparent 55%), #F5EFE6',
       }}
     >
-      {/* Architectural line-art motifs */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.07]">
-        <svg className="w-full h-full" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-          <path d="M-50 400 Q200 250 450 400 T950 400" stroke="#C9A227" strokeWidth="0.8" fill="none" />
-          <path d="M850 100 Q1000 300 1150 100" stroke="#C9A227" strokeWidth="0.6" fill="none" />
-          <circle cx="1050" cy="180" r="60" stroke="#C9A227" strokeWidth="0.5" fill="none" />
-          <line x1="100" y1="700" x2="300" y2="700" stroke="#C9A227" strokeWidth="0.4" />
-          <line x1="100" y1="710" x2="250" y2="710" stroke="#C9A227" strokeWidth="0.4" />
-          <line x1="100" y1="720" x2="200" y2="720" stroke="#C9A227" strokeWidth="0.4" />
-        </svg>
-      </div>
-      {/* Decorative sphere */}
-      <div className="absolute top-24 -right-24 w-64 h-64 rounded-full border border-[#C9A227]/8 pointer-events-none" />
+      {/* Scene: MinimalEditorial — the before/after imagery carries this
+          section; the wall stays quiet (see docs/background-design-system.md) */}
+      <MinimalEditorial id="home-before-after" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16 items-end mb-12 md:mb-16" data-v4-reveal-heading>
           <div>
             <span className="text-[#C9A227] text-[11px] font-semibold tracking-[0.28em] uppercase mb-5 block">

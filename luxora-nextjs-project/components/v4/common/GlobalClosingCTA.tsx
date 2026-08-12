@@ -1,5 +1,5 @@
 import { LuxuryHalo } from '../background';
-import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
+import { luxoraColors, luxoraType } from '@/lib/design/luxoraDesignTokens';
 import ServiceCtaButton from '../service/ServiceCtaButton';
 import { PAGE_HERO_PRIMARY_CTA, PAGE_HERO_SECONDARY_CTA } from './PageHero';
 
@@ -31,7 +31,7 @@ export default function GlobalClosingCTA({
 }: GlobalClosingCTAProps) {
   return (
     <section className="relative overflow-hidden">
-      <div className="relative h-[560px] md:h-[640px]">
+      <div className="relative h-[560px] md:h-[640px] 3xl:h-[720px] 4xl:h-[780px]">
         <img src={image} alt={imageAlt} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
         <div
           className="absolute inset-0"
@@ -44,8 +44,8 @@ export default function GlobalClosingCTA({
             {eyebrow}
           </span>
           <h2
-            className="font-playfair font-normal leading-[1.1] tracking-[-0.02em] mb-6 max-w-3xl"
-            style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)', color: '#FDFAF6' }}
+            className="font-playfair font-normal leading-[1.1] tracking-[-0.02em] mb-6 max-w-3xl 3xl:max-w-4xl"
+            style={{ fontSize: luxoraType.h1, color: '#FDFAF6' }}
           >
             <span className="block">{title}</span>
             {titleItalic && <span className="block font-playfair italic">{titleItalic}</span>}

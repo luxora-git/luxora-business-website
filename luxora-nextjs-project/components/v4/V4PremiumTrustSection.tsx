@@ -1,84 +1,8 @@
 'use client';
 
 import { luxoraStats } from '@/lib/content/global/stats';
-
-// ── Concentric ripple arcs from top-right (exact Figma pattern)
-function ConcentricArcs() {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <svg
-        className="absolute top-0 right-0 h-full"
-        style={{ width: '52%', opacity: 0.18 }}
-        viewBox="0 0 700 900"
-        preserveAspectRatio="xMaxYMid meet"
-        fill="none"
-      >
-        {Array.from({ length: 22 }).map((_, i) => {
-          const r = 100 + i * 36;
-          return (
-            <path
-              key={i}
-              d={`M 700 0 A ${r} ${r} 0 0 0 ${Math.max(0, 700 - r)} 900`}
-              stroke="#C9A96E"
-              strokeWidth="0.85"
-              fill="none"
-            />
-          );
-        })}
-      </svg>
-    </div>
-  );
-}
-
-// ── 3D Sphere — left side
-function Sphere3D() {
-  return (
-    <div
-      className="absolute pointer-events-none hidden lg:block"
-      aria-hidden="true"
-      style={{ left: '-18px', bottom: '14%', width: '108px', height: '108px', opacity: 0.80 }}
-    >
-      <svg viewBox="0 0 110 110" fill="none" className="w-full h-full">
-        <defs>
-          <radialGradient id="sg1" cx="38%" cy="35%" r="60%">
-            <stop offset="0%"   stopColor="#F5E8D0" />
-            <stop offset="45%"  stopColor="#D4B896" />
-            <stop offset="75%"  stopColor="#B89870" />
-            <stop offset="100%" stopColor="#8B6840" />
-          </radialGradient>
-          <radialGradient id="sg2" cx="30%" cy="28%" r="35%">
-            <stop offset="0%"   stopColor="#FDFAF6" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#FDFAF6" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx="55" cy="55" r="52" fill="url(#sg1)" />
-        <circle cx="55" cy="55" r="52" fill="url(#sg2)" />
-        <ellipse cx="55" cy="55" rx="52" ry="18" stroke="#C9A96E" strokeWidth="0.5" strokeOpacity="0.28" fill="none" />
-        <ellipse cx="55" cy="55" rx="52" ry="35" stroke="#C9A96E" strokeWidth="0.4" strokeOpacity="0.18" fill="none" />
-      </svg>
-    </div>
-  );
-}
-
-// ── Botanical leaf — bottom right
-function BottomRightLeaf() {
-  return (
-    <div
-      className="absolute pointer-events-none"
-      aria-hidden="true"
-      style={{ bottom: '-20px', right: '-28px', width: '220px', height: '320px', opacity: 0.09 }}
-    >
-      <svg viewBox="0 0 300 420" fill="none" className="w-full h-full">
-        <path d="M150 420 C90 340,-20 230,15 115 C40 55,110 25,150 0 C190 25,260 55,285 115 C320 230,210 340,150 420Z" stroke="#C9A96E" strokeWidth="1.2" />
-        <path d="M150 385 C110 315,20 235,45 145 C65 90,120 65,150 40 C180 65,235 90,255 145 C280 235,190 315,150 385Z" stroke="#C9A96E" strokeWidth="0.9" />
-        <line x1="150" y1="0" x2="150" y2="420" stroke="#C9A96E" strokeWidth="0.6" />
-        <path d="M150 110 Q95 140 65 190" stroke="#C9A96E" strokeWidth="0.5" fill="none" />
-        <path d="M150 170 Q205 200 235 250" stroke="#C9A96E" strokeWidth="0.5" fill="none" />
-        <path d="M150 240 Q105 270 85 315" stroke="#C9A96E" strokeWidth="0.5" fill="none" />
-      </svg>
-    </div>
-  );
-}
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { PremiumHalo } from './background';
 
 const benefits = [
   { title: 'After-Sales Care',                                      description: 'Continued support beyond project completion.'      },
@@ -95,17 +19,17 @@ export default function V4PremiumTrustSection() {
   return (
     <section
       id="v4-about"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 92% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 4% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
+          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 92% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 4% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EFE6',
       }}
     >
-      <ConcentricArcs />
-      <Sphere3D />
-      <BottomRightLeaf />
+      {/* Scene: PremiumHalo — total focus on the centered trust claim + benefit
+          row (see docs/background-design-system.md) */}
+      <PremiumHalo id="home-trust" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
         {/* ── Eyebrow with gold lines on both sides */}
         <div className="flex items-center justify-center gap-4 mb-6" data-v4-reveal-heading>

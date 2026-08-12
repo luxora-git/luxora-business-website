@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import gsap from 'gsap';
 import { useConsultationModal } from './modal';
 import { luxoraStats } from '@/lib/content/global/stats';
+import { luxoraType } from '@/lib/design/luxoraDesignTokens';
 
 interface Slide {
   image: string;
@@ -337,8 +338,11 @@ export default function V4HeroSection() {
             </div>
 
           ) : (
-            /* ── IMAGE SLIDES: Bottom-anchored editorial layout */
-            <div className="flex-1 flex flex-col justify-end px-6 sm:px-8 md:px-12 lg:px-16 pb-36">
+            /* ── IMAGE SLIDES: Bottom-anchored editorial layout. Edge-anchored
+                 paddings below 1920px (the expansive full-bleed hero look,
+                 identical to production); from 3xl up the column centers on
+                 the container width so it never drifts to a far screen edge. */
+            <div className="flex-1 flex flex-col justify-end px-6 sm:px-8 md:px-12 lg:px-16 pb-36 w-full 3xl:max-w-[1560px] 3xl:mx-auto 3xl:px-20">
               <div className="max-w-[680px]">
                 <div data-h-eyebrow className="mb-5">
                   <span
@@ -351,7 +355,7 @@ export default function V4HeroSection() {
 
                 <h1
                   className="font-playfair font-normal text-white leading-[1.05] tracking-[-0.025em] mb-5 drop-shadow-2xl"
-                  style={{ fontSize: 'clamp(2.4rem, 5.5vw, 5.8rem)' }}
+                  style={{ fontSize: luxoraType.display }}
                 >
                   <span data-h-heading className="block">{slide.heading}</span>
                   {slide.headingItalic && (
@@ -408,11 +412,15 @@ export default function V4HeroSection() {
           )}
         </div>
 
-        {/* ── Stats — right-side floating cards on IMAGE slides only ── */}
+        {/* ── Stats — right-side floating cards on IMAGE slides only.
+             Edge-anchored below 1920px (production behavior); from 3xl up
+             they clamp to the hero content column's right edge so they stay
+             part of the composition instead of drifting to a far screen
+             edge on ultrawide displays. ── */}
         {!isVideo && (
           <div
             data-h-stats
-            className="absolute right-6 md:right-12 lg:right-16 top-1/2 -translate-y-1/2 z-20 hidden xl:flex flex-col gap-3"
+            className="absolute right-6 md:right-12 lg:right-16 3xl:right-[calc((100vw_-_1560px)/2_+_5rem)] top-1/2 -translate-y-1/2 z-20 hidden xl:flex flex-col gap-3"
           >
             {statCards.map((stat) => (
               <div
@@ -429,8 +437,11 @@ export default function V4HeroSection() {
 
         {/* ── Prev / Next arrows ──────────────────────────────────── */}
         {[
-          { fn: prevSlide, side: 'left-5 md:left-8', icon: 'M15 19l-7-7 7-7', label: 'Previous' },
-          { fn: nextSlide, side: 'right-5 md:right-8', icon: 'M9 5l7 7-7 7', label: 'Next' },
+          /* 3xl+: arrows clamp toward the content column ((100vw − 1640px)/2
+             puts them just outside the 1560px hero column) instead of
+             drifting to the far edges of an ultrawide screen. */
+          { fn: prevSlide, side: 'left-5 md:left-8 3xl:left-[max(2rem,calc((100vw_-_1640px)/2))]', icon: 'M15 19l-7-7 7-7', label: 'Previous' },
+          { fn: nextSlide, side: 'right-5 md:right-8 3xl:right-[max(2rem,calc((100vw_-_1640px)/2))]', icon: 'M9 5l7 7-7 7', label: 'Next' },
         ].map((btn) => (
           <button
             key={btn.label}

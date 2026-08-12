@@ -1,81 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-
-/* ── 3D Sphere (left side, exact Figma) ────────────────────────── */
-function Sphere3D() {
-  return (
-    <div
-      className="absolute pointer-events-none hidden lg:block"
-      aria-hidden="true"
-      style={{ left: '-14px', top: '52%', transform: 'translateY(-50%)', width: '116px', height: '116px', opacity: 0.80, zIndex: 0 }}
-    >
-      <svg viewBox="0 0 110 110" fill="none" className="w-full h-full">
-        <defs>
-          <radialGradient id="fs-g1" cx="38%" cy="35%" r="60%">
-            <stop offset="0%"   stopColor="#F5E8D0" />
-            <stop offset="45%"  stopColor="#D4B896" />
-            <stop offset="75%"  stopColor="#B89870" />
-            <stop offset="100%" stopColor="#8B6840" />
-          </radialGradient>
-          <radialGradient id="fs-g2" cx="30%" cy="28%" r="35%">
-            <stop offset="0%"   stopColor="#FDFAF6" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#FDFAF6" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx="55" cy="55" r="52" fill="url(#fs-g1)" />
-        <circle cx="55" cy="55" r="52" fill="url(#fs-g2)" />
-        <ellipse cx="55" cy="55" rx="52" ry="18" stroke="#C9A96E" strokeWidth="0.5" strokeOpacity="0.28" fill="none"/>
-        <ellipse cx="55" cy="55" rx="52" ry="35" stroke="#C9A96E" strokeWidth="0.4" strokeOpacity="0.18" fill="none"/>
-      </svg>
-    </div>
-  );
-}
-
-/* ── Background patterns (top-right circle, dot-grid, arcs) ─────── */
-function BgPatterns() {
-  return (
-    <>
-      {/* Tiny circle ring — top right */}
-      <div
-        className="absolute pointer-events-none"
-        aria-hidden="true"
-        style={{ top: '28px', right: '44px', width: '14px', height: '14px', border: '1.5px solid rgba(201,162,39,0.38)', borderRadius: '50%', zIndex: 0 }}
-      />
-      {/* Dot grid — right half */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{ opacity: 0.055, zIndex: 0 }}>
-        <svg className="w-full h-full" preserveAspectRatio="none">
-          <defs>
-            <pattern id="fc-dots" width="22" height="22" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="#C9A96E" />
-            </pattern>
-            <clipPath id="fc-rh"><rect x="50%" y="0" width="50%" height="100%" /></clipPath>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#fc-dots)" clipPath="url(#fc-rh)" />
-        </svg>
-      </div>
-      {/* Concentric arcs — top right corner */}
-      <div
-        className="absolute top-0 right-0 pointer-events-none hidden md:block"
-        aria-hidden="true"
-        style={{ width: '26%', height: '52%', opacity: 0.09, zIndex: 0 }}
-      >
-        <svg className="w-full h-full" viewBox="0 0 360 480" fill="none" preserveAspectRatio="xMaxYMin meet">
-          {Array.from({ length: 13 }).map((_, i) => {
-            const r = 55 + i * 26;
-            return (
-              <path
-                key={i}
-                d={`M 360 0 A ${r} ${r} 0 0 0 ${Math.max(0, 360 - r)} 480`}
-                stroke="#C9A96E" strokeWidth="0.8" fill="none"
-              />
-            );
-          })}
-        </svg>
-      </div>
-    </>
-  );
-}
+import { luxoraSpacing } from '@/lib/design/luxoraDesignTokens';
+import { LuxuryAmbient } from './background';
 
 /* ── Category data — exactly 4 items matching Figma ─────────────── */
 const categories = [
@@ -157,16 +84,17 @@ export default function V4FurnitureCollectionSection() {
   return (
     <section
       id="v4-furniture"
-      className="relative py-24 md:py-32 overflow-hidden"
+      className="relative py-24 md:py-32 3xl:py-40 overflow-hidden"
       style={{
         background:
-          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 6% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 96% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EDE0',
+          'linear-gradient(to bottom, rgba(44,31,20,0.05) 0%, transparent 9%), radial-gradient(ellipse 70% 50% at 6% 0%, rgba(255,255,255,0.45) 0%, transparent 55%), radial-gradient(ellipse 60% 60% at 96% 100%, rgba(201,162,39,0.09) 0%, transparent 55%), #F5EFE6',
       }}
     >
-      <Sphere3D />
-      <BgPatterns />
+      {/* Scene: LuxuryAmbient — warm lamplight ambience for the furniture
+          collection (see docs/background-design-system.md) */}
+      <LuxuryAmbient id="home-furniture" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className={`relative z-10 ${luxoraSpacing.container}`}>
 
         {/* ── Eyebrow with gold lines */}
         <div className="flex items-center justify-center gap-4 mb-5" data-v4-reveal-heading>

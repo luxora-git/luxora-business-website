@@ -5,9 +5,19 @@ const config: Config = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    // Design System V2 class recipes live in lib/design — without this
+    // glob, Tailwind would purge every class that only appears there.
+    './lib/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
+      // Design System V2 breakpoint ladder — extends the defaults
+      // (sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536) upward so
+      // large-display tiers are named, never ad-hoc min-[…] variants.
+      screens: {
+        '3xl': '1920px',
+        '4xl': '2560px',
+      },
       colors: {
         luxora: {
           navy: '#0A1F44',

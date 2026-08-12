@@ -15,3 +15,34 @@ export type { LuxuryGrainProps } from './LuxuryGrain';
 
 export { default as LuxuryDivider } from './LuxuryDivider';
 export type { LuxuryDividerProps, LuxuryDividerVariant } from './LuxuryDivider';
+
+export { default as LuxuryFrame } from './LuxuryFrame';
+export type { LuxuryFrameProps, LuxuryFrameVariant } from './LuxuryFrame';
+
+export { default as LuxuryMesh } from './LuxuryMesh';
+export type { LuxuryMeshProps, LuxuryMeshTone } from './LuxuryMesh';
+
+export { default as LuxurySpotlight } from './LuxurySpotlight';
+export type { LuxurySpotlightProps, LuxurySpotlightFrom } from './LuxurySpotlight';
+
+export { default as LuxuryGeometry } from './LuxuryGeometry';
+export type { LuxuryGeometryProps, LuxuryGeometryVariant } from './LuxuryGeometry';
+
+export { default as LuxurySphere } from './LuxurySphere';
+export type { LuxurySphereProps } from './LuxurySphere';
+
+export { default as LuxuryRidges } from './LuxuryRidges';
+export type { LuxuryRidgesProps, LuxuryRidgesVariant } from './LuxuryRidges';
+
+export { default as LuxuryBotanical } from './LuxuryBotanical';
+export type { LuxuryBotanicalProps, LuxuryBotanicalMode } from './LuxuryBotanical';
+
+export { default as LuxuryArch } from './LuxuryArch';
+export type { LuxuryArchProps } from './LuxuryArch';
+
+export { default as LuxuryStucco } from './LuxuryStucco';
+export type { LuxuryStuccoProps } from './LuxuryStucco';
+
+/* Scene compositions — the Background Design System's named visual
+ * languages (see docs/background-design-system.md). */
+export * from './scenes';
