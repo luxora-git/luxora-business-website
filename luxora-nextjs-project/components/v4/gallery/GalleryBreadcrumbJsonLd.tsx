@@ -1,14 +1,14 @@
+import { SITE_ORIGIN } from '@/lib/seo/siteConfig';
+
 export interface GalleryBreadcrumbJsonLdItem {
   label: string;
-  /** Absolute or site-relative URL. Relative URLs are resolved against luxora.in. */
+  /** Absolute or site-relative URL. Relative URLs are resolved against the canonical origin. */
   href: string;
 }
 
 export interface GalleryBreadcrumbJsonLdProps {
   items: GalleryBreadcrumbJsonLdItem[];
 }
-
-const SITE_ORIGIN = 'https://luxora.in';
 
 /** Renders a BreadcrumbList JSON-LD script tag matching the visible breadcrumb. */
 export default function GalleryBreadcrumbJsonLd({ items }: GalleryBreadcrumbJsonLdProps) {

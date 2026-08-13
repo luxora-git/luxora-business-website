@@ -281,7 +281,9 @@ export default function V4HeroSection() {
                 </span>
               </div>
 
-              <h1
+              {/* Visual hero display text (rotates per slide). The page's
+                  semantic <h1> is the stable sr-only heading in app/page.tsx. */}
+              <div
                 className="font-playfair font-normal text-white leading-[1.05] tracking-[-0.03em] mb-7 drop-shadow-2xl"
                 style={{ fontSize: 'clamp(1.9rem, 3.6vw, 4rem)' }}
               >
@@ -291,7 +293,7 @@ export default function V4HeroSection() {
                     {slide.headingItalic}
                   </span>
                 )}
-              </h1>
+              </div>
 
               <p
                 data-h-desc
@@ -353,7 +355,9 @@ export default function V4HeroSection() {
                   </span>
                 </div>
 
-                <h1
+                {/* Visual hero display text (rotates per slide). The page's
+                    semantic <h1> is the stable sr-only heading in app/page.tsx. */}
+                <div
                   className="font-playfair font-normal text-white leading-[1.05] tracking-[-0.025em] mb-5 drop-shadow-2xl"
                   style={{ fontSize: luxoraType.display }}
                 >
@@ -363,7 +367,7 @@ export default function V4HeroSection() {
                       {slide.headingItalic}
                     </span>
                   )}
-                </h1>
+                </div>
 
                 <p
                   data-h-desc

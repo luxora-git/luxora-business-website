@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import Image from 'next/image';
 import type { ServiceBreadcrumbItem, ServiceCta } from '@/lib/content/services/types';
 import { luxoraPriceCalculatorUrl } from '@/lib/content/global/contact';
 import { luxoraSpacing, luxoraType } from '@/lib/design/luxoraDesignTokens';
@@ -50,7 +51,16 @@ export default function PageHero({
 }: PageHeroProps) {
   return (
     <section className="relative h-[680px] md:h-[780px] 3xl:h-[860px] 4xl:h-[920px] overflow-hidden">
-      <img src={image} alt={imageAlt} className="absolute inset-0 w-full h-full object-cover" loading="eager" />
+      {/* Internal-page LCP image — prioritized and served responsively via
+          next/image. `fill` + object-cover preserves the exact crop. */}
+      <Image
+        src={image}
+        alt={imageAlt}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
 
       {/* Overlay — same recipe as V4HeroSection's image slides */}
       <div

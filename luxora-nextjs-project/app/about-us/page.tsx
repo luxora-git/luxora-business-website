@@ -4,19 +4,21 @@ import { ServicePageShell } from '@/components/v4/service';
 import LegalPageLayout, { LegalSection, LegalList } from '@/components/v4/common/LegalPageLayout';
 import { luxoraStats } from '@/lib/content/global/stats';
 import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
+import { buildMetadata } from '@/lib/seo/metadata';
 
-export const metadata: Metadata = {
-  title: 'About Us | Luxora Interiors',
-  description: 'Luxora Interiors is a Jaipur-based interior design and execution studio — one team, from first sketch to final handover.',
-  alternates: { canonical: '/about-us' },
-};
+export const metadata: Metadata = buildMetadata({
+  title: { absolute: 'About Luxora Interiors — Jaipur Interior Design Studio' },
+  description:
+    'Luxora Interiors (also known as Luxora) is a Jaipur-based interior design and execution studio — one accountable team handling architecture, interiors, modular furniture and home automation, from first sketch to final handover.',
+  path: '/about-us',
+});
 
 export default function AboutUsPage() {
   return (
     <ServicePageShell>
       <LegalPageLayout eyebrow="Our Story" title="About Luxora">
         <p className="mb-8">
-          Luxora Interiors is a Jaipur-based interior design and execution studio. We plan, design and build complete
+          Luxora Interiors — also known simply as Luxora — is a Jaipur-based interior design and execution studio. We plan, design and build complete
           homes and workspaces under one roof — architecture, interiors, modular furniture and home automation — so
           our clients deal with a single accountable team instead of a chain of contractors who rarely speak to each
           other.

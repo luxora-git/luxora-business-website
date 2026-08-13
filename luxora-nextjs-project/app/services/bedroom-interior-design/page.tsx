@@ -1,22 +1,39 @@
 import type { Metadata } from 'next';
 import { ServicePageShell, ServiceLitePage } from '@/components/v4/service';
 import { bedroomService } from '@/lib/content/services/bedroom';
+import { buildMetadata } from '@/lib/seo/metadata';
+import JsonLd from '@/components/seo/JsonLd';
+import { serviceSchema, faqSchema, breadcrumbSchema } from '@/lib/seo/schema';
 
-export const metadata: Metadata = {
-  title: 'Bedroom Interior Design | Luxora Interiors',
-  description: bedroomService.overview,
-  alternates: { canonical: `/services/${bedroomService.slug}` },
-  openGraph: {
-    title: bedroomService.title,
-    description: bedroomService.overview,
-    images: [bedroomService.heroImage.url],
-  },
-};
+const NAME = 'Bedroom Interior Design';
+const PATH = `/services/${bedroomService.slug}`;
+const DESCRIPTION =
+  'Bedroom interior design in Jaipur by Luxora Interiors — restful master and guest bedrooms with built-in storage, ambient lighting and premium finishes, designed around how you actually rest.';
+
+export const metadata: Metadata = buildMetadata({
+  title: 'Bedroom Interior Design in Jaipur',
+  description: DESCRIPTION,
+  path: PATH,
+  image: bedroomService.heroImage.url,
+});
 
 export default function BedroomServicePage() {
   return (
-    <ServicePageShell>
-      <ServiceLitePage data={bedroomService} />
-    </ServicePageShell>
+    <>
+      <JsonLd
+        data={[
+          serviceSchema({ name: NAME, description: DESCRIPTION, path: PATH, image: bedroomService.heroImage.url }),
+          faqSchema(bedroomService.faq),
+          breadcrumbSchema([
+            { label: 'Home', href: '/' },
+            { label: 'Services', href: '/services/full-home-interior-design' },
+            { label: bedroomService.title, href: PATH },
+          ]),
+        ]}
+      />
+      <ServicePageShell>
+        <ServiceLitePage data={bedroomService} />
+      </ServicePageShell>
+    </>
   );
 }
