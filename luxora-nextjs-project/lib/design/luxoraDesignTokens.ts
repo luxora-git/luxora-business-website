@@ -67,8 +67,11 @@ export const luxoraBlur = {
  * add the 3xl/4xl tiers on top.
  */
 export const luxoraType = {
-  /** Hero-level H1 — `style={{ fontSize: luxoraType.display }}` */
+  /** Homepage cinematic hero H1 (V4HeroSection only) — `style={{ fontSize: luxoraType.display }}` */
   display: 'var(--lux-type-display)',
+  /** Shared internal-page hero H1 (PageHero family) — restrained editorial
+   *  scale that stays balanced for long headlines. `style={{ fontSize: luxoraType.pageHeroTitle }}` */
+  pageHeroTitle: 'var(--lux-type-page-hero)',
   /** Page/closing-CTA H1 */
   h1: 'var(--lux-type-h1)',
   /** Section headings (V4SectionHeader) */

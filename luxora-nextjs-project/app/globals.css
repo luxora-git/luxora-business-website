@@ -36,8 +36,16 @@
    type stays flat — on ultrawide/TV the containers and spacing carry
    the growth, never comically large text. */
 :root {
-  /* Hero H1 — was clamp(2.4rem, 5.5vw, 5.8rem), cap engaged ~1690px */
+  /* Homepage cinematic hero H1 (V4HeroSection) — short, art-directed
+     headlines only. Deliberately large. */
   --lux-type-display: clamp(2.4rem, 5.5vw, 6.2rem);
+  /* Internal-page hero H1 (shared PageHero, used by services, gallery,
+     portfolio, catalog). A restrained, editorial scale: it must stay
+     dominant and premium for short titles yet stay balanced for LONG
+     headlines (e.g. a service title + long italic subtitle) that the
+     cinematic --lux-type-display over-inflated in the 1024–1440px range.
+     ~47px @1280, ~53px @1440, capped 3.9rem (62.4px) from ~1686px up. */
+  --lux-type-page-hero: clamp(2rem, 3.7vw, 3.9rem);
   /* Page/closing H1 — was clamp(2.2rem, 4.5vw, 3.8rem), cap ~1350px */
   --lux-type-h1: clamp(2.2rem, 4.5vw, 5rem);
   /* Section headings — was clamp(2rem, 3.5vw, 3.4rem), cap ~1554px */

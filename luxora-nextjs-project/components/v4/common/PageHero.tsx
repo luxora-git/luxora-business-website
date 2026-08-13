@@ -88,8 +88,8 @@ export default function PageHero({
           )}
 
           <h1
-            className="font-playfair font-normal text-white leading-[1.05] tracking-[-0.025em] mb-7 drop-shadow-2xl"
-            style={{ fontSize: luxoraType.display }}
+            className="font-playfair font-normal text-white leading-[1.1] tracking-[-0.02em] mb-7 drop-shadow-2xl"
+            style={{ fontSize: luxoraType.pageHeroTitle }}
           >
             <span className="block">{heading}</span>
             {headingItalic && <span className="block font-playfair italic">{headingItalic}</span>}
