@@ -4,7 +4,7 @@ import CatalogIndexPage from '@/components/v4/catalog/CatalogIndexPage';
 import { interiorElements } from '@/lib/content/catalog';
 
 export const metadata: Metadata = {
-  title: 'Interior Elements | Luxora Interiors',
+  title: 'Interior Elements',
   description: 'Every element of a Luxora interior, from kitchens and wardrobes to lighting, ceilings, flooring and hardware — real work, room by room.',
   alternates: { canonical: '/elements' },
 };

@@ -4,7 +4,7 @@ import LegalPageLayout, { LegalSection, LegalList } from '@/components/v4/common
 import { luxoraContact } from '@/lib/content/global/contact';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Luxora Interiors',
+  title: 'Privacy Policy',
   description: 'How Luxora Interiors collects, uses and protects the information you share with us.',
   alternates: { canonical: '/privacy-policy' },
 };

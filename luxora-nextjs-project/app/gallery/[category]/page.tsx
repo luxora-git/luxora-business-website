@@ -30,7 +30,7 @@ export function generateMetadata({ params }: CategoryPageProps): Metadata {
   const category = getGalleryCategory(params.category);
   if (!category) return {};
   return {
-    title: `${category.label} Design Gallery | Luxora Interiors`,
+    title: `${category.label} Design Gallery`,
     description: category.description,
     alternates: { canonical: `/gallery/${category.slug}` },
     openGraph: {

@@ -22,7 +22,7 @@ export function generateMetadata({ params }: StylePageProps): Metadata {
   const style = getGalleryStyle(params.slug);
   if (!style) return {};
   return {
-    title: `${style.label} Design Gallery | Luxora Interiors`,
+    title: `${style.label} Design Gallery`,
     description: style.description,
     alternates: { canonical: `/gallery/style/${style.slug}` },
     openGraph: {

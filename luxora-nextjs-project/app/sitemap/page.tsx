@@ -8,7 +8,7 @@ import { allServices } from '@/lib/content/services/serviceIndex';
 import { interiorElements, products } from '@/lib/content/catalog';
 
 export const metadata: Metadata = {
-  title: 'Sitemap | Luxora Interiors',
+  title: 'Sitemap',
   description: 'A complete map of every page on the Luxora Interiors website.',
   alternates: { canonical: '/sitemap' },
 };

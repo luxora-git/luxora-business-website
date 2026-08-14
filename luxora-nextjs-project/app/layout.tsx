@@ -9,29 +9,29 @@ import {
   SITE_DESCRIPTION,
   SITE_LOCALE,
   SITE_LANG,
-  BRAND,
+  SITE_NAME,
   DEFAULT_OG_IMAGE,
 } from '@/lib/seo/siteConfig';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: 'Luxora Interiors — Interior Designers in Jaipur',
-    template: '%s | Luxora Interiors',
+    default: 'Luxora — Interior Designers in Jaipur',
+    template: '%s | Luxora',
   },
   description: SITE_DESCRIPTION,
-  applicationName: BRAND.name,
+  applicationName: SITE_NAME,
   openGraph: {
     type: 'website',
-    siteName: BRAND.name,
+    siteName: SITE_NAME,
     locale: SITE_LOCALE,
-    title: 'Luxora Interiors — Interior Designers in Jaipur',
+    title: 'Luxora — Interior Designers in Jaipur',
     description: SITE_DESCRIPTION,
     images: [{ url: DEFAULT_OG_IMAGE }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Luxora Interiors — Interior Designers in Jaipur',
+    title: 'Luxora — Interior Designers in Jaipur',
     description: SITE_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE],
   },

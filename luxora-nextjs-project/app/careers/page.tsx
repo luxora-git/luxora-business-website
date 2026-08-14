@@ -4,7 +4,7 @@ import LegalPageLayout, { LegalSection, LegalList } from '@/components/v4/common
 import { luxoraContact } from '@/lib/content/global/contact';
 
 export const metadata: Metadata = {
-  title: 'Careers | Luxora Interiors',
+  title: 'Careers',
   description: 'Join the Luxora Interiors design and execution team in Jaipur.',
   alternates: { canonical: '/careers' },
 };

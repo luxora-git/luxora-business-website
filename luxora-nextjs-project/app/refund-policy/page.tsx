@@ -4,7 +4,7 @@ import LegalPageLayout, { LegalSection, LegalList } from '@/components/v4/common
 import { luxoraContact } from '@/lib/content/global/contact';
 
 export const metadata: Metadata = {
-  title: 'Refund Policy | Luxora Interiors',
+  title: 'Refund Policy',
   description: 'How advance payments, milestones and refunds are handled for Luxora Interiors design and execution projects.',
   alternates: { canonical: '/refund-policy' },
 };

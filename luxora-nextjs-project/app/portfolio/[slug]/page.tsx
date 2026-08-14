@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!project) return {};
 
   return {
-    title: `${project.title} | Luxora Portfolio`,
+    title: `${project.title} — Portfolio`,
     description: project.overview,
     alternates: { canonical: `/portfolio/${project.slug}` },
     openGraph: {

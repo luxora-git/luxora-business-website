@@ -4,7 +4,7 @@ import LegalPageLayout, { LegalSection, LegalList } from '@/components/v4/common
 import { luxoraContact } from '@/lib/content/global/contact';
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions | Luxora Interiors',
+  title: 'Terms & Conditions',
   description: 'The terms that govern your use of the Luxora Interiors website and engagement of our design services.',
   alternates: { canonical: '/terms-conditions' },
 };

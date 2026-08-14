@@ -23,7 +23,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const collection = getGalleryCollection(params.slug);
   if (!collection) return {};
   return {
-    title: `${collection.label} | Luxora Design Gallery`,
+    title: `${collection.label} — Design Gallery`,
     description: collection.description,
     alternates: { canonical: `/gallery/collections/${collection.slug}` },
     openGraph: { title: collection.label, description: collection.description, images: [collection.heroImage] },

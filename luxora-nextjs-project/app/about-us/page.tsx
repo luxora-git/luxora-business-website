@@ -7,7 +7,7 @@ import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import { buildMetadata } from '@/lib/seo/metadata';
 
 export const metadata: Metadata = buildMetadata({
-  title: { absolute: 'About Luxora Interiors — Jaipur Interior Design Studio' },
+  title: { absolute: 'About Luxora — Interiors Studio in Jaipur' },
   description:
     'Luxora Interiors (also known as Luxora) is a Jaipur-based interior design and execution studio — one accountable team handling architecture, interiors, modular furniture and home automation, from first sketch to final handover.',
   path: '/about-us',

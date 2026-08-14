@@ -4,7 +4,7 @@ import LegalPageLayout, { LegalSection, LegalList } from '@/components/v4/common
 import { luxoraContact } from '@/lib/content/global/contact';
 
 export const metadata: Metadata = {
-  title: 'Shipping & Delivery Policy | Luxora Interiors',
+  title: 'Shipping & Delivery Policy',
   description: 'How materials and fabricated products are delivered and installed for Luxora Interiors projects.',
   alternates: { canonical: '/shipping-policy' },
 };

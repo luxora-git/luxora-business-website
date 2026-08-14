@@ -10,7 +10,10 @@
  */
 import {
   SITE_ORIGIN,
-  BRAND,
+  SITE_NAME,
+  SITE_ALTERNATE_NAME,
+  ORG_NAME,
+  ORG_ALTERNATE_NAME,
   BUSINESS,
   ORG_ID,
   WEBSITE_ID,
@@ -24,15 +27,16 @@ import {
 /**
  * The business entity. Typed ProfessionalService (a LocalBusiness subtype)
  * so it doubles as the local-business node without duplicating entities.
- * `alternateName: "Luxora"` makes Luxora ↔ Luxora Interiors one entity.
+ * name "Luxora Interiors" matches the Google Business Profile;
+ * alternateName "Luxora" makes Luxora ↔ Luxora Interiors one entity.
  */
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': ORG_ID,
-    name: BRAND.name,
-    alternateName: BRAND.alternateName,
+    name: ORG_NAME,
+    alternateName: ORG_ALTERNATE_NAME,
     description: SITE_DESCRIPTION,
     url: SITE_ORIGIN,
     logo: absoluteUrl(SITE_LOGO),
@@ -63,15 +67,19 @@ export function organizationSchema() {
   };
 }
 
-/** WebSite node, publisher-linked to the organization entity. */
+/**
+ * WebSite node — carries the preferred SITE NAME. name "Luxora" (master brand)
+ * with alternateName "Luxora Interiors" (established name). publisher points to
+ * the same Organization @id, so it stays one entity graph.
+ */
 export function websiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': WEBSITE_ID,
     url: SITE_ORIGIN,
-    name: BRAND.name,
-    alternateName: BRAND.alternateName,
+    name: SITE_NAME,
+    alternateName: SITE_ALTERNATE_NAME,
     inLanguage: SITE_LANG,
     publisher: { '@id': ORG_ID },
   };

@@ -20,13 +20,28 @@ import { luxoraContact, luxoraSocialLinks } from '@/lib/content/global/contact';
  */
 export const SITE_ORIGIN = 'https://www.luxora.in';
 
-/** Brand entity. `name` is the business identity; `alternateName` is the
- *  short brand — the two are the same entity, made explicit in schema. */
-export const BRAND = {
-  name: 'Luxora Interiors',
-  alternateName: 'Luxora',
-  shortName: 'Luxora',
-} as const;
+/**
+ * Brand architecture (staged transition — see the approved audit).
+ *
+ * "Luxora" is the master brand and the PREFERRED SITE NAME for luxora.in.
+ * "Luxora Interiors" is the established business name — kept as the alternate
+ * site name, as the Organization/GBP entity name, and in visible copy so its
+ * existing search recognition is preserved.
+ *
+ * The two are ONE entity with two names, never two competing entities.
+ */
+
+/** Preferred site name for luxora.in (WebSite.name, og:site_name, title suffix). */
+export const SITE_NAME = 'Luxora';
+/** Established alternate site name (WebSite.alternateName). */
+export const SITE_ALTERNATE_NAME = 'Luxora Interiors';
+
+/** Business entity name — matches the current Google Business Profile.
+ *  Deliberately NOT changed during this staged transition; flip only when
+ *  real-world branding / GBP move to "Luxora". */
+export const ORG_NAME = 'Luxora Interiors';
+/** Master brand as the entity's alternate name. */
+export const ORG_ALTERNATE_NAME = 'Luxora';
 
 /** Locale used for html lang / OpenGraph / schema inLanguage. */
 export const SITE_LOCALE = 'en_IN';

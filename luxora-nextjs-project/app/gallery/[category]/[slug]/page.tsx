@@ -18,7 +18,10 @@ export function generateMetadata({ params }: DetailPageProps): Metadata {
   const project = getGalleryProject(params.slug);
   if (!project) return {};
   return {
-    title: project.seo.title,
+    // Strip the data's trailing "| Luxora Gallery" so the root title template
+    // supplies the single "| Luxora" brand suffix (no duplication).
+    // openGraph.title keeps the original seo.title (OG titles are not templated).
+    title: project.seo.title.replace(/\s*\|\s*Luxora Gallery\s*$/, ''),
     description: project.seo.description,
     alternates: { canonical: `/gallery/${project.category}/${project.slug}` },
     openGraph: {

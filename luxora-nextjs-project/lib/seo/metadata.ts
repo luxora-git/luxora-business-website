@@ -5,7 +5,7 @@
  * paths to the canonical www origin.
  */
 import type { Metadata } from 'next';
-import { BRAND, SITE_LOCALE, DEFAULT_OG_IMAGE, absoluteUrl } from './siteConfig';
+import { SITE_NAME, SITE_LOCALE, DEFAULT_OG_IMAGE, absoluteUrl } from './siteConfig';
 
 export interface BuildMetadataInput {
   /** Page <title>. String → gets the "| Luxora Interiors" template suffix.
@@ -38,7 +38,7 @@ export function buildMetadata({
       title: ogTitle,
       description,
       url: absoluteUrl(path),
-      siteName: BRAND.name,
+      siteName: SITE_NAME,
       locale: SITE_LOCALE,
       type: 'website',
       images: [{ url: imageUrl }],

@@ -11,7 +11,7 @@ import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 import { portfolioProjects } from '@/lib/content/portfolio/projects';
 
 export const metadata: Metadata = {
-  title: 'Portfolio | Luxora Interiors',
+  title: 'Portfolio',
   description: 'Completed Luxora interior design projects in Jaipur — real homes and offices, from first brief to final handover.',
   alternates: { canonical: '/portfolio' },
   openGraph: {

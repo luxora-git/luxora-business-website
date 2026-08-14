@@ -16,7 +16,7 @@ export function generateMetadata({ params }: ProductPageProps): Metadata {
   const item = getProduct(params.slug);
   if (!item) return {};
   return {
-    title: `${item.title} | Products | Luxora Interiors`,
+    title: `${item.title} | Products`,
     description: item.description,
     alternates: { canonical: `/products/${item.slug}` },
     openGraph: {

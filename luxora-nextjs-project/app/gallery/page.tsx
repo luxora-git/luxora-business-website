@@ -42,7 +42,7 @@ import HeroSearchController from './HeroSearchController';
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: 'Design Gallery | Luxora Interiors',
+  title: 'Design Gallery',
   description:
     'Browse real Luxora interior design inspiration across living rooms, bedrooms, kitchens, wardrobes, full homes and offices. Discover your style, then book a free design consultation.',
   alternates: { canonical: '/gallery' },

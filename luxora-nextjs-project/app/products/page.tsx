@@ -4,7 +4,7 @@ import CatalogIndexPage from '@/components/v4/catalog/CatalogIndexPage';
 import { products } from '@/lib/content/catalog';
 
 export const metadata: Metadata = {
-  title: 'Products | Luxora Interiors',
+  title: 'Products',
   description: 'Modular kitchens, wardrobes, media walls, false ceilings and more — the systems Luxora designs, fabricates and installs in our own facility.',
   alternates: { canonical: '/products' },
 };

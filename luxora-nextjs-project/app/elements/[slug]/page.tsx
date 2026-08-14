@@ -16,7 +16,7 @@ export function generateMetadata({ params }: ElementPageProps): Metadata {
   const item = getInteriorElement(params.slug);
   if (!item) return {};
   return {
-    title: `${item.title} | Interior Elements | Luxora Interiors`,
+    title: `${item.title} | Interior Elements`,
     description: item.description,
     alternates: { canonical: `/elements/${item.slug}` },
     openGraph: {

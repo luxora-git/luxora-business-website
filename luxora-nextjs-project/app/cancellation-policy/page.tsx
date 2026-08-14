@@ -4,7 +4,7 @@ import LegalPageLayout, { LegalSection, LegalList } from '@/components/v4/common
 import { luxoraContact } from '@/lib/content/global/contact';
 
 export const metadata: Metadata = {
-  title: 'Cancellation Policy | Luxora Interiors',
+  title: 'Cancellation Policy',
   description: 'How to reschedule or cancel a site visit, consultation or ongoing project with Luxora Interiors.',
   alternates: { canonical: '/cancellation-policy' },
 };

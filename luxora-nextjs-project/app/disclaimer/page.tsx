@@ -4,7 +4,7 @@ import LegalPageLayout, { LegalSection } from '@/components/v4/common/LegalPageL
 import { luxoraContact } from '@/lib/content/global/contact';
 
 export const metadata: Metadata = {
-  title: 'Disclaimer | Luxora Interiors',
+  title: 'Disclaimer',
   description: 'Important information about the content, imagery and estimates shown on the Luxora Interiors website.',
   alternates: { canonical: '/disclaimer' },
 };
