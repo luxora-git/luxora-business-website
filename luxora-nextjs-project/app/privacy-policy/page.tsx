@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <ServicePageShell>
-      <LegalPageLayout title="Privacy Policy" updated="2 July 2026">
+      <LegalPageLayout title="Privacy Policy">
         <p className="mb-8">
           This Privacy Policy explains how Luxora Interiors (&quot;Luxora&quot;, &quot;we&quot;, &quot;us&quot;)
           collects, uses and protects the information you share with us when you visit luxora.in, request a
@@ -69,8 +69,8 @@ export default function PrivacyPolicyPage() {
 
         <LegalSection title="Changes to This Policy">
           <p>
-            We may update this policy from time to time to reflect changes in our practices. The &quot;last
-            updated&quot; date at the top of this page will always reflect the most recent revision.
+            We may update this policy from time to time to reflect changes in our practices. The version
+            published on this page is the one currently in effect.
           </p>
         </LegalSection>
 
