@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function DisclaimerPage() {
   return (
     <ServicePageShell>
-      <LegalPageLayout title="Disclaimer" updated="2 July 2026">
+      <LegalPageLayout title="Disclaimer">
         <LegalSection title="Design Renders &amp; Photography">
           <p>
             The Design Gallery on this website includes both real, completed Luxora projects and approved AI-assisted
@@ -38,6 +38,23 @@ export default function DisclaimerPage() {
             project experience and are not a guaranteed delivery date for any specific project. Actual timelines
             depend on project scope, site readiness, and material lead times, and are confirmed in your project
             agreement.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="Payments">
+          <p>
+            Nothing on this website should be read as an offer of a refund, a trial period, a money-back
+            assurance or a cancellation window. Luxora Interiors operates a strict no-cancellation and no-refund
+            policy: once a booking amount or any other payment is received, it is final and non-refundable. See
+            our{' '}
+            <a href="/refund-policy" className="underline">
+              Refund Policy
+            </a>{' '}
+            and{' '}
+            <a href="/cancellation-policy" className="underline">
+              Cancellation Policy
+            </a>
+            before making any payment.
           </p>
         </LegalSection>
 

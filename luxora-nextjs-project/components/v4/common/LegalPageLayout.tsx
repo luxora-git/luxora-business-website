@@ -4,7 +4,6 @@ import { luxoraColors } from '@/lib/design/luxoraDesignTokens';
 export interface LegalPageLayoutProps {
   eyebrow?: string;
   title: string;
-  updated?: string;
   children: ReactNode;
 }
 
@@ -15,7 +14,7 @@ export interface LegalPageLayoutProps {
  * full photographic `PageHero`, since these pages have no hero photography
  * of their own and don't need the same visual weight as content pages.
  */
-export default function LegalPageLayout({ eyebrow = 'Luxora Interiors', title, updated, children }: LegalPageLayoutProps) {
+export default function LegalPageLayout({ eyebrow = 'Luxora Interiors', title, children }: LegalPageLayoutProps) {
   return (
     <div style={{ background: luxoraColors.ivory }}>
       <div className="max-w-3xl mx-auto px-6 md:px-12 pt-40 pb-24 md:pt-48 md:pb-32">
@@ -23,16 +22,11 @@ export default function LegalPageLayout({ eyebrow = 'Luxora Interiors', title, u
           {eyebrow}
         </span>
         <h1
-          className="font-playfair font-normal leading-[1.1] tracking-[-0.02em] mb-4"
+          className="font-playfair font-normal leading-[1.1] tracking-[-0.02em] mb-10"
           style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', color: luxoraColors.espresso }}
         >
           {title}
         </h1>
-        {updated && (
-          <p className="text-[13px] font-light mb-12" style={{ color: luxoraColors.mutedBeige }}>
-            Last updated: {updated}
-          </p>
-        )}
         <div className="text-[15px] leading-[1.85] font-light" style={{ color: luxoraColors.softBrown }}>
           {children}
         </div>
@@ -62,5 +56,25 @@ export function LegalList({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/**
+ * LegalHighlight — a bordered callout for the one statement on a policy page
+ * that must not be missed (e.g. the no-refund / no-cancellation terms). The
+ * layout's prose column is `font-light`, which collapses a plain `<strong>`
+ * to near-normal weight under Tailwind preflight's relative `bolder`, so
+ * critical terms get an explicit weight and a gold rule instead.
+ */
+export function LegalHighlight({ children }: { children: ReactNode }) {
+  return (
+    <div
+      className="mb-10 pl-5 md:pl-6 py-4 border-l-2"
+      style={{ borderColor: luxoraColors.gold, background: 'rgba(0,0,0,0.015)' }}
+    >
+      <p className="text-[15px] leading-[1.75] font-medium" style={{ color: luxoraColors.espresso }}>
+        {children}
+      </p>
+    </div>
   );
 }

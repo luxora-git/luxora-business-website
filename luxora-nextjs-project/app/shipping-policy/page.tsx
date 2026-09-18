@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ShippingPolicyPage() {
   return (
     <ServicePageShell>
-      <LegalPageLayout title="Shipping &amp; Delivery Policy" updated="2 July 2026">
+      <LegalPageLayout title="Shipping &amp; Delivery Policy">
         <p className="mb-8">
           Luxora is a design-and-execution studio, not an e-commerce store — we don&apos;t ship parcels to a
           checkout address. Instead, every modular kitchen, wardrobe, furniture piece and finish we design is
@@ -43,6 +43,19 @@ export default function ShippingPolicyPage() {
             Timely delivery depends on your site being ready to receive materials and installation teams (civil work
             complete, power and water available, clear access). Delays caused by site readiness are communicated as
             soon as they&apos;re identified and do not count against our delivery commitments.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="No Refund on Delivered or Fabricated Items">
+          <p>
+            Because every item is fabricated to your exact space, there is no return, exchange or refund on
+            delivered or installed work. Any damage, defect or discrepancy is corrected by repair or replacement
+            under warranty — not by refunding the amount paid. Payments already made towards a project remain
+            non-refundable in all cases, as set out in our{' '}
+            <a href="/refund-policy" className="underline">
+              Refund Policy
+            </a>
+            .
           </p>
         </LegalSection>
 

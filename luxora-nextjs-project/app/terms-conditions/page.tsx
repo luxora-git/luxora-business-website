@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function TermsConditionsPage() {
   return (
     <ServicePageShell>
-      <LegalPageLayout title="Terms &amp; Conditions" updated="2 July 2026">
+      <LegalPageLayout title="Terms &amp; Conditions">
         <p className="mb-8">
           These Terms &amp; Conditions govern your use of the luxora.in website and any consultation, design or
           execution services you engage from Luxora Interiors. By using this website or booking a consultation, you
@@ -43,6 +43,32 @@ export default function TermsConditionsPage() {
             out in a separate signed agreement between Luxora and the client. These Terms &amp; Conditions govern the
             website and initial enquiry process; the signed project agreement governs the execution of any actual
             interior design project.
+          </p>
+        </LegalSection>
+
+        <LegalSection title="Payments, Cancellation &amp; Refunds">
+          <p>
+            Luxora Interiors operates a strict no-cancellation and no-refund policy. Once a booking amount, token
+            amount, advance, design fee or execution milestone has been received, the booking is final:
+          </p>
+          <LegalList
+            items={[
+              'The project cannot be cancelled by the client once the booking amount is received',
+              'All payments received are non-refundable in full, with no partial or pro-rata refund at any stage',
+              'Amounts paid cannot be transferred, adjusted, carried forward or converted into a credit',
+              'Making any payment towards a project constitutes acceptance of these terms',
+            ]}
+          />
+          <p>
+            Full details are set out in our{' '}
+            <a href="/refund-policy" className="underline">
+              Refund Policy
+            </a>{' '}
+            and{' '}
+            <a href="/cancellation-policy" className="underline">
+              Cancellation Policy
+            </a>
+            , which form part of these Terms.
           </p>
         </LegalSection>
 
