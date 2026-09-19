@@ -3,6 +3,7 @@ import './globals.css';
 import { ConsultationModalProvider } from '@/components/v4/modal';
 import { LightboxProvider } from '@/components/v4/lightbox';
 import JsonLd from '@/components/seo/JsonLd';
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { organizationSchema, websiteSchema } from '@/lib/seo/schema';
 import {
   SITE_ORIGIN,
@@ -61,6 +62,7 @@ export default function RootLayout({
   return (
     <html lang={SITE_LANG} className="scroll-smooth">
       <body className="font-inter bg-luxora-cream text-luxora-charcoal">
+        <GoogleAnalytics />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <ConsultationModalProvider>
           <LightboxProvider>
